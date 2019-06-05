@@ -1,8 +1,8 @@
 # Geomagnetic API
 
-## This service is used of an android application [Weather: Any place on the Earth!](https://play.google.com/store/apps/details?id=net.c7j.wna&hl=ru "Google Play")
+## This service is designed for an android application [Weather: Any place on the Earth!](https://play.google.com/store/apps/details?id=net.c7j.wna&hl=ru "Google Play")
 
-The Geomagnetic API gets a geomagnetic forecast from [SWPC NOAA API](https://services.swpc.noaa.gov/text/3-day-geomag-forecast.txt) as a common .txt file, it occurs every day. After a process of getting the service parses the file and saves a result to a database. All process is entirely self-acting.  
+The Geomagnetic API requests a geomagnetic forecast from [SWPC NOAA API](https://services.swpc.noaa.gov/text/3-day-geomag-forecast.txt) as a common .txt file on a daily basis. After the file with forecast is reseived and parsed by the service, the result is stored to the database. All the process is entirely self-acting.  
 The Weather Application accesses the API via REST.
 
 ### Tech
