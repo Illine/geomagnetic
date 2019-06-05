@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        junitVersion = "5.4.2"
+        h2Version = "1.4.199"
+    }
+}
+
+plugins {
+    id "java"
+    id "idea"
+    id "io.spring.dependency-management" version "1.0.7.RELEASE"
+    id "org.springframework.boot" version "2.1.5.RELEASE"
+}
+
+group = "net.c7j.weather"
+version = "0.0.1-SNAPSHOT"
+targetCompatibility = '11'
+sourceCompatibility = '11'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set("springCloudVersion", "Greenwich.SR1")
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.flywaydb:flyway-core"
+
+    compileOnly "org.projectlombok:lombok"
+
+    runtimeOnly "org.postgresql:postgresql"
+    
+    annotationProcessor "org.projectlombok:lombok"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+
+    testCompile "com.h2database:h2:${h2Version}"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
