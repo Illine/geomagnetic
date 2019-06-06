@@ -1,6 +1,6 @@
-package net.c7j.weather.geomag.config;
+package net.c7j.weather.geomagnetic.config;
 
-import net.c7j.weather.geomag.dto.BaseDto;
+import net.c7j.weather.geomagnetic.dto.BaseDto;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

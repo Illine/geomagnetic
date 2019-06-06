@@ -1,6 +1,6 @@
-package net.c7j.weather.geomag.common.converter;
+package net.c7j.weather.geomagnetic.common.converter;
 
-import net.c7j.weather.geomag.common.ForecastIntervalType;
+import net.c7j.weather.geomagnetic.common.ForecastIntervalType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

@@ -1,4 +1,4 @@
-package net.c7j.weather.geomag.common;
+package net.c7j.weather.geomagnetic.common;
 
 import java.util.EnumSet;
 import java.util.Objects;
