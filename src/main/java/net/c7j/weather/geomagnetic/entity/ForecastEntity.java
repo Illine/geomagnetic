@@ -1,7 +1,6 @@
 package net.c7j.weather.geomagnetic.entity;
 
 import net.c7j.weather.geomagnetic.common.ActiveType;
-import net.c7j.weather.geomagnetic.common.ForecastIntervalType;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -34,12 +33,9 @@ public class ForecastEntity {
     @SequenceGenerator(name = "forecastSeqGenerator", sequenceName = "forecast_id_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name = "value", nullable = false, updatable = false)
-    private String value;
-
     @OneToOne
     @JoinColumn(name = "interval", nullable = false, updatable = false)
-    private ForecastIntervalType interval;
+    private IntervalEntity interval;
 
     @Column(name = "created", updatable = false)
     private LocalDateTime created;
