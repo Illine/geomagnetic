@@ -1,4 +1,4 @@
-package net.c7j.weather.geomag;
+package net.c7j.weather.geomagnetic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

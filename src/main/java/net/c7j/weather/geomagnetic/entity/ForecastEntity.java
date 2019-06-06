@@ -1,7 +1,7 @@
-package net.c7j.weather.geomag.entity;
+package net.c7j.weather.geomagnetic.entity;
 
-import net.c7j.weather.geomag.common.ActiveType;
-import net.c7j.weather.geomag.common.ForecastIntervalType;
+import net.c7j.weather.geomagnetic.common.ActiveType;
+import net.c7j.weather.geomagnetic.common.ForecastIntervalType;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
