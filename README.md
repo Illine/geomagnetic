@@ -33,7 +33,7 @@ License
 
 [Spring Boot]: <https://spring.io/projects/spring-boot>
 [Spring Starter Web]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web/2.1.5.RELEASE>
-[Spring Starter JPA]: <>https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.1.5.RELEASE
+[Spring Starter JPA]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.1.5.RELEASE>
 [Spring Starter Actuator]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-actuator/2.1.5.RELEASE>
 [Spring Starter Validation]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation/2.1.5.RELEASE>
 [PostgreSQL]: <https://www.postgresql.org/>
