@@ -12,6 +12,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         temp.use_jdbc_metadata_defaults: false
+    open-in-view: false
   datasource:
     url: jdbc:postgresql://localhost:5000/geomagnetic
     username: geomagnetic
@@ -19,8 +20,12 @@ spring:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      max-lifetime: 30000
+      poolName: GeomagneticHikariPool
+      max-lifetime: 600000
       connection-timeout: 15000
       maximum-pool-size: 10
-      minimum-idle: 5
+      idle-timeout: 200000
+      minimum-idle: 2
       schema: geomagnetic
+  liquibase:
+    enabled: false
