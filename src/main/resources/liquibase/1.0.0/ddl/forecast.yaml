@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: illine
+      changes:
+        - tagDatabase:
+            tag: 1.0.0
+
+        - createSequence:
+            sequenceName: forecast_seq
+            startValue: 1
+
+        - createTable:
+            remarks: 'A table stores a parsed forecast from SWPC NOAA'
+            tableName: forecast
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: forecast_pk
+                  defaultValueSequenceNext: forecast_seq
+                  name: id
+                  type: bigint
+              - column:
+                  name: index
+                  remarks: 'Geomagnetic index'
+                  type: int
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: time_interval_id
+                  remarks: 'A value from geomagnetic.time_interval.id'
+                  type: bigint
+              - column:
+                  name: created
+                  remarks: 'A created date'
+                  type: timestamp(0)
+                  defaultValueDate: current_timestamp
+              - column:
+                  name: modified
+                  remarks: 'A modified date'
+                  type: timestamp(0)
+                  defaultValueDate: current_timestamp
+              - column:
+                  name: active
+                  remarks: 'Flag soft deleted: true - active, false - deleted'
+                  type: boolean
+                  defaultValueDate: true
+
+        - addForeignKeyConstraint:
+            baseColumnNames: time_interval_id
+            baseTableName: forecast
+            constraintName: forecast_interval_fk
+            referencedColumnNames: id
+            referencedTableName: time_interval
+            validate: true

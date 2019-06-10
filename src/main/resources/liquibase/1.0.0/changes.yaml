@@ -1,0 +1,14 @@
+databaseChangeLog:
+
+#  ddl
+  - include:
+      file: ddl/time_interval.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: ddl/forecast.yaml
+      relativeToChangelogFile: true
+
+#  dml
+  - include:
+      file: dml/time_interval.sql
+      relativeToChangelogFile: true

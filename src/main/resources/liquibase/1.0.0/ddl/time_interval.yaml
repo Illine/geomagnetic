@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: illine
+      changes:
+        - tagDatabase:
+            tag: 1.0.0
+
+        - createSequence:
+            sequenceName: time_interval_seq
+            startValue: 1
+
+        - createTable:
+            remarks: 'A table stored intervals of a forecast'
+            tableName: time_interval
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: interval_pk
+                  defaultValueSequenceNext: time_interval_seq
+                  name: id
+                  type: bigint
+              - column:
+                  name: interval_value
+                  remarks: 'A value of a time forecast interval'
+                  type: varchar(4)
+                  constraints:
+                    - unique: true
+                    - uniqueConstraintName: interval_value_unique
+                    - nullable: false
+              - column:
+                  name: created
+                  remarks: 'A created date'
+                  type: timestamp(0)
+                  defaultValueDate: current_timestamp
+              - column:
+                  name: modified
+                  remarks: 'A modified date'
+                  type: timestamp(0)
+                  defaultValueDate: current_timestamp
+              - column:
+                  name: active
+                  remarks: 'Flag soft deleted: true - active, false - deleted'
+                  type: boolean
+                  defaultValueDate: true
