@@ -14,6 +14,7 @@ Geomagnetic API uses of next libraries:
 * [Spring Starter JPA]
 * [Spring Starter Actuator]
 * [Spring Starter Validation]
+* [Liquibase]
 * [PostgreSQL]
 * [Lombok]
 * [JUnit5]
@@ -36,6 +37,7 @@ License
 [Spring Starter JPA]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.1.5.RELEASE>
 [Spring Starter Actuator]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-actuator/2.1.5.RELEASE>
 [Spring Starter Validation]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation/2.1.5.RELEASE>
+[Liquibase]: <https://www.liquibase.org/>
 [PostgreSQL]: <https://www.postgresql.org/>
 [Lombok]: <https://projectlombok.org/>
 [JUnit5]: <https://junit.org/junit5/>

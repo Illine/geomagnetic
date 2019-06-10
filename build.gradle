@@ -1,15 +1,9 @@
-buildscript {
-    ext {
-        junitVersion = "5.4.2"
-        h2Version = "1.4.199"
-    }
-}
-
 plugins {
     id "java"
     id "idea"
     id "io.spring.dependency-management" version "1.0.7.RELEASE"
     id "org.springframework.boot" version "2.1.5.RELEASE"
+    id 'org.liquibase.gradle' version '2.0.1'
 }
 
 group = "net.c7j.weather"
@@ -33,6 +27,13 @@ repositories {
 
 ext {
     set("springCloudVersion", "Greenwich.SR1")
+    set("liquibaseCoreVersion", "3.6.3")
+    set("lombokVersion", "1.18.8")
+    set("postgresVersion", "42.2.5")
+    set("liquibaseDslVersion", "2.0.1")
+    set("logbackVersion", "1.2.3")
+    set("junitVersion", "5.4.2")
+    set("h2Version", "1.4.199")
 }
 
 dependencies {
@@ -40,12 +41,18 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
     implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
 
-    compileOnly "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
-    runtimeOnly "org.postgresql:postgresql"
-    
-    annotationProcessor "org.projectlombok:lombok"
+    runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
+
+    liquibaseRuntime "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
+    liquibaseRuntime "org.liquibase:liquibase-groovy-dsl:${liquibaseDslVersion}"
+    liquibaseRuntime "ch.qos.logback:logback-classic:${logbackVersion}"
+    liquibaseRuntime "org.postgresql:postgresql:${postgresVersion}"
+
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
@@ -56,5 +63,18 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+liquibase {
+    activities {
+        main {
+            changeLogFile "${projectDir}/src/main/resources/liquibase/changelog.yaml"
+            outputFile "${buildDir}/liquibase/sql-migration.sql"
+            url "jdbc:postgresql://localhost:5000/geomagnetic"
+            username "liquibase"
+            password "liquibase"
+            defaultSchemaName "geomagnetic"
+        }
     }
 }
