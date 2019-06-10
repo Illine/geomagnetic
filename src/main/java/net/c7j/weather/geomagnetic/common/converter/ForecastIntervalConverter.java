@@ -1,20 +1,20 @@
 package net.c7j.weather.geomagnetic.common.converter;
 
-import net.c7j.weather.geomagnetic.common.ForecastIntervalType;
+import net.c7j.weather.geomagnetic.common.TimeIntervalType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class ForecastIntervalConverter implements AttributeConverter<ForecastIntervalType, String> {
+public class ForecastIntervalConverter implements AttributeConverter<TimeIntervalType, String> {
 
     @Override
-    public String convertToDatabaseColumn(ForecastIntervalType type) {
+    public String convertToDatabaseColumn(TimeIntervalType type) {
         return type.getInterval();
     }
 
     @Override
-    public ForecastIntervalType convertToEntityAttribute(String interval) {
-        return ForecastIntervalType.intervalOf(interval);
+    public TimeIntervalType convertToEntityAttribute(String interval) {
+        return TimeIntervalType.intervalOf(interval);
     }
 }

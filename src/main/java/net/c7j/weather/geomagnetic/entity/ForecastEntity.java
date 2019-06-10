@@ -1,21 +1,15 @@
 package net.c7j.weather.geomagnetic.entity;
 
-import net.c7j.weather.geomagnetic.common.ActiveType;
-
+import org.dom4j.tree.AbstractEntity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,27 +20,19 @@ import lombok.Data;
 @Table(schema = "geomagnetic", name = "forecast")
 @SQLDelete(sql = "UPDATE geomagnetic.forecast SET active = false WHERE id = ?")
 @Where(clause = "active = true")
-public class ForecastEntity {
+public class ForecastEntity extends AbstractEntity {
+
+    private static final long serialVersionUID = -6095660675931508374L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "forecastSeqGenerator")
-    @SequenceGenerator(name = "forecastSeqGenerator", sequenceName = "forecast_id_seq", allocationSize = 1)
+    @SequenceGenerator(
+            schema = "geomagnetic", name = "forecastSeqGenerator",
+            sequenceName = "forecast_seq", allocationSize = 1)
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "interval", nullable = false, updatable = false)
-    private IntervalEntity interval;
+    @JoinColumn(name = "time_interval_id", nullable = false, updatable = false)
+    private TimeIntervalEntity timeInterval;
 
-    @Column(name = "created", updatable = false)
-    private LocalDateTime created;
-
-    @Enumerated
-    @Column(name = "active", nullable = false)
-    private ActiveType active;
-
-    @PrePersist
-    private void onCreate() {
-        this.created = LocalDateTime.now();
-        this.active = ActiveType.ENABLED;
-    }
 }

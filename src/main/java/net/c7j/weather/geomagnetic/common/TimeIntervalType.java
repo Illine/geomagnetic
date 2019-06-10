@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum  ForecastIntervalType {
+public enum TimeIntervalType {
 
     INTERVAL_00_03("0003"),
     INTERVAL_03_06("0306"),
@@ -21,8 +21,8 @@ public enum  ForecastIntervalType {
 
     private final String interval;
 
-    public static ForecastIntervalType intervalOf(String interval) {
-        return EnumSet.allOf(ForecastIntervalType.class)
+    public static TimeIntervalType intervalOf(String interval) {
+        return EnumSet.allOf(TimeIntervalType.class)
                 .stream()
                 .filter(it -> Objects.equals(it.interval, interval))
                 .findFirst()
