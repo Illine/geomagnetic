@@ -1,7 +1,10 @@
 databaseChangeLog:
   - preConditions:
-      - dbms:
-          type: postgresql, h2
+      - or:
+          - dbms:
+              type: postgresql
+          - dbms:
+              type: h2
   - include:
       file: 1.0.0/changes.yaml
       relativeToChangelogFile: true

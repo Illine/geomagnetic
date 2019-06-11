@@ -1,6 +1,6 @@
 package net.c7j.weather.geomagnetic.controller;
 
-import net.c7j.weather.geomagnetic.dto.GeomagneticDto;
+import net.c7j.weather.geomagnetic.dao.dto.GeomagneticDto;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

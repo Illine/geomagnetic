@@ -1,5 +1,7 @@
-package net.c7j.weather.geomagnetic.entity;
+package net.c7j.weather.geomagnetic.dao.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.dom4j.tree.AbstractEntity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -16,6 +18,8 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(schema = "geomagnetic", name = "forecast")
 @SQLDelete(sql = "UPDATE geomagnetic.forecast SET active = false WHERE id = ?")

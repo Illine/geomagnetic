@@ -1,4 +1,4 @@
-package net.c7j.weather.geomagnetic.dto;
+package net.c7j.weather.geomagnetic.dao.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -12,6 +12,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         temp.use_jdbc_metadata_defaults: false
+        default_schema: geomagnetic
     open-in-view: false
   datasource:
     url: jdbc:postgresql://localhost:5000/geomagnetic
