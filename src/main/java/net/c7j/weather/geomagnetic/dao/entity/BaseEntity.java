@@ -1,4 +1,4 @@
-package net.c7j.weather.geomagnetic.entity;
+package net.c7j.weather.geomagnetic.dao.entity;
 
 import net.c7j.weather.geomagnetic.common.ActiveType;
 
