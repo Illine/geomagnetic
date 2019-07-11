@@ -14,11 +14,13 @@ Geomagnetic API uses of next libraries:
 * [Spring Starter JPA]
 * [Spring Starter Actuator]
 * [Spring Starter Validation]
+* [Model Mapper]
 * [Liquibase]
 * [PostgreSQL]
 * [Lombok]
 * [JUnit5]
-* [H2] 
+* [H2]
+* [P6 SPY]
 
 This project itself is open source with a [public repository][git-repo].
 
@@ -37,9 +39,11 @@ License
 [Spring Starter JPA]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.1.5.RELEASE>
 [Spring Starter Actuator]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-actuator/2.1.5.RELEASE>
 [Spring Starter Validation]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation/2.1.5.RELEASE>
+[Model Mapper]: <http://modelmapper.org/>
 [Liquibase]: <https://www.liquibase.org/>
 [PostgreSQL]: <https://www.postgresql.org/>
 [Lombok]: <https://projectlombok.org/>
 [JUnit5]: <https://junit.org/junit5/>
 [H2]: <https://www.h2database.com/html/main.html>
+[PS SPY]: <https://p6spy.readthedocs.io/en/latest/>
 [git-repo]: <https://github.com/Illine/geomagnetic-api>

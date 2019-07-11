@@ -1,0 +1,49 @@
+server:
+  servlet:
+    context-path: /geomagnetic
+spring:
+  application:
+    name: geomagnetic-api
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        temp.use_jdbc_metadata_defaults: false
+        default_schema: geomagnetic_system
+    open-in-view: false
+  datasource:
+    url: jdbc:p6spy:h2:mem:geomagnetic;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS geomagnetic_system;DATABASE_TO_LOWER=TRUE;
+    username: username
+    password: password
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      poolName: AutoTestHikariPool
+      max-lifetime: 600000
+      connection-timeout: 15000
+      maximum-pool-size: 10
+      idle-timeout: 200000
+      minimum-idle: 2
+      schema: geomagnetic_system
+  liquibase:
+    enabled: true
+    url: jdbc:h2:mem:geomagnetic;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS geomagnetic_system;DATABASE_TO_LOWER=TRUE;
+    default-schema: geomagnetic_system
+    user: username
+    password: password
+    change-log: classpath:liquibase/changelog.yaml
+    contexts: auto-test
+rest:
+  maxThread: 100
+  maxRoute: 10
+  readTimeout: 15000
+  connectionTimeout: 10000
+  swpNoaa:
+    schema: https
+    host: services.swpc.noaa.gov
+    path: /text/3-day-geomag-forecast.txt
+schedule:
+  forecast:
+    cron: 0 0 0,12 * * ? # 2 times a day: at 00.00 and at 12.00
