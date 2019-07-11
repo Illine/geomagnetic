@@ -6,7 +6,7 @@ plugins {
     id 'org.liquibase.gradle' version '2.0.1'
 }
 
-group = "net.c7j.weather"
+group = "net.c7j.weather.geomagnetic"
 version = "0.0.1-SNAPSHOT"
 targetCompatibility = '11'
 sourceCompatibility = '11'
@@ -28,8 +28,12 @@ repositories {
 ext {
     set("springCloudVersion", "Greenwich.SR1")
     set("liquibaseCoreVersion", "3.6.3")
+    set("modelMapperVersion", "2.3.4")
+    set("p6spyVersion", "3.8.2")
+    set("httpComponentsVersion", "4.5.9")
     set("lombokVersion", "1.18.8")
     set("postgresVersion", "42.2.5")
+    set("groovyVersion", "2.5.5")
     set("liquibaseDslVersion", "2.0.1")
     set("logbackVersion", "1.2.3")
     set("junitVersion", "5.4.2")
@@ -42,22 +46,26 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-actuator"
     implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
+    implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
+    implementation "p6spy:p6spy:${p6spyVersion}"
+    implementation "org.apache.httpcomponents:httpclient:${httpComponentsVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
     runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
+    runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
 
     liquibaseRuntime "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
     liquibaseRuntime "org.liquibase:liquibase-groovy-dsl:${liquibaseDslVersion}"
     liquibaseRuntime "ch.qos.logback:logback-classic:${logbackVersion}"
     liquibaseRuntime "org.postgresql:postgresql:${postgresVersion}"
 
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-
-    testCompile "com.h2database:h2:${h2Version}"
+    testImplementation "com.h2database:h2:${h2Version}"
 }
 
 dependencyManagement {
@@ -76,5 +84,13 @@ liquibase {
             password "liquibase"
             defaultSchemaName "geomagnetic"
         }
+    }
+}
+
+test {
+    useJUnitPlatform {
+        includeTags "UnitTest"
+        includeTags "IntegrationTest"
+        excludeTags "SystemTest"
     }
 }

@@ -18,19 +18,27 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     primaryKeyName: forecast_pk
-                  defaultValueSequenceNext: forecast_seq
                   name: id
                   type: bigint
+                  defaultValueSequenceNext: forecast_seq
               - column:
                   name: index
-                  remarks: 'Geomagnetic index'
+                  remarks: 'A geomagnetic index'
                   type: int
                   constraints:
                     - nullable: false
               - column:
-                  name: time_interval_id
-                  remarks: 'A value from geomagnetic.time_interval.id'
-                  type: bigint
+                  name: forecast_time
+                  remarks: 'A forecast time'
+                  type: time
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: forecast_date
+                  remarks: 'A forecast date'
+                  type: date
+                  constraints:
+                    - nullable: false
               - column:
                   name: created
                   remarks: 'A created date'
@@ -43,14 +51,6 @@ databaseChangeLog:
                   defaultValueDate: current_timestamp
               - column:
                   name: active
-                  remarks: 'Flag soft deleted: true - active, false - deleted'
+                  remarks: 'A soft deleted flag: true - active, false - deleted'
                   type: boolean
                   defaultValueDate: true
-
-        - addForeignKeyConstraint:
-            baseColumnNames: time_interval_id
-            baseTableName: forecast
-            constraintName: forecast_interval_fk
-            referencedColumnNames: id
-            referencedTableName: time_interval
-            validate: true

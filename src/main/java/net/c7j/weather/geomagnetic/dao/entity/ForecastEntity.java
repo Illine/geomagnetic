@@ -1,42 +1,85 @@
 package net.c7j.weather.geomagnetic.dao.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.dom4j.tree.AbstractEntity;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import net.c7j.weather.geomagnetic.dao.base.ActiveType;
+import net.c7j.weather.geomagnetic.dao.base.IndexType;
+import net.c7j.weather.geomagnetic.util.JsonWriter;
+import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-import lombok.Data;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @Entity
-@Table(schema = "geomagnetic", name = "forecast")
-@SQLDelete(sql = "UPDATE geomagnetic.forecast SET active = false WHERE id = ?")
+@Table(name = "forecast")
+@SQLDelete(sql = "UPDATE forecast SET active = false, modified = current_timestamp WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "active = true")
-public class ForecastEntity extends AbstractEntity {
+public class ForecastEntity implements Serializable {
 
     private static final long serialVersionUID = -6095660675931508374L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "forecastSeqGenerator")
-    @SequenceGenerator(
-            schema = "geomagnetic", name = "forecastSeqGenerator",
-            sequenceName = "forecast_seq", allocationSize = 1)
+    @SequenceGenerator(name = "forecastSeqGenerator", sequenceName = "forecast_seq", allocationSize = 1)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "time_interval_id", nullable = false, updatable = false)
-    private TimeIntervalEntity timeInterval;
+    @Column(name = "index", nullable = false)
+    private IndexType index;
 
+    @Column(name = "forecast_time", nullable = false, updatable = false)
+    private LocalTime forecastTime;
+
+    @Column(name = "forecast_date", nullable = false, updatable = false)
+    private LocalDate forecastDate;
+
+    @Column(name = "created", updatable = false)
+    private LocalDateTime created;
+
+    @Column(name = "modified")
+    private LocalDateTime modified;
+
+    @Column(name = "active", nullable = false)
+    private ActiveType active;
+
+    public ForecastEntity(IndexType index, LocalTime forecastTime, LocalDate forecastDate) {
+        this.index = index;
+        this.forecastTime = forecastTime;
+        this.forecastDate = forecastDate;
+    }
+
+    @Override
+    public String toString() {
+        return JsonWriter.toStringAsJson(this);
+    }
+
+    public ForecastEntity updateIndex(IndexType index) {
+        setIndex(index);
+        return this;
+    }
+
+    @PrePersist
+    private void onCreate() {
+        LocalDateTime current = LocalDateTime.now();
+        created = current;
+        modified = current;
+        active = ActiveType.ENABLED;
+    }
+
+    @PreUpdate
+    private void onUpdate() {
+        modified = LocalDateTime.now();
+    }
+
+    @PreRemove
+    private void onDelete() {
+        modified = LocalDateTime.now();
+        active = ActiveType.DELETED;
+    }
 }
