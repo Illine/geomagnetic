@@ -45,5 +45,5 @@ License
 [Lombok]: <https://projectlombok.org/>
 [JUnit5]: <https://junit.org/junit5/>
 [H2]: <https://www.h2database.com/html/main.html>
-[PS SPY]: <https://p6spy.readthedocs.io/en/latest/>
+[P6 SPY]: <https://p6spy.readthedocs.io/en/latest/>
 [git-repo]: <https://github.com/Illine/geomagnetic-api>
