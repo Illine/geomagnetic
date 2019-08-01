@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "net.c7j.weather.geomagnetic"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 targetCompatibility = '11'
 sourceCompatibility = '11'
 
