@@ -1,6 +1,7 @@
 plugins {
-    id "java"
     id "idea"
+    id "java"
+    id "java-library"
     id "io.spring.dependency-management" version "1.0.7.RELEASE"
     id "org.springframework.boot" version "2.1.5.RELEASE"
     id 'org.liquibase.gradle' version '2.0.1'
@@ -12,12 +13,12 @@ targetCompatibility = '11'
 sourceCompatibility = '11'
 
 configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
+    annotationProcessor {
+        extendsFrom compileOnly
     }
-    compileOnly {
-        extendsFrom annotationProcessor
+
+    testAnnotationProcessor {
+        extendsFrom testCompileOnly
     }
 }
 
@@ -41,31 +42,32 @@ ext {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-validation"
-    implementation "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
-    implementation "org.modelmapper:modelmapper:${modelMapperVersion}"
-    implementation "p6spy:p6spy:${p6spyVersion}"
-    implementation "org.apache.httpcomponents:httpclient:${httpComponentsVersion}"
-
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    api "org.springframework.boot:spring-boot-starter-web"
+    api "org.springframework.boot:spring-boot-starter-data-jpa"
+    api "org.springframework.boot:spring-boot-starter-actuator"
+    api "org.springframework.boot:spring-boot-starter-validation"
+    api "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
+    api "org.modelmapper:modelmapper:${modelMapperVersion}"
+    api "p6spy:p6spy:${p6spyVersion}"
+    api "org.apache.httpcomponents:httpclient:${httpComponentsVersion}"
 
     runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
     runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation "com.h2database:h2:${h2Version}"
+
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.springframework.boot:spring-boot-configuration-processor"
 
     liquibaseRuntime "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
     liquibaseRuntime "org.liquibase:liquibase-groovy-dsl:${liquibaseDslVersion}"
     liquibaseRuntime "ch.qos.logback:logback-classic:${logbackVersion}"
     liquibaseRuntime "org.postgresql:postgresql:${postgresVersion}"
-
-    annotationProcessor "org.projectlombok:lombok"
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-    testImplementation "com.h2database:h2:${h2Version}"
 }
 
 dependencyManagement {

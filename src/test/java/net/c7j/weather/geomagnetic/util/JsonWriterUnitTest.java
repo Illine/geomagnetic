@@ -38,9 +38,8 @@ class JsonWriterUnitTest {
     @ParameterizedTest
     @ValueSource(strings = {"first", "second", "third"})
     void unsuccessfulInvalidToStringAsJson(String arg) {
-        var expected = "unknown";
         var actual = JsonWriter.toStringAsJson(new InvalidClassToJson(arg));
-        assertEquals(expected, actual);
+        assertNotEquals(String.format(JSON_PATTERN, arg), actual);
     }
 
     @Getter
