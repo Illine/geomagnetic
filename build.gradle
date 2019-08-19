@@ -1,16 +1,15 @@
 plugins {
     id "idea"
-    id "java"
     id "java-library"
     id "io.spring.dependency-management" version "1.0.7.RELEASE"
     id "org.springframework.boot" version "2.1.5.RELEASE"
-    id 'org.liquibase.gradle' version '2.0.1'
+    id "org.liquibase.gradle" version "2.0.1"
 }
 
 group = "net.c7j.weather.geomagnetic"
 version = "1.0.0"
-targetCompatibility = '11'
-sourceCompatibility = '11'
+targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
     annotationProcessor {
@@ -43,6 +42,7 @@ ext {
 
 dependencies {
     api "org.springframework.boot:spring-boot-starter-web"
+    api "org.springframework.cloud:spring-cloud-starter-config"
     api "org.springframework.boot:spring-boot-starter-data-jpa"
     api "org.springframework.boot:spring-boot-starter-actuator"
     api "org.springframework.boot:spring-boot-starter-validation"
@@ -81,9 +81,9 @@ liquibase {
         main {
             changeLogFile "${projectDir}/src/main/resources/liquibase/changelog.yaml"
             outputFile "${buildDir}/liquibase/sql-migration.sql"
-            url "jdbc:postgresql://localhost:5000/geomagnetic"
-            username "liquibase"
-            password "liquibase"
+            url "jdbc:postgresql://localhost:5432/geomagnetic"
+            username System.getenv("liquibase_user") ?: "geomagnetic"
+            password System.getenv("liquibase_password") ?: "geomagnetic"
             defaultSchemaName "geomagnetic"
         }
     }
