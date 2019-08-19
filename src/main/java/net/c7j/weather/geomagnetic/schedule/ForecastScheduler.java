@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 @Component
-@Slf4j(topic = "GEOMAGNETIC_SCHEDULE")
+@Slf4j(topic = "GEOMAGNETIC-SCHEDULE")
 public class ForecastScheduler {
 
     private final SwpNoaaClient swpNoaaClient;

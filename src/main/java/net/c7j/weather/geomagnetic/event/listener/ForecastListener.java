@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-@Slf4j(topic = "GEOMAGNETIC_EVENT")
+@Slf4j(topic = "GEOMAGNETIC-EVENT")
 public class ForecastListener {
 
     private final TxtForecastDtoMapper mapper;

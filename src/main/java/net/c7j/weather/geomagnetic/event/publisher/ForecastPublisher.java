@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import java.util.Set;
 
 @Component
-@Slf4j(topic = "GEOMAGNETIC_EVENT")
+@Slf4j(topic = "GEOMAGNETIC-EVENT")
 public class ForecastPublisher {
 
     private final ApplicationEventPublisher applicationEventPublisher;
