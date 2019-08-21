@@ -3,4 +3,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = 'weather-geomagnetic-api'
+
+rootProject.name = "weather"
+include "geomagnetic-api"
