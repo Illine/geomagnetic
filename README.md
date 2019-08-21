@@ -12,6 +12,8 @@ The Weather Application accesses the API via REST.
 
 ### Infrastructure services
 
+##### Config Service
+The service is used a loading of properties from a private git repository via ssh. The Config Service is launched on a default port: 8888 and has an url: /config-service
 
 ### Tech
 The Weather uses of next libraries:
@@ -22,6 +24,7 @@ The Weather uses of next libraries:
 * [Spring Actuator]
 * [Spring Validation]
 * [Spring Cloud Config]
+* [Spring Cloud Config Server]
 * [Hibernate]
 * [Model Mapper]
 * [Liquibase]
@@ -47,6 +50,7 @@ This project itself is open source with a [public repository][git-repo].
 [Spring Actuator]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-actuator/2.1.5.RELEASE>
 [Spring Validation]: <https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation/2.1.5.RELEASE>
 [Spring Cloud Config]: <https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config/2.1.3.RELEASE>
+[Spring Cloud Config Server]: <https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-server/2.1.1.RELEASE>
 [Hibernate]: <http://hibernate.org/>
 [Model Mapper]: <http://modelmapper.org/>
 [Liquibase]: <https://www.liquibase.org/>
