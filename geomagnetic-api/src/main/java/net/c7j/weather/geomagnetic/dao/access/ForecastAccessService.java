@@ -5,12 +5,11 @@ import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.stream.Stream;
 
 public interface ForecastAccessService {
 
-    void upsert(Collection<ForecastEntity> collection);
+    void save(Stream<ForecastDto> forecasts);
 
     Stream<ForecastDto> findDiurnal(LocalDate today);
 
