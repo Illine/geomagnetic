@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -32,10 +32,11 @@ public class ForecastAccessServiceImpl implements ForecastAccessService {
     }
 
     @Override
-    public void upsert(Collection<ForecastEntity> collection) {
-        Assert.notEmpty(collection, "The 'collection' shouldn't be null or empty!");
+    public void save(Stream<ForecastDto> forecasts) {
+        Assert.notNull(forecasts, "The 'collection' shouldn't be null!");
         LOGGER.info("A collection of a 'ForecastEntity' will be saved or updated.");
-        forecastRepository.saveAll(collection);
+        var forecastEntities = mapper.convertToEntity(forecasts).collect(Collectors.toList());
+        forecastRepository.saveAll(forecastEntities);
     }
 
     @Override

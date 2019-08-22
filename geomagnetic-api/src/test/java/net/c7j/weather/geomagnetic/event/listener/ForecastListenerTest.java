@@ -48,11 +48,11 @@ class ForecastListenerTest {
     @DisplayName("onEvent(): a successful call")
     void successfulOnEvent() {
         when(forecastUpsertServiceMock.upsertForecasts(any(), any())).thenReturn(Stream.empty());
-        doNothing().when(forecastAccessServiceMock).upsert(anyCollection());
+        doNothing().when(forecastAccessServiceMock).save(any());
 
         forecastListener.onEvent(GeneratorHelper.generateTxtForecastDto(LocalDate.now()));
         verify(forecastUpsertServiceMock, timeout(DEFAULT_TIMEOUT).only()).upsertForecasts(any(), any());
-        verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).only()).upsert(anyCollection());
+        verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).only()).save(any());
     }
 
     //  -----------------------   unsuccessful tests   -------------------------
@@ -62,6 +62,6 @@ class ForecastListenerTest {
     void unsuccessfulOnEvent() {
         forecastListener.onEvent(null);
         verify(forecastUpsertServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).upsertForecasts(any(), any());
-        verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).upsert(anyCollection());
+        verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).save(any());
     }
 }
