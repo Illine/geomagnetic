@@ -2,6 +2,7 @@ package net.c7j.weather.geomagnetic.dao.access.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
+import net.c7j.weather.geomagnetic.dao.base.TimeIntervalType;
 import net.c7j.weather.geomagnetic.dao.dto.ForecastDto;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 import net.c7j.weather.geomagnetic.dao.repository.ForecastRepository;
@@ -12,9 +13,7 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collection;
-import java.util.Map;
 import java.util.stream.Stream;
 
 @Service
@@ -25,14 +24,11 @@ public class ForecastAccessServiceImpl implements ForecastAccessService {
 
     private final ForecastRepository forecastRepository;
     private final ForecastDtoMapper mapper;
-    private final Map<Integer, LocalTime> hourToInterval;
 
     @Autowired
-    ForecastAccessServiceImpl(ForecastRepository forecastRepository,
-                              ForecastDtoMapper mapper, Map<Integer, LocalTime> hourToInterval) {
+    ForecastAccessServiceImpl(ForecastRepository forecastRepository, ForecastDtoMapper mapper) {
         this.forecastRepository = forecastRepository;
         this.mapper = mapper;
-        this.hourToInterval = hourToInterval;
     }
 
     @Override
@@ -56,7 +52,7 @@ public class ForecastAccessServiceImpl implements ForecastAccessService {
         LOGGER.info("A current 'ForecastDto' is been looking for date: {}", today);
         var currentDate = today.toLocalDate();
         var currentTime = today.toLocalTime();
-        var currentInterval = hourToInterval.get(currentTime.getHour());
+        var currentInterval = TimeIntervalType.timeIntervalOf(currentTime.getHour());
         var currentForecast = forecastRepository.findAllByForecastDateBetweenAndForecastTimeGreaterThanEqual(currentDate, currentDate, currentInterval);
         return mapper.convertToDto(currentForecast);
     }
