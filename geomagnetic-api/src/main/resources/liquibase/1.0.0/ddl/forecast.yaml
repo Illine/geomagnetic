@@ -1,10 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: 1
       author: illine
+      comment: Created forecast, forecast_seq
       changes:
         - tagDatabase:
-            tag: 1.0.0
+            tag: release/1.0.0
 
         - createSequence:
             sequenceName: forecast_seq
@@ -54,3 +55,19 @@ databaseChangeLog:
                   remarks: 'A soft deleted flag: true - active, false - deleted'
                   type: boolean
                   defaultValueDate: true
+
+        - createIndex:
+            columns:
+              - column:
+                  name: forecast_time
+                  type: time
+            indexName: forecast_time_inx
+            tableName: forecast
+
+        - createIndex:
+            columns:
+              - column:
+                  name: forecast_date
+                  type: date
+            indexName: forecast_date_inx
+            tableName: forecast
