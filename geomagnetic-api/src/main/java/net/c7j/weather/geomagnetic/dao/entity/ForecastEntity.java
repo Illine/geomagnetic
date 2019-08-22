@@ -18,7 +18,13 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "forecast")
+@Table(
+        name = "forecast",
+        indexes = {
+                @Index(name = "forecast_time_inx", columnList = "forecast_time"),
+                @Index(name = "forecast_date_inx", columnList = "forecast_date")
+        }
+)
 @SQLDelete(sql = "UPDATE forecast SET active = false, modified = current_timestamp WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "active = true")
 public class ForecastEntity implements Serializable {

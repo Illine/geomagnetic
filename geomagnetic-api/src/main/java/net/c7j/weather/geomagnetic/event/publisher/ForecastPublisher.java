@@ -34,7 +34,7 @@ public class ForecastPublisher {
         } catch (ParseException e) {
             LOGGER.error("Impossible parse to a collect a 'forecastTxt'. An event won't be published!", e);
         } catch (Exception e) {
-            LOGGER.error("Unknown error. An event won't be publish!", e);
+            LOGGER.error("Unknown error. An event won't publish!", e);
         }
     }
 

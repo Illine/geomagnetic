@@ -1,15 +1,28 @@
+#spring:
+#  application:
+#    name: config-service
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          clone-on-start: true
+#          ignore-local-ssh-settings: true
+#          search-paths: "{application}/{profile}"
+#          private-key: "${DISCOVERY_CONFIG_SSH_KEY}"
+#          uri: "${DISCOVERY_CONFIG_SSH}"
+#server:
+#  port: 8888
+#  servlet:
+#    context-path: /config-service
+
 spring:
-  application:
-    name: config-service
   cloud:
     config:
       server:
-        git:
-          clone-on-start: true
-          ignore-local-ssh-settings: true
-          search-paths: "{application}/{profile}"
-          private-key: "${DISCOVERY_CONFIG_SSH_KEY}"
-          uri: "${DISCOVERY_CONFIG_SSH}"
+        native:
+          search-locations: classpath:/shared
+  profiles:
+    active: native
 server:
   port: 8888
   servlet:
