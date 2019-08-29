@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ClientHelper {
 
-    private static final String URI_GET_DIURNAL = "/geomagnetic/forecast/get/diurnal";
-    private static final String URI_GET_CURRENT = "/geomagnetic/forecast/get/current";
-    private static final String URI_GET_THREE_DAY = "/geomagnetic/forecast/get/three-day";
+    private static final String URI_GET_DIURNAL = "/geomagnetic/forecasts/get/diurnal";
+    private static final String URI_GET_CURRENT = "/geomagnetic/forecasts/get/current";
+    private static final String URI_GET_THREE_DAY = "/geomagnetic/forecasts/get/three-day";
 
     public static ResponseEntity<ForecastResponse> exchangeDiurnal(TestRestTemplate restTemplate, int port) {
         return exchange(restTemplate, URI_GET_DIURNAL, port);

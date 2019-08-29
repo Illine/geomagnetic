@@ -2,12 +2,14 @@ package net.c7j.weather.geomagnetic.dao.base;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.util.Assert;
 
 import java.util.EnumSet;
 import java.util.Objects;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
@@ -27,7 +29,6 @@ public enum IndexType {
     @JsonValue
     private final Integer index;
 
-    @JsonCreator
     public static IndexType indexOf(Integer index) {
         return EnumSet.allOf(IndexType.class)
                 .stream()
@@ -36,6 +37,7 @@ public enum IndexType {
                 .orElseThrow();
     }
 
+    @JsonCreator
     public static IndexType indexOf(String index) {
         Assert.hasText(index, "The 'index' shouldn have a text!");
         return indexOf(Integer.valueOf(index));

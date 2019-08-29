@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/forecast")
+@RequestMapping("/forecasts")
 public class ForecastController {
 
     private final RestForecastService restForecastService;
