@@ -1,6 +1,8 @@
 package net.c7j.weather.geomagnetic.event.publisher;
 
 import lombok.extern.slf4j.Slf4j;
+
+import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
 import net.c7j.weather.geomagnetic.dao.dto.TxtForecastDto;
 import net.c7j.weather.geomagnetic.exception.ParseException;
 import net.c7j.weather.geomagnetic.service.ForecastParserService;
@@ -30,12 +32,16 @@ public class ForecastPublisher {
         LOGGER.info("A text forecast will be published...");
 
         try {
-            applicationEventPublisher.publishEvent(toCollection(forecastTxt));
+            applicationEventPublisher.publishEvent(toWrap(forecastTxt));
         } catch (ParseException e) {
             LOGGER.error("Impossible parse to a collect a 'forecastTxt'. An event won't be published!", e);
         } catch (Exception e) {
             LOGGER.error("Unknown error. An event won't publish!", e);
         }
+    }
+
+    private ForecastEventWrapper toWrap(ResponseEntity<String> forecastTxt) {
+        return new ForecastEventWrapper(toCollection(forecastTxt));
     }
 
     private Set<TxtForecastDto> toCollection(ResponseEntity<String> forecastTxt) {

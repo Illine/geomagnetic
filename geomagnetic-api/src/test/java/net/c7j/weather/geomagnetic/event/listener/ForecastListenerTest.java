@@ -1,6 +1,7 @@
 package net.c7j.weather.geomagnetic.event.listener;
 
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
+import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
 import net.c7j.weather.geomagnetic.service.ForecastUpsertService;
 import net.c7j.weather.geomagnetic.test.helper.GeneratorHelper;
 import net.c7j.weather.geomagnetic.test.tag.IntegrationTest;
@@ -50,7 +51,7 @@ class ForecastListenerTest {
         when(forecastUpsertServiceMock.upsertForecasts(any(), any())).thenReturn(Stream.empty());
         doNothing().when(forecastAccessServiceMock).save(any());
 
-        forecastListener.onEvent(GeneratorHelper.generateTxtForecastDto(LocalDate.now()));
+        forecastListener.onEvent(GeneratorHelper.generateForecastEventWrapper(LocalDate.now()));
         verify(forecastUpsertServiceMock, timeout(DEFAULT_TIMEOUT).only()).upsertForecasts(any(), any());
         verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).only()).save(any());
     }
@@ -58,9 +59,17 @@ class ForecastListenerTest {
     //  -----------------------   unsuccessful tests   -------------------------
 
     @RepeatedTest(2)
-    @DisplayName("onEvent(): an unsuccessful call")
-    void unsuccessfulOnEvent() {
+    @DisplayName("onEvent(): an unsuccessful call when an arg is null")
+    void unsuccessfulArgNullOnEvent() {
         forecastListener.onEvent(null);
+        verify(forecastUpsertServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).upsertForecasts(any(), any());
+        verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).save(any());
+    }
+
+    @RepeatedTest(2)
+    @DisplayName("onEvent(): an unsuccessful call when a collection into an arg is null or empty")
+    void unsuccessfulCollectionEmptyOnEvent() {
+        forecastListener.onEvent(new ForecastEventWrapper(null));
         verify(forecastUpsertServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).upsertForecasts(any(), any());
         verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).save(any());
     }

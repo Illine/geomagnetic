@@ -6,6 +6,7 @@ import net.c7j.weather.geomagnetic.dao.base.ActiveType;
 import net.c7j.weather.geomagnetic.dao.base.IndexType;
 import net.c7j.weather.geomagnetic.dao.base.TimeIntervalType;
 import net.c7j.weather.geomagnetic.dao.dto.ForecastDto;
+import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
 import net.c7j.weather.geomagnetic.dao.dto.TxtForecastDto;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 import org.springframework.http.ResponseEntity;
@@ -147,6 +148,11 @@ public final class GeneratorHelper {
                 new TxtForecastDto(indexOf(3), INTERVAL_18_21, afterTomorrowDate),
                 new TxtForecastDto(indexOf(3), INTERVAL_21_00, afterTomorrowDate)
         );
+    }
+
+    public static ForecastEventWrapper generateForecastEventWrapper(LocalDate todayDate) {
+        var txtForecasts = generateTxtForecastDto(todayDate);
+        return new ForecastEventWrapper(txtForecasts);
     }
 
     public static Stream<ForecastEntity> generateStreamForecastEntity(LocalDate todayDate) {

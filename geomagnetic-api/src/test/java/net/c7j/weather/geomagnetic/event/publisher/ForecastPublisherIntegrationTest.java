@@ -1,5 +1,6 @@
 package net.c7j.weather.geomagnetic.event.publisher;
 
+import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
 import net.c7j.weather.geomagnetic.service.ForecastParserService;
 import net.c7j.weather.geomagnetic.test.helper.GeneratorHelper;
 import net.c7j.weather.geomagnetic.test.tag.IntegrationTest;
@@ -50,10 +51,10 @@ class ForecastPublisherIntegrationTest {
     @Test
     @DisplayName("publish(): a successful call")
     void publish() {
-        doNothing().when(applicationEventPublisher).publishEvent(anyCollection());
+        doNothing().when(applicationEventPublisher).publishEvent(any(ForecastEventWrapper.class));
 
         forecastPublisher.publish(expectedResponseEntity);
-        verify(applicationEventPublisher).publishEvent(anyCollection());
+        verify(applicationEventPublisher).publishEvent(any(ForecastEventWrapper.class));
     }
 
     //  -----------------------   unsuccessful tests   -------------------------
@@ -78,10 +79,10 @@ class ForecastPublisherIntegrationTest {
     @Test
     @DisplayName("publish(): an unsuccessful call when an any unknown exception")
     void unsuccessfulUnknownPublish() {
-        doThrow(new RuntimeException("Unknown")).when(applicationEventPublisher).publishEvent(anyCollection());
+        doThrow(new RuntimeException("Unknown")).when(applicationEventPublisher).publishEvent(any(ForecastEventWrapper.class));
 
         forecastPublisher.publish(expectedResponseEntity);
 
-        verify(applicationEventPublisher).publishEvent(anyCollection());
+        verify(applicationEventPublisher).publishEvent(any(ForecastEventWrapper.class));
     }
 }
