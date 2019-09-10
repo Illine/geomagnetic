@@ -1,7 +1,8 @@
 package net.c7j.weather.geomagnetic.dao.access;
 
-import net.c7j.weather.geomagnetic.dao.dto.ForecastDto;
+import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 import net.c7j.weather.geomagnetic.test.tag.IntegrationTest;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,9 +57,7 @@ class ForecastAccessServiceIntegrationTest {
     @DisplayName("findDiurnal(): a successful call returns a correct date of a forecast")
     void successfulCorrectDateFindDiurnal() {
         var actual = forecastAccessService.findDiurnal(TESTING_DATE_2019_01_01)
-                .map(ForecastDto::getTime)
-                .map(it -> Instant.ofEpochSecond(it).atZone(ZoneOffset.UTC))
-                .map(ZonedDateTime::toLocalDate)
+                .map(ForecastEntity::getForecastDate)
                 .collect(Collectors.toSet());
         assertEquals(Collections.singleton(TESTING_DATE_2019_01_01), actual);
     }
@@ -79,10 +79,10 @@ class ForecastAccessServiceIntegrationTest {
                 LocalDateTime.of(2019, 1, 1, 6, 0), LocalDateTime.of(2019, 1, 1, 9, 0), LocalDateTime.of(2019, 1, 1, 12, 0),
                 LocalDateTime.of(2019, 1, 1, 15, 0), LocalDateTime.of(2019, 1, 1, 18, 0), LocalDateTime.of(2019, 1, 1, 21, 0)
         );
-        var actual = forecastAccessService.findCurrent(TESTING_DATE_TIME_2019_01_01_07_00)
-                .map(ForecastDto::getTime)
-                .map(it -> LocalDateTime.ofInstant(Instant.ofEpochSecond(it), ZoneOffset.UTC))
-                .collect(Collectors.toSet());
+        var actual =
+                forecastAccessService.findCurrent(TESTING_DATE_TIME_2019_01_01_07_00)
+                        .map(it -> LocalDateTime.of(it.getForecastDate(), it.getForecastTime()))
+                        .collect(Collectors.toSet());
         assertEquals(expected, actual);
     }
 
@@ -90,9 +90,9 @@ class ForecastAccessServiceIntegrationTest {
     @Test
     @DisplayName("findThreeDay(): a successful call returns a forecast stream has size 24")
     void successfulFindThreeDay() {
-       try  (var actual = forecastAccessService.findThreeDay(TESTING_DATE_2019_01_01)) {
-           assertEquals(EXCEPTED_COUNT_THREE_DAY_FORECAST, actual.count());
-       }
+        try (var actual = forecastAccessService.findThreeDay(TESTING_DATE_2019_01_01)) {
+            assertEquals(EXCEPTED_COUNT_THREE_DAY_FORECAST, actual.count());
+        }
     }
 
     @Transactional(readOnly = true)
@@ -100,11 +100,10 @@ class ForecastAccessServiceIntegrationTest {
     @DisplayName("findThreeDay(): a successful call returns a correct date of a forecast")
     void successfulCorrectDateFindThreeDay() {
         var expected = Set.of(LocalDate.of(2019, 1, 1), LocalDate.of(2019, 1, 2), LocalDate.of(2019, 1, 3));
-        var actual = forecastAccessService.findThreeDay(TESTING_DATE_2019_01_01)
-                .map(ForecastDto::getTime)
-                .map(it -> Instant.ofEpochSecond(it).atZone(ZoneOffset.UTC))
-                .map(ZonedDateTime::toLocalDate)
-                .collect(Collectors.toSet());
+        var actual =
+                forecastAccessService.findThreeDay(TESTING_DATE_2019_01_01)
+                        .map(ForecastEntity::getForecastDate)
+                        .collect(Collectors.toSet());
         assertEquals(expected, actual);
     }
 

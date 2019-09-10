@@ -1,13 +1,19 @@
 package net.c7j.weather.geomagnetic.mapper.impl;
 
+import net.c7j.weather.geomagnetic.dao.base.ActiveType;
 import net.c7j.weather.geomagnetic.dao.dto.ForecastDto;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 import net.c7j.weather.geomagnetic.mapper.AbstractDtoMapper;
 import net.c7j.weather.geomagnetic.service.DtoMapperChecker;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.function.BiConsumer;
 
 @Component
@@ -47,6 +53,7 @@ public class ForecastDtoMapper extends AbstractDtoMapper<ForecastEntity, Forecas
         public void accept(ForecastDto dto, ForecastEntity entity) {
             whenNotNull(dto, it -> entity.setForecastDate(getLocalDate(it.getTime())));
             whenNotNull(dto, it -> entity.setForecastTime(getLocalTime(it.getTime())));
+            whenNotNull(dto, it -> entity.setActive(ActiveType.ENABLED));
         }
 
         private LocalDate getLocalDate(Long mills) {

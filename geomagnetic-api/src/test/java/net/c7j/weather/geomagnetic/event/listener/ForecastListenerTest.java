@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,7 +49,7 @@ class ForecastListenerTest {
     @RepeatedTest(2)
     @DisplayName("onEvent(): a successful call")
     void successfulOnEvent() {
-        when(forecastUpsertServiceMock.upsertForecasts(any(), any())).thenReturn(Stream.empty());
+        when(forecastUpsertServiceMock.upsertForecasts(any(), any())).thenReturn(Collections.emptyList());
         doNothing().when(forecastAccessServiceMock).save(any());
 
         forecastListener.onEvent(GeneratorHelper.generateForecastEventWrapper(LocalDate.now()));
