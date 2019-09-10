@@ -3,7 +3,7 @@ package net.c7j.weather.geomagnetic.controller;
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
 import net.c7j.weather.geomagnetic.exception.NotFoundException;
 import net.c7j.weather.geomagnetic.exception.ParseException;
-import net.c7j.weather.geomagnetic.service.RestForecastService;
+import net.c7j.weather.geomagnetic.service.ViewForecastService;
 import net.c7j.weather.geomagnetic.test.helper.AssertionHelper;
 import net.c7j.weather.geomagnetic.test.helper.ClientHelper;
 import net.c7j.weather.geomagnetic.test.helper.GeneratorHelper;
@@ -41,7 +41,7 @@ class ForecastControllerSystemTest {
     private ForecastAccessService forecastAccessServiceMock;
 
     @Autowired
-    private RestForecastService restForecastService;
+    private ViewForecastService viewForecastService;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -49,7 +49,7 @@ class ForecastControllerSystemTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        ReflectionTestUtils.setField(restForecastService, "forecastAccessService", forecastAccessServiceMock);
+        ReflectionTestUtils.setField(viewForecastService, "forecastAccessService", forecastAccessServiceMock);
     }
 
     //  -----------------------   successful tests   -------------------------
@@ -58,7 +58,7 @@ class ForecastControllerSystemTest {
     @DisplayName("diurnal(): a successful call returns a valid response")
     void successfulDiurnal() {
         var expectedCount = 8;
-        when(forecastAccessServiceMock.findDiurnal(any())).thenReturn(GeneratorHelper.generateStreamForecastDto(expectedCount));
+        when(forecastAccessServiceMock.findDiurnal(any())).thenReturn(GeneratorHelper.generateStreamForecastEntity(expectedCount));
 
         var actual = assertDoesNotThrow(() -> ClientHelper.exchangeDiurnal(restTemplate, port));
         AssertionHelper.assertCall(SUCCESS_MESSAGE).accept(actual, HttpStatus.OK);
@@ -70,7 +70,7 @@ class ForecastControllerSystemTest {
     @DisplayName("current(): a successful call returns a valid response")
     void successfulCurrent() {
         var expectedCount = 4;
-        when(forecastAccessServiceMock.findCurrent(any())).thenReturn(GeneratorHelper.generateStreamForecastDto(expectedCount));
+        when(forecastAccessServiceMock.findCurrent(any())).thenReturn(GeneratorHelper.generateStreamForecastEntity(expectedCount));
 
         var actual = assertDoesNotThrow(() -> ClientHelper.exchangeCurrent(restTemplate, port));
         AssertionHelper.assertCall(SUCCESS_MESSAGE).accept(actual, HttpStatus.OK);
@@ -82,7 +82,7 @@ class ForecastControllerSystemTest {
     @DisplayName("threeDay(): a successful call returns a valid response")
     void successfulThreeDay() {
         var expectedCount = 24;
-        when(forecastAccessServiceMock.findThreeDay(any())).thenReturn(GeneratorHelper.generateStreamForecastDto(expectedCount));
+        when(forecastAccessServiceMock.findThreeDay(any())).thenReturn(GeneratorHelper.generateStreamForecastEntity(expectedCount));
 
         var actual = assertDoesNotThrow(() -> ClientHelper.exchangeThreeDay(restTemplate, port));
         AssertionHelper.assertCall(SUCCESS_MESSAGE).accept(actual, HttpStatus.OK);

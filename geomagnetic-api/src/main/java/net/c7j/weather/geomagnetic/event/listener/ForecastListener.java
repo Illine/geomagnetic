@@ -2,7 +2,6 @@ package net.c7j.weather.geomagnetic.event.listener;
 
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
 import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
-import net.c7j.weather.geomagnetic.mapper.impl.ForecastDtoMapper;
 import net.c7j.weather.geomagnetic.mapper.impl.TxtForecastDtoMapper;
 import net.c7j.weather.geomagnetic.service.ForecastUpsertService;
 
@@ -23,15 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 public class ForecastListener {
 
     private final TxtForecastDtoMapper txtForecastMapper;
-    private final ForecastDtoMapper forecastMapper;
     private final ForecastAccessService forecastAccessService;
     private final ForecastUpsertService forecastUpsertService;
 
     @Autowired
-    ForecastListener(TxtForecastDtoMapper txtForecastMapper, ForecastDtoMapper forecastMapper,
-                     ForecastAccessService forecastAccessService, ForecastUpsertService forecastUpsertService) {
+    ForecastListener(TxtForecastDtoMapper txtForecastMapper, ForecastAccessService forecastAccessService, ForecastUpsertService forecastUpsertService) {
         this.txtForecastMapper = txtForecastMapper;
-        this.forecastMapper = forecastMapper;
         this.forecastAccessService = forecastAccessService;
         this.forecastUpsertService = forecastUpsertService;
     }
@@ -44,6 +40,6 @@ public class ForecastListener {
         Assert.notEmpty(eventWrapper.getTxtForecasts(), "A set of TxtForecast shouldn't be null or empty!");
         LOGGER.info("A set of text forecast was listened");
         var upsertedForecast = forecastUpsertService.upsertForecasts(txtForecastMapper.convertToEntity(eventWrapper.getTxtForecasts()), LocalDate.now());
-        forecastAccessService.save(forecastMapper.convertToDto(upsertedForecast));
+        forecastAccessService.save(upsertedForecast);
     }
 }

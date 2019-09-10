@@ -42,13 +42,16 @@ class ForecastUpsertServiceIntegrationTest {
     @Test
     @DisplayName("upsertForecasts(): a successful call returns an updated stream of entities")
     void successfulOnlyUpdateUpsertForecast() {
-        var originalIndexes = forecastAccessService.getThreeDay(EXPECTED_DATE).map(ForecastEntity::getIndex).map(IndexType::getIndex).collect(Collectors.toSet());
+        var originalIndexes = forecastAccessService.findThreeDay(EXPECTED_DATE).map(ForecastEntity::getIndex).map(IndexType::getIndex).collect(Collectors.toSet());
         var forecastEntityStream = GeneratorHelper.generateStreamForecastEntity(EXPECTED_DATE);
         var expectedIndexes = GeneratorHelper.generateStreamForecastEntity(EXPECTED_DATE).map(ForecastEntity::getIndex).map(IndexType::getIndex).collect(Collectors.toSet());
 
         var actualIndexes =
-                assertDoesNotThrow(() -> forecastUpsertService.upsertForecasts(forecastEntityStream, EXPECTED_DATE))
-                        .map(ForecastEntity::getIndex).map(IndexType::getIndex).collect(Collectors.toSet());
+                assertDoesNotThrow(() ->
+                        forecastUpsertService.upsertForecasts(forecastEntityStream, EXPECTED_DATE))
+                            .stream()
+                            .map(ForecastEntity::getIndex).map(IndexType::getIndex).collect(Collectors.toSet()
+                );
 
         assertNotEquals(originalIndexes, actualIndexes);
         assertEquals(expectedIndexes, actualIndexes);
@@ -61,8 +64,8 @@ class ForecastUpsertServiceIntegrationTest {
         var date = EXPECTED_DATE.plusDays(1);
         var forecastEntityStream = GeneratorHelper.generateStreamForecastEntity(date);
 
-        var actualStream = assertDoesNotThrow(() -> forecastUpsertService.upsertForecasts(forecastEntityStream, EXPECTED_DATE));
-        var actualMap = actualStream.collect(Collectors.partitioningBy(it -> Objects.nonNull(it.getId())));
+        var actualCollection = assertDoesNotThrow(() -> forecastUpsertService.upsertForecasts(forecastEntityStream, EXPECTED_DATE));
+        var actualMap = actualCollection.stream().collect(Collectors.partitioningBy(it -> Objects.nonNull(it.getId())));
 
         var expectedOldForecasts = 16;
         var expectedNewForecasts = 8;

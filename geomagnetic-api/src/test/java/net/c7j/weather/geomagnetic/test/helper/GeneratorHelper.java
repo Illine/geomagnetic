@@ -82,26 +82,6 @@ public final class GeneratorHelper {
                 .toLowerCase();
     }
 
-    public static ForecastEntity generateForecastEntity() {
-        var entity = new ForecastEntity();
-        entity.setIndex(DEFAULT_INDEX);
-        entity.setForecastTime(LocalTime.now());
-        entity.setForecastDate(LocalDate.now());
-        return entity;
-    }
-
-    public static ForecastEntity generateForecastEntity(Long id) {
-        var entity = new ForecastEntity();
-        entity.setId(id);
-        entity.setIndex(DEFAULT_INDEX);
-        entity.setForecastTime(TESTING_LOCAL_DATE_TIME.toLocalTime());
-        entity.setForecastDate(TESTING_LOCAL_DATE_TIME.toLocalDate());
-        entity.setCreated(TESTING_LOCAL_DATE_TIME);
-        entity.setModified(TESTING_LOCAL_DATE_TIME);
-        entity.setActive(ActiveType.ENABLED);
-        return entity;
-    }
-
     public static ResponseEntity<String> generateResponseEntity() {
         var formattedToday = LocalDate.now().format(CHECK_DATE_FORMATTER);
         var formattedAfterTomorrow = LocalDate.now().plusDays(2).format(CHECK_DATE_FORMATTER);
@@ -153,6 +133,36 @@ public final class GeneratorHelper {
     public static ForecastEventWrapper generateForecastEventWrapper(LocalDate todayDate) {
         var txtForecasts = generateTxtForecastDto(todayDate);
         return new ForecastEventWrapper(txtForecasts);
+    }
+
+    public static ForecastEntity generateForecastEntity() {
+        var entity = new ForecastEntity();
+        entity.setIndex(DEFAULT_INDEX);
+        entity.setForecastTime(LocalTime.now());
+        entity.setForecastDate(LocalDate.now());
+        return entity;
+    }
+
+    public static ForecastEntity generateForecastEntity(Long id) {
+        var entity = new ForecastEntity();
+        entity.setId(id);
+        entity.setIndex(DEFAULT_INDEX);
+        entity.setForecastTime(TESTING_LOCAL_DATE_TIME.toLocalTime());
+        entity.setForecastDate(TESTING_LOCAL_DATE_TIME.toLocalDate());
+        entity.setCreated(TESTING_LOCAL_DATE_TIME);
+        entity.setModified(TESTING_LOCAL_DATE_TIME);
+        entity.setActive(ActiveType.ENABLED);
+        return entity;
+    }
+
+    public static Stream<ForecastEntity> generateStreamForecastEntity(int count) {
+        return Stream.iterate(0, i -> i + 1)
+                .limit(count)
+                .map(it -> generateForecastEntity());
+    }
+
+    public static Stream<ForecastEntity> generateStreamForecastEntity() {
+        return generateStreamForecastEntity(LocalDate.now());
     }
 
     public static Stream<ForecastEntity> generateStreamForecastEntity(LocalDate todayDate) {
