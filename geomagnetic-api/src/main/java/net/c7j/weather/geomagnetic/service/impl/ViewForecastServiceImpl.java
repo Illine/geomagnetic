@@ -1,5 +1,6 @@
 package net.c7j.weather.geomagnetic.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
 import net.c7j.weather.geomagnetic.dao.dto.ForecastDto;
 import net.c7j.weather.geomagnetic.dao.dto.ForecastResponse;
@@ -8,7 +9,6 @@ import net.c7j.weather.geomagnetic.exception.NotFoundException;
 import net.c7j.weather.geomagnetic.mapper.impl.ForecastDtoMapper;
 import net.c7j.weather.geomagnetic.service.HandleException;
 import net.c7j.weather.geomagnetic.service.ViewForecastService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,6 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j(topic = "GEOMAGNETIC-SERVICE")
@@ -41,25 +39,31 @@ public class ViewForecastServiceImpl implements ViewForecastService<ForecastResp
     @Override
     public ResponseEntity<ForecastResponse> getDiurnal() {
         LOGGER.info("Receipt of a diurnal forecast is starting...");
-        var forecasts = compareAndToList(forecastAccessService.findDiurnal(LocalDate.now()));
-        throwWhen(forecasts, Collection::isEmpty, notFoundException("diurnal"));
-        return ResponseEntity.ok(new ForecastResponse(forecasts));
+        try (var forecastStream = forecastAccessService.findDiurnal(LocalDate.now())) {
+            var forecasts = compareAndToList(forecastStream);
+            throwWhen(forecasts, Collection::isEmpty, notFoundException("diurnal"));
+            return ResponseEntity.ok(new ForecastResponse(forecasts));
+        }
     }
 
     @Override
     public ResponseEntity<ForecastResponse> getCurrent() {
         LOGGER.info("Receipt of a current forecast is starting...");
-        List<ForecastDto> forecasts = compareAndToList(forecastAccessService.findCurrent(LocalDateTime.now()));
-        throwWhen(forecasts, Collection::isEmpty, notFoundException("current"));
-        return ResponseEntity.ok(new ForecastResponse(forecasts));
+        try (var forecastStream = forecastAccessService.findCurrent(LocalDateTime.now())) {
+            List<ForecastDto> forecasts = compareAndToList(forecastStream);
+            throwWhen(forecasts, Collection::isEmpty, notFoundException("current"));
+            return ResponseEntity.ok(new ForecastResponse(forecasts));
+        }
     }
 
     @Override
     public ResponseEntity<ForecastResponse> getThreeDay() {
         LOGGER.info("Receipt of a three days' forecast is starting...");
-        List<ForecastDto> forecasts = compareAndToList(forecastAccessService.findThreeDay(LocalDate.now()));
-        throwWhen(forecasts, Collection::isEmpty, notFoundException("three day"));
-        return ResponseEntity.ok(new ForecastResponse(forecasts));
+        try (var forecastStream = forecastAccessService.findThreeDay(LocalDate.now())) {
+            List<ForecastDto> forecasts = compareAndToList(forecastStream);
+            throwWhen(forecasts, Collection::isEmpty, notFoundException("three day"));
+            return ResponseEntity.ok(new ForecastResponse(forecasts));
+        }
     }
 
     @Override

@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  config-service:
+    container_name: config-service
+    image: weather/config-service:latest
+    environment:
+      DISCOVERY_CONFIG_SSH_URI: $DISCOVERY_CONFIG_SSH_URI
+      DISCOVERY_CONFIG_SSH_KEY: $DISCOVERY_CONFIG_SSH_KEY
+    restart: always
+
+  geomagnetic-api:
+    container_name: geomagnetic-api
+    image: weather/geomagnetic-api:latest
+    depends_on:
+      - config-service
+    restart: always
+    environment:
+      GEOMAGENTIC_OPTS: $GEOMAGENTIC_OPTS
