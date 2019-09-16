@@ -34,9 +34,38 @@ The Weather uses of next libraries:
 * [H2]
 * [P6 SPY]
 
+## How to run this project?
+
+**Note that** upon the first start-up the application you will need the Internet because a gradle wrapper will be downloaded, also you should have an installed Docker and Docker Compose!
+
 ### Build
+The application is built via a next gradle command:
+ 
+`gradlew build`
 
 ### Docker
+
+**Before you start make sure a build passes without errors!**
+
+#### Development mode
+If you'd like to launch this project yourself (as a developer, for example) you have to clone the project and build artifact,
+after that run  
+`source weather_env.sh && docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml up -d`  
+in a root directory of the one.   
+
+Images will be created and run:
+* postgres:9.5-alpine as config-service, a port 5432
+* weather/config-service:dev as config-service, a port 8888
+* weather/geomagnetic-api:dev as geomagnetic-api, a port 8001
+
+For comfortable a developing and testing the all services are launched via a 'bridge' network mode.
+
+When you will need to stop a running application to input a command:  
+`source weather_env.sh && docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml -v --rmi all`  
+in a root of the of the project.  
+
+After completed the command the all images will be removed (include a postgres!), also will be deleted a created networks and volumes.
+
 
 #### License
 [MIT](LICENSE)

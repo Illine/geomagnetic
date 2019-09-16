@@ -3,7 +3,6 @@ package net.c7j.weather.geomagnetic.service;
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
 import net.c7j.weather.geomagnetic.dao.base.IndexType;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
-import net.c7j.weather.geomagnetic.exception.NotFoundException;
 import net.c7j.weather.geomagnetic.test.helper.GeneratorHelper;
 import net.c7j.weather.geomagnetic.test.tag.IntegrationTest;
 import org.junit.jupiter.api.DisplayName;
@@ -84,12 +83,5 @@ class ForecastUpsertServiceIntegrationTest {
     @DisplayName("upsertForecasts(): an unsuccessful call throws IllegalArgumentException when an arg date is null")
     void unsuccessfulStreamNullUpsertForecasts() {
         assertThrows(IllegalArgumentException.class, () -> forecastUpsertService.upsertForecasts(Stream.empty(), null));
-    }
-
-    @Transactional(readOnly = true)
-    @Test
-    @DisplayName("upsertForecasts(): an unsuccessful call throws NotFoundException when necessary entities aren't exist to a database")
-    void unsuccessfulNotFoundUpsertForecasts() {
-        assertThrows(NotFoundException.class, () -> forecastUpsertService.upsertForecasts(Stream.empty(), LocalDate.now()));
     }
 }

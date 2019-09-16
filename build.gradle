@@ -41,4 +41,12 @@ subprojects {
     dependencies {
         runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
     }
+
+    test {
+        useJUnitPlatform {
+            includeTags "UnitTest"
+            includeTags "IntegrationTest"
+            excludeTags "SystemTest"
+        }
+    }
 }

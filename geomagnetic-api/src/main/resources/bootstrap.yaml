@@ -1,8 +1,7 @@
 spring:
   application:
-    name: weather-geomagnetic-api
-  profiles:
-    active: dev
+    name: geomagnetic-api
   cloud:
     config:
-      uri: http://localhost:8888/config-service
+      uri: http://config-service:8888/config-service
+      fail-fast: true

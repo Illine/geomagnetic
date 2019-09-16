@@ -1,11 +1,9 @@
 package net.c7j.weather.geomagnetic.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
-import net.c7j.weather.geomagnetic.exception.NotFoundException;
 import net.c7j.weather.geomagnetic.service.ForecastUpsertService;
-import net.c7j.weather.geomagnetic.service.HandleException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -16,16 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j(topic = "GEOMAGNETIC_SERVICE")
 @Service
-public class ForecastUpsertServiceImpl implements ForecastUpsertService, HandleException {
+public class ForecastUpsertServiceImpl implements ForecastUpsertService {
 
     private final ForecastAccessService forecastAccessService;
 
@@ -43,15 +37,8 @@ public class ForecastUpsertServiceImpl implements ForecastUpsertService, HandleE
             var date2ThreeDayEntity =
                     threeDayEntityStream
                             .collect(Collectors.toMap(k -> LocalDateTime.of(k.getForecastDate(), k.getForecastTime()), Function.identity()));
-            throwWhen(date2ThreeDayEntity, Map::isEmpty, () -> new NotFoundException("Not found a three day forecast!"));
             return forecasts.map(merge(date2ThreeDayEntity)).collect(Collectors.toList());
         }
-    }
-
-    @Override
-    public <T extends RuntimeException> void throwWhen(Map<?, ?> map, Predicate<Map<?, ?>> predicate, Supplier<T> exception) {
-        LOGGER.debug("Verification the list of results of the forecast for emptiness");
-        HandleException.super.throwWhen(map, predicate, exception);
     }
 
     private Function<ForecastEntity, ForecastEntity> merge(Map<LocalDateTime, ForecastEntity> date2ThreeDayEntity) {
