@@ -36,6 +36,20 @@ spring:
     password: password
     change-log: classpath:liquibase/changelog.yaml
     contexts: auto-test
+logging:
+  pattern:
+    console: "%d{ISO8601} [%thread] [%-5level] [%logger{36}] - %msg%n"
+  level:
+    GEOMAGNETIC-EXCEPTION-HANDLER: DEBUG
+    GEOMAGNETIC-UTIL: DEBUG
+    GEOMAGNETIC-MAPPER: DEBUG
+    GEOMAGNETIC-ACCESS: DEBUG
+    GEOMAGNETIC-SERVICE: DEBUG
+    GEOMAGNETIC-SQL: DEBUG
+    GEOMAGNETIC-CLIENT: DEBUG
+    GEOMAGNETIC-EVENT: DEBUG
+    GEOMAGNETIC-SCHEDULE: DEBUG
+    root: INFO
 rest:
   maxThread: 100
   maxRoute: 10

@@ -8,3 +8,17 @@ server:
   port: 8888
   servlet:
     context-path: /config-service
+logging:
+  pattern:
+    console: "%d{ISO8601} [%thread] [%-5level] [%logger{36}] - %msg%n"
+  level:
+    GEOMAGNETIC-EXCEPTION-HANDLER: DEBUG
+    GEOMAGNETIC-UTIL: DEBUG
+    GEOMAGNETIC-MAPPER: DEBUG
+    GEOMAGNETIC-ACCESS: DEBUG
+    GEOMAGNETIC-SERVICE: DEBUG
+    GEOMAGNETIC-SQL: DEBUG
+    GEOMAGNETIC-CLIENT: DEBUG
+    GEOMAGNETIC-EVENT: DEBUG
+    GEOMAGNETIC-SCHEDULE: DEBUG
+    root: INFO

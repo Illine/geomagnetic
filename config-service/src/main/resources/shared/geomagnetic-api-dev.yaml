@@ -29,10 +29,20 @@ spring:
     password: geomagnetic
     change-log: classpath:liquibase/changelog.yaml
     contexts: dev
-  groovy:
-    template:
-      enabled: false
-      check-template-location: false
+logging:
+  pattern:
+    console: "%d{ISO8601} [%thread] [%-5level] [%logger{36}] - %msg%n"
+  level:
+    GEOMAGNETIC-EXCEPTION-HANDLER: DEBUG
+    GEOMAGNETIC-UTIL: DEBUG
+    GEOMAGNETIC-MAPPER: DEBUG
+    GEOMAGNETIC-ACCESS: DEBUG
+    GEOMAGNETIC-SERVICE: DEBUG
+    GEOMAGNETIC-SQL: DEBUG
+    GEOMAGNETIC-CLIENT: DEBUG
+    GEOMAGNETIC-EVENT: DEBUG
+    GEOMAGNETIC-SCHEDULE: DEBUG
+    root: INFO
 server:
   port: 8001
   servlet:
