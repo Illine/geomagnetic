@@ -29,11 +29,9 @@ class ForecastPublisherIntegrationTest {
     private ForecastPublisher forecastPublisher;
 
     @Mock
-    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Spy
-    @Autowired
     private ForecastParserService forecastParserServiceSpy;
 
 

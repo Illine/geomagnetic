@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +18,6 @@ import static org.mockito.Mockito.verify;
 class SwpNoaaClientSystemTest {
 
     @Spy
-    @Autowired
     private SwpNoaaClient swpcNoaaClientSpy;
 
     @BeforeEach

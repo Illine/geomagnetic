@@ -10,7 +10,6 @@ import org.junit.platform.commons.util.StringUtils;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +30,9 @@ class SwpNoaaClientIntegrationTest {
     private static final String DEFAULT_TXT_FORECAST_PATH = "forecast/Geomagnetic_Forecast_0.txt";
 
     @Spy
-    @Autowired
     private SwpNoaaClient swpcNoaaClientSpy;
 
     @Mock
-    @Autowired
     @Qualifier("swpNoaaRestTemplate")
     private RestTemplate swpNoaaRestTemplateMock;
 
