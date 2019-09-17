@@ -23,11 +23,9 @@ class ForecastSchedulerIntegrationTest {
     private static final String STUB_TXT_FORECAST = "";
 
     @Mock
-    @Autowired
     private SwpNoaaClient swpNoaaClientSpy;
 
     @Mock
-    @Autowired
     private ForecastPublisher forecastPublisherSpy;
 
     @Autowired
