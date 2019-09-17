@@ -6,17 +6,17 @@ The services is designed for an android application [Weather: Any place on the E
 
 ##### Geomagnetic API
 
-The service requests a geomagnetic forecast from [SWPC NOAA API](https://services.swpc.noaa.gov/text/3-day-geomag-forecast.txt) as a common .txt file on a daily basis. After the file with forecast is received and parsed by the service, the result is stored to the database. All the process is entirely self-acting.  
+The service requests a geomagnetic forecast from [SWPC NOAA API](https://services.swpc.noaa.gov/text/3-day-geomag-forecast.txt "Geomagnetic Forecast as .txt file") as a common .txt file on a daily basis. After the file with forecast is received and parsed by the service, the result is stored to the database. All the process is entirely self-acting.  
 The Weather Application accesses the API via REST.
 
 
 ### Infrastructure services
 
 ##### Config Service
-The service is used a loading of properties from a private git repository via ssh. The Config Service is launched on a default port: 8888 and has an url: /config-service
+The service is used for a loading of properties from a private git repository via ssh. The Config Service is launched by default port: 8888 and has a root path: /config-service
 
 ### Tech
-The Weather uses of next libraries:
+The Weather uses next libraries:
 
 * [Spring Boot]
 * [Spring Web]
@@ -36,36 +36,40 @@ The Weather uses of next libraries:
 
 ## How to run this project?
 
-**Note that** upon the first start-up the application you will need the Internet because a gradle wrapper will be downloaded, also you should have an installed Docker and Docker Compose!
+**Note that** before the first start-up of the application you will need the Internet because a Gradle Wrapper will be downloaded, also you should have an installed Docker and Docker Compose!
 
 ### Build
-The application is built via a next gradle command:
+The application can be built via one of the next gradle command:
  
-`gradlew build`
+`./gradlew build` on a Linux machine  
+`gradlew.bat build` on a Windows machine
 
 ### Docker
 
-**Before you start make sure a build passes without errors!**
+**Before you start, make sure a build passes without errors!**
 
 #### Development mode
-If you'd like to launch this project yourself (as a developer, for example) you have to clone the project and build artifact,
-after that run  
+If you want to launch this project yourself (as a developer, for example) you should have a cloned project and assembled artifact,
+after that run a command:  
 `source weather_env.sh && docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml up -d`  
 in a root directory of the one.   
 
 Images will be created and run:
-* postgres:9.5-alpine as config-service, a port 5432
-* weather/config-service:dev as config-service, a port 8888
-* weather/geomagnetic-api:dev as geomagnetic-api, a port 8001
+* _postgres:9.5-alpine as config-service, a port 5432_
+* _weather/config-service:dev as config-service, a port 8888_
+* _weather/geomagnetic-api:dev as geomagnetic-api, a port 8001_
 
-For comfortable a developing and testing the all services are launched via a 'bridge' network mode.
+For a comfortable developing and testing all services are launched via a 'bridge' network mode.
 
-When you will need to stop a running application to input a command:  
+When you will need to stop a running application, input a command:  
 `source weather_env.sh && docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml -v --rmi all`  
-in a root of the of the project.  
+in a root of the project.  
 
-After completed the command the all images will be removed (include a postgres!), also will be deleted a created networks and volumes.
+After completion of the command, the images will be removed (include a postgres!), also created networks and volumes will be deleted.
 
+#### Testing mode
+
+#### Production mode
 
 #### License
 [MIT](LICENSE)
