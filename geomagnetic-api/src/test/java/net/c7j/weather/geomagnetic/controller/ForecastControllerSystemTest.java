@@ -37,7 +37,6 @@ class ForecastControllerSystemTest {
     private int port;
 
     @Mock
-    @Autowired
     private ForecastAccessService forecastAccessServiceMock;
 
     @Autowired

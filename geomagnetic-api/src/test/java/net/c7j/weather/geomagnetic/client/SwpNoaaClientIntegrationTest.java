@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -35,8 +34,6 @@ class SwpNoaaClientIntegrationTest {
     private SwpNoaaClient swpcNoaaClientSpy;
 
     @Mock
-    @Autowired
-    @Qualifier("swpNoaaRestTemplate")
     private RestTemplate swpNoaaRestTemplateMock;
 
     private String expectedTextForecast;

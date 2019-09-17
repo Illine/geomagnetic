@@ -15,7 +15,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -27,11 +26,9 @@ class ForecastListenerTest {
     private static final long DEFAULT_TIMEOUT = 200L;
 
     @Mock
-    @Autowired
     private ForecastUpsertService forecastUpsertServiceMock;
 
     @Mock
-    @Autowired
     private ForecastAccessService forecastAccessServiceMock;
 
     @Autowired

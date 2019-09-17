@@ -14,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.time.LocalDate;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +26,6 @@ import static org.mockito.Mockito.when;
 class ViewForecastServiceIntegrationTest {
 
     @Mock
-    @Autowired
     private ForecastAccessService forecastAccessServiceMock;
 
     @Autowired
