@@ -1,6 +1,6 @@
-package net.c7j.weather.geomagnetic.dao.base.converter;
+package net.c7j.weather.geomagnetic.model.base.converter;
 
-import net.c7j.weather.geomagnetic.dao.base.ActiveType;
+import net.c7j.weather.geomagnetic.model.base.ActiveType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

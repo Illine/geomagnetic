@@ -1,10 +1,10 @@
-package net.c7j.weather.geomagnetic.dao.dto;
+package net.c7j.weather.geomagnetic.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import net.c7j.weather.geomagnetic.dao.base.IndexType;
-import net.c7j.weather.geomagnetic.dao.base.TimeIntervalType;
+import net.c7j.weather.geomagnetic.model.base.IndexType;
+import net.c7j.weather.geomagnetic.model.base.TimeIntervalType;
 import net.c7j.weather.geomagnetic.util.JsonWriter;
 
 import java.time.LocalDate;

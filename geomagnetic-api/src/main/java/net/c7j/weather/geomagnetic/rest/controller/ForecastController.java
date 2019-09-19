@@ -1,6 +1,6 @@
 package net.c7j.weather.geomagnetic.rest.controller;
 
-import net.c7j.weather.geomagnetic.dao.dto.ForecastResponse;
+import net.c7j.weather.geomagnetic.model.dto.ForecastResponse;
 import net.c7j.weather.geomagnetic.service.ViewForecastService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

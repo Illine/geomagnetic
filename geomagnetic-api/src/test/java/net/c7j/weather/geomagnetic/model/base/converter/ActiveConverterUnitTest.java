@@ -1,6 +1,6 @@
-package net.c7j.weather.geomagnetic.dao.base.converter;
+package net.c7j.weather.geomagnetic.model.base.converter;
 
-import net.c7j.weather.geomagnetic.dao.base.ActiveType;
+import net.c7j.weather.geomagnetic.model.base.ActiveType;
 import net.c7j.weather.geomagnetic.test.tag.UnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

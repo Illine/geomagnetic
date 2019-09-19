@@ -2,8 +2,8 @@ package net.c7j.weather.geomagnetic.dao.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.c7j.weather.geomagnetic.dao.base.ActiveType;
-import net.c7j.weather.geomagnetic.dao.base.IndexType;
+import net.c7j.weather.geomagnetic.model.base.ActiveType;
+import net.c7j.weather.geomagnetic.model.base.IndexType;
 import net.c7j.weather.geomagnetic.util.JsonWriter;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;

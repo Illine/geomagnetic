@@ -1,10 +1,10 @@
 package net.c7j.weather.geomagnetic.dao.access.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
-import net.c7j.weather.geomagnetic.dao.base.TimeIntervalType;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 import net.c7j.weather.geomagnetic.dao.repository.ForecastRepository;
-
+import net.c7j.weather.geomagnetic.model.base.TimeIntervalType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +14,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Stream;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j(topic = "GEOMAGNETIC-ACCESS")

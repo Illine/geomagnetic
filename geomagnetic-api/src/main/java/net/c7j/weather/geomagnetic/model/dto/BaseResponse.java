@@ -1,4 +1,4 @@
-package net.c7j.weather.geomagnetic.dao.dto;
+package net.c7j.weather.geomagnetic.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

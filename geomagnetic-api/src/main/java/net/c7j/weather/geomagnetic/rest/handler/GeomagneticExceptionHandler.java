@@ -1,9 +1,9 @@
 package net.c7j.weather.geomagnetic.rest.handler;
 
 import lombok.extern.slf4j.Slf4j;
-import net.c7j.weather.geomagnetic.dao.dto.BaseResponse;
 import net.c7j.weather.geomagnetic.exception.NotFoundException;
 import net.c7j.weather.geomagnetic.exception.ParseException;
+import net.c7j.weather.geomagnetic.model.dto.BaseResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

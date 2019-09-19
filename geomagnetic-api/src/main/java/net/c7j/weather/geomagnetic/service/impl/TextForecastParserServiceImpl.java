@@ -1,10 +1,10 @@
 package net.c7j.weather.geomagnetic.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import net.c7j.weather.geomagnetic.dao.base.IndexType;
-import net.c7j.weather.geomagnetic.dao.base.TimeIntervalType;
-import net.c7j.weather.geomagnetic.dao.dto.TxtForecastDto;
 import net.c7j.weather.geomagnetic.exception.ParseException;
+import net.c7j.weather.geomagnetic.model.base.IndexType;
+import net.c7j.weather.geomagnetic.model.base.TimeIntervalType;
+import net.c7j.weather.geomagnetic.model.dto.TxtForecastDto;
 import net.c7j.weather.geomagnetic.service.ForecastParserService;
 import net.c7j.weather.geomagnetic.service.HandleException;
 import org.springframework.stereotype.Service;

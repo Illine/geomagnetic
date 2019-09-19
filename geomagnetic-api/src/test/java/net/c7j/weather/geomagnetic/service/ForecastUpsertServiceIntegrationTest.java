@@ -1,8 +1,8 @@
 package net.c7j.weather.geomagnetic.service;
 
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
-import net.c7j.weather.geomagnetic.dao.base.IndexType;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
+import net.c7j.weather.geomagnetic.model.base.IndexType;
 import net.c7j.weather.geomagnetic.test.helper.GeneratorHelper;
 import net.c7j.weather.geomagnetic.test.tag.IntegrationTest;
 import org.junit.jupiter.api.DisplayName;

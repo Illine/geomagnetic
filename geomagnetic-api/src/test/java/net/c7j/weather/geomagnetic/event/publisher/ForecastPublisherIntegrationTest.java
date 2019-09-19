@@ -1,6 +1,6 @@
 package net.c7j.weather.geomagnetic.event.publisher;
 
-import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
+import net.c7j.weather.geomagnetic.model.dto.ForecastEventWrapper;
 import net.c7j.weather.geomagnetic.service.ForecastParserService;
 import net.c7j.weather.geomagnetic.test.helper.GeneratorHelper;
 import net.c7j.weather.geomagnetic.test.tag.IntegrationTest;

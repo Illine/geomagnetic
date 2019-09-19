@@ -1,4 +1,4 @@
-package net.c7j.weather.geomagnetic.dao.base;
+package net.c7j.weather.geomagnetic.model.base;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

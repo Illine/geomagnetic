@@ -1,21 +1,18 @@
 package net.c7j.weather.geomagnetic.event.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
-import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
 import net.c7j.weather.geomagnetic.mapper.impl.TxtForecastDtoMapper;
+import net.c7j.weather.geomagnetic.model.dto.ForecastEventWrapper;
 import net.c7j.weather.geomagnetic.service.ForecastUpsertService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.time.LocalDate;
-
 import javax.transaction.Transactional;
-
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
 
 @Component
 @Slf4j(topic = "GEOMAGNETIC-EVENT")

@@ -1,4 +1,4 @@
-package net.c7j.weather.geomagnetic.dao.base;
+package net.c7j.weather.geomagnetic.model.base;
 
 import net.c7j.weather.geomagnetic.test.helper.AssertionHelper;
 import net.c7j.weather.geomagnetic.test.tag.UnitTest;
