@@ -1,8 +1,8 @@
 package net.c7j.weather.geomagnetic.service;
 
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
-import net.c7j.weather.geomagnetic.dao.dto.ForecastResponse;
 import net.c7j.weather.geomagnetic.exception.NotFoundException;
+import net.c7j.weather.geomagnetic.model.dto.ForecastResponse;
 import net.c7j.weather.geomagnetic.test.helper.AssertionHelper;
 import net.c7j.weather.geomagnetic.test.helper.GeneratorHelper;
 import net.c7j.weather.geomagnetic.test.tag.IntegrationTest;

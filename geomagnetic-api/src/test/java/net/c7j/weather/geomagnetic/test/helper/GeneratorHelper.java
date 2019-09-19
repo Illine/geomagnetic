@@ -2,13 +2,13 @@ package net.c7j.weather.geomagnetic.test.helper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.c7j.weather.geomagnetic.dao.base.ActiveType;
-import net.c7j.weather.geomagnetic.dao.base.IndexType;
-import net.c7j.weather.geomagnetic.dao.base.TimeIntervalType;
-import net.c7j.weather.geomagnetic.dao.dto.ForecastDto;
-import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
-import net.c7j.weather.geomagnetic.dao.dto.TxtForecastDto;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
+import net.c7j.weather.geomagnetic.model.base.ActiveType;
+import net.c7j.weather.geomagnetic.model.base.IndexType;
+import net.c7j.weather.geomagnetic.model.base.TimeIntervalType;
+import net.c7j.weather.geomagnetic.model.dto.ForecastDto;
+import net.c7j.weather.geomagnetic.model.dto.ForecastEventWrapper;
+import net.c7j.weather.geomagnetic.model.dto.TxtForecastDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static net.c7j.weather.geomagnetic.dao.base.IndexType.indexOf;
-import static net.c7j.weather.geomagnetic.dao.base.TimeIntervalType.*;
+import static net.c7j.weather.geomagnetic.model.base.IndexType.indexOf;
+import static net.c7j.weather.geomagnetic.model.base.TimeIntervalType.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class GeneratorHelper {

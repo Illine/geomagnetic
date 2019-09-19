@@ -2,11 +2,11 @@ package net.c7j.weather.geomagnetic.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import net.c7j.weather.geomagnetic.dao.access.ForecastAccessService;
-import net.c7j.weather.geomagnetic.dao.dto.ForecastDto;
-import net.c7j.weather.geomagnetic.dao.dto.ForecastResponse;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 import net.c7j.weather.geomagnetic.exception.NotFoundException;
 import net.c7j.weather.geomagnetic.mapper.impl.ForecastDtoMapper;
+import net.c7j.weather.geomagnetic.model.dto.ForecastDto;
+import net.c7j.weather.geomagnetic.model.dto.ForecastResponse;
 import net.c7j.weather.geomagnetic.service.HandleException;
 import net.c7j.weather.geomagnetic.service.ViewForecastService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package net.c7j.weather.geomagnetic.mapper.impl;
 
-import net.c7j.weather.geomagnetic.dao.dto.TxtForecastDto;
 import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 import net.c7j.weather.geomagnetic.mapper.AbstractDtoMapper;
+import net.c7j.weather.geomagnetic.model.dto.TxtForecastDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

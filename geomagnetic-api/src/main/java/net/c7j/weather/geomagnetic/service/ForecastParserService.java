@@ -1,6 +1,6 @@
 package net.c7j.weather.geomagnetic.service;
 
-import net.c7j.weather.geomagnetic.dao.dto.TxtForecastDto;
+import net.c7j.weather.geomagnetic.model.dto.TxtForecastDto;
 
 import java.util.Set;
 

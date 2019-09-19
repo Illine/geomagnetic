@@ -1,6 +1,6 @@
-package net.c7j.weather.geomagnetic.dao.base.converter;
+package net.c7j.weather.geomagnetic.model.base.converter;
 
-import net.c7j.weather.geomagnetic.dao.base.IndexType;
+import net.c7j.weather.geomagnetic.model.base.IndexType;
 import net.c7j.weather.geomagnetic.test.tag.UnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +10,7 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static net.c7j.weather.geomagnetic.dao.base.IndexType.*;
+import static net.c7j.weather.geomagnetic.model.base.IndexType.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @UnitTest

@@ -1,15 +1,13 @@
-package net.c7j.weather.geomagnetic.dao.base;
+package net.c7j.weather.geomagnetic.model.base;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.util.Assert;
 
 import java.util.EnumSet;
 import java.util.Objects;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor

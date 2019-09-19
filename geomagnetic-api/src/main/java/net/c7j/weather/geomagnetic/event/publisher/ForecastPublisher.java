@@ -1,10 +1,9 @@
 package net.c7j.weather.geomagnetic.event.publisher;
 
 import lombok.extern.slf4j.Slf4j;
-
-import net.c7j.weather.geomagnetic.dao.dto.ForecastEventWrapper;
-import net.c7j.weather.geomagnetic.dao.dto.TxtForecastDto;
 import net.c7j.weather.geomagnetic.exception.ParseException;
+import net.c7j.weather.geomagnetic.model.dto.ForecastEventWrapper;
+import net.c7j.weather.geomagnetic.model.dto.TxtForecastDto;
 import net.c7j.weather.geomagnetic.service.ForecastParserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;

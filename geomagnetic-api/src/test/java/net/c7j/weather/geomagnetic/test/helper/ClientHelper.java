@@ -2,7 +2,7 @@ package net.c7j.weather.geomagnetic.test.helper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.c7j.weather.geomagnetic.dao.dto.ForecastResponse;
+import net.c7j.weather.geomagnetic.model.dto.ForecastResponse;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 
