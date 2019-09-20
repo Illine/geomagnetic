@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -79,8 +78,6 @@ public class ViewForecastServiceImpl implements ViewForecastService<ForecastResp
     private List<ForecastDto> compareAndToList(Stream<ForecastEntity> forecastEntities) {
         return forecastEntities
                 .map(mapper::convertToDto)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
                 .sorted(ForecastDto::compareTo)
                 .collect(Collectors.toList());
     }
