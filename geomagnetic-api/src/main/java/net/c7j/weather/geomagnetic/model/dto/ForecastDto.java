@@ -25,11 +25,6 @@ public class ForecastDto implements Comparable<ForecastDto> {
         this.time = time;
     }
 
-    public ForecastDto(int index, Long time) {
-        this.index = IndexType.indexOf(index);
-        this.time = time;
-    }
-
     @Override
     public int compareTo(@NonNull ForecastDto that) {
         return Long.compare(this.time, that.time);
