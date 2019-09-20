@@ -3,17 +3,19 @@ package net.c7j.weather.geomagnetic.mapper;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.util.Assert;
+import org.springframework.util.Assert;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.BiConsumer;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 @Slf4j(topic = "GEOMAGNETIC-MAPPER")
 public abstract class AbstractDtoMapper<E, D> implements DtoMapper<E, D> {
+
+    private static final String NOT_NULL_DTO_ERROR_MESSAGE = "A dto shouldn't be null!";
+    private static final String NOT_NULL_ENTITY_ERROR_MESSAGE = "An entity shouldn't be null!";
+    private static final String NOT_NULL_COLLECTION_ERROR_MESSAGE = "A collection shouldn't be null!";
 
     protected final ModelMapper modelMapper;
 
@@ -27,83 +29,49 @@ public abstract class AbstractDtoMapper<E, D> implements DtoMapper<E, D> {
     }
 
     @Override
-    public Optional<E> convertToEntity(D dto) {
-        if (Objects.isNull(dto)) {
-            LOGGER.warn("A 'dto' is null! Return empty optional");
-            return Optional.empty();
-        } else {
-            LOGGER.debug("Map to an 'entity'. A 'dto': {}", dto);
-            return Optional.of(modelMapper.map(dto, entityClass));
-        }
+    public E convertToEntity(D dto) {
+        Assert.notNull(dto, NOT_NULL_DTO_ERROR_MESSAGE);
+        LOGGER.debug("Map to an 'entity'. A 'dto': {}", dto);
+        return modelMapper.map(dto, entityClass);
     }
 
     @Override
-    public Optional<E> convertToEntity(D dto, E entity) {
-        if (Objects.isNull(dto)) {
-            LOGGER.warn("A 'dto' is null! Return an 'entity' optional");
-            return Optional.ofNullable(entity);
-        } else if (Objects.isNull(entity)) {
-            LOGGER.warn("An 'entity' is null! Map via a 'dto'!");
-            return convertToEntity(dto);
-        }
+    public E convertToEntity(D dto, E entity) {
+        Assert.notNull(dto, NOT_NULL_DTO_ERROR_MESSAGE);
+        Assert.notNull(entity, NOT_NULL_ENTITY_ERROR_MESSAGE);
         LOGGER.debug("Update map to an 'entity'. The 'entity': {}, a 'dto': {}", entity, dto);
         modelMapper.map(dto, entity);
-        return Optional.of(entity);
+        return entity;
     }
 
     @Override
-    public Optional<D> convertToDto(E entity) {
-        if (Objects.isNull(entity)) {
-            LOGGER.warn("An 'entity' is null! Return empty optional");
-            return Optional.empty();
-        } else {
-            LOGGER.debug("Map to a 'dto'. An 'entity': {}", entity);
-            return Optional.of(modelMapper.map(entity, dtoClass));
-        }
+    public D convertToDto(E entity) {
+        Assert.notNull(entity, NOT_NULL_ENTITY_ERROR_MESSAGE);
+        LOGGER.debug("Map to a 'dto'. An 'entity': {}", entity);
+        return modelMapper.map(entity, dtoClass);
     }
 
     @Override
-    public Optional<D> convertToDto(E entity, D dto) {
-        if (Objects.isNull(entity)) {
-            LOGGER.warn("An 'entity' is null! Return a 'dto' optional");
-            return Optional.ofNullable(dto);
-        } else if (Objects.isNull(dto)) {
-            LOGGER.warn("A 'dto' is null! Map via an 'entity'!");
-            return convertToDto(entity);
-        }
+    public D convertToDto(E entity, D dto) {
+        Assert.notNull(entity, NOT_NULL_ENTITY_ERROR_MESSAGE);
+        Assert.notNull(dto, NOT_NULL_DTO_ERROR_MESSAGE);
         LOGGER.debug("Update map to a 'dto'. The 'dto': {}, an 'entity': {}", dto, entity);
         modelMapper.map(entity, dto);
-        return Optional.of(dto);
+        return dto;
     }
 
     @Override
-    public Stream<E> convertToEntity(Stream<D> stream) {
-        LOGGER.debug("Map to a stream of entities");
-        return stream
-                .map(this::convertToEntity)
-                .filter(Optional::isPresent)
-                .map(Optional::get);
+    public Collection<E> convertToEntities(Collection<D> collection) {
+        Assert.notNull(collection, NOT_NULL_COLLECTION_ERROR_MESSAGE);
+        LOGGER.debug("A collection of dtos is mapped to a collection of entities");
+        return collection.stream().map(this::convertToEntity).collect(Collectors.toList());
     }
 
     @Override
-    public Stream<E> convertToEntity(Collection<D> collection) {
-        return convertToEntity(collection.stream());
-    }
-
-    @Override
-    public Stream<D> convertToDto(Stream<E> stream) {
-        Assert.notNull(stream, "The 'stream' shouldn't be null!");
-        LOGGER.debug("Map to a stream of dtos");
-        return stream
-                .map(this::convertToDto)
-                .filter(Optional::isPresent)
-                .map(Optional::get);
-    }
-
-    @Override
-    public Stream<D> convertToDto(Collection<E> collection) {
-        Assert.notNull(collection, "The 'collection' shouldn't be null!");
-        return convertToDto(collection.stream());
+    public Collection<D> convertToDtos(Collection<E> collection) {
+        Assert.notNull(collection, NOT_NULL_COLLECTION_ERROR_MESSAGE);
+        LOGGER.debug("A collection of entities is mapped to a collection of dtos");
+        return collection.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     protected Converter<E, D> toDtoConverter(BiConsumer<E, D> toDtoConverter) {

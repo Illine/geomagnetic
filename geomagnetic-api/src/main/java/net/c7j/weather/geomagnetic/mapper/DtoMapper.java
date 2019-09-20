@@ -1,24 +1,18 @@
 package net.c7j.weather.geomagnetic.mapper;
 
 import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 public interface DtoMapper<E, D> {
 
-    Optional<E> convertToEntity(D dto);
+    E convertToEntity(D dto);
 
-    Optional<E> convertToEntity(D dto, E entity);
+    E convertToEntity(D dto, E entity);
 
-    Optional<D> convertToDto(E entity);
+    D convertToDto(E entity);
 
-    Optional<D> convertToDto(E entity, D dto);
+    D convertToDto(E entity, D dto);
 
-    Stream<E> convertToEntity(Stream<D> stream);
+    Collection<E> convertToEntities(Collection<D> collection);
 
-    Stream<E> convertToEntity(Collection<D> collection);
-
-    Stream<D> convertToDto(Stream<E> stream);
-
-    Stream<D> convertToDto(Collection<E> collection);
+    Collection<D> convertToDtos(Collection<E> collection);
 }

@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,10 +39,8 @@ class ForecastDtoMapperIntegrationTest {
     @Test
     @DisplayName("convertToDto(): a successful call returns a valid dto")
     void successfulConvertToDto() {
-        var dto = forecastDtoMapper.convertToDto(testEntity);
-        assertTrue(dto.isPresent());
-
-        var actual = dto.get();
+        var actual = forecastDtoMapper.convertToDto(testEntity);
+        assertNotNull(actual);
         assertEquals(EXPECTED_MILLIS_BY_TESTING_DATE_TIME, actual.getTime());
         assertEquals(testEntity.getIndex(), actual.getIndex());
     }
@@ -53,60 +49,38 @@ class ForecastDtoMapperIntegrationTest {
     @DisplayName("convertToDto(): a successful call returns a valid dto when an update")
     void successfulUpdateConvertToDto() {
         var toUpdate = GeneratorHelper.generateForecastDto(IndexType.EXTREME_STORM, false);
-        var actual = forecastDtoMapper.convertToDto(testEntity, toUpdate).orElseThrow();
+        var actual = forecastDtoMapper.convertToDto(testEntity, toUpdate);
         assertNotEquals(testDto, actual);
         assertEquals(testEntity.getIndex(), actual.getIndex());
         assertNotNull(actual.getTime());
     }
 
     @Test
-    @DisplayName("convertToDto(): a successful call returns a stream when arg is a stream")
-    void successfulStreamConvertToDto() {
-        var dtoStream = forecastDtoMapper.convertToDto(Stream.of(testEntity));
-        assertNotNull(dtoStream);
-
-        var actual = dtoStream.collect(Collectors.toList());
-        assertFalse(actual.isEmpty());
-        assertEquals(testEntity.getIndex(), actual.get(0).getIndex());
-    }
-
-    @Test
-    @DisplayName("convertToDto(): a successful call returns a stream when arg is a collection")
+    @DisplayName("convertToDto(): a successful call returns a collection of dtos when arg is a collection")
     void successfulCollectionConvertToDto() {
-        var dtoStream = forecastDtoMapper.convertToDto(Collections.singletonList(testEntity));
-        assertNotNull(dtoStream);
-
-        var actual = dtoStream.collect(Collectors.toList());
+        var exceptedSize = 1;
+        var actual = forecastDtoMapper.convertToDtos(Collections.singletonList(testEntity));
         assertFalse(actual.isEmpty());
-        assertEquals(testEntity.getIndex(), actual.get(0).getIndex());
+        assertEquals(exceptedSize, actual.size());
     }
 
     //  -----------------------   unsuccessful tests   -------------------------
 
     @Test
-    @DisplayName("convertToDto(): an unsuccessful call returns an empty optional when an arg dto is null")
+    @DisplayName("convertToDto(): an unsuccessful call throws IllegalArgumentException when an arg dto is null")
     void unsuccessfulEmptyConvertToDto() {
-        var actual = assertDoesNotThrow(() -> forecastDtoMapper.convertToDto((ForecastEntity) null));
-        assertTrue(actual.isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> forecastDtoMapper.convertToDto(null));
     }
 
     @Test
-    @DisplayName("convertToDto(): an unsuccessful call returns an unchanged dto when an arg entity is null")
+    @DisplayName("convertToDto(): an unsuccessful call throws IllegalArgumentException when an arg entity is null")
     void unsuccessfulNullEntityConvertToDto() {
-        var optionalDto = assertDoesNotThrow(() -> forecastDtoMapper.convertToDto(null, testDto));
-        assertTrue(optionalDto.isPresent());
-
-        var actual = optionalDto.get();
-        assertEquals(testDto, actual);
+        assertThrows(IllegalArgumentException.class, () -> forecastDtoMapper.convertToDto(null, testDto));
     }
 
     @Test
-    @DisplayName("convertToDto(): an unsuccessful call returns a new dto when an arg dto is null")
+    @DisplayName("convertToDto(): an unsuccessful call throws IllegalArgumentException when an arg dto is null")
     void unsuccessfulNullDtoConvertToDto() {
-        var optionalDto = assertDoesNotThrow(() -> forecastDtoMapper.convertToDto(testEntity, null));
-        assertTrue(optionalDto.isPresent());
-
-        var actual = optionalDto.get();
-        assertEquals(testEntity.getIndex(), actual.getIndex());
+        assertThrows(IllegalArgumentException.class, () -> forecastDtoMapper.convertToDto(testEntity, null));
     }
 }

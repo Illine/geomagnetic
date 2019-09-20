@@ -40,10 +40,8 @@ class TxtForecastDtoMapperIntegrationTest {
     @Test
     @DisplayName("convertToDto(): a successful call returns a valid dto")
     void successfulConvertToDto() {
-        var entity = txtForecastDtoMapper.convertToEntity(textDto);
-        assertTrue(entity.isPresent());
-
-        var actual = entity.get();
+        var actual = txtForecastDtoMapper.convertToEntity(textDto);
+        assertNotNull(actual);
         assertEquals(textDto.getIndex(), actual.getIndex());
         assertEquals(TESTING_LOCAL_DATE_TIME.toLocalDate(), actual.getForecastDate());
         assertEquals(textDto.getInterval().getTimeInterval(), actual.getForecastTime());
@@ -54,63 +52,37 @@ class TxtForecastDtoMapperIntegrationTest {
     void successfulUpdateConvertToDto() {
         var dto = GeneratorHelper.generateTxtForecastDto(TimeIntervalType.INTERVAL_21_00, IndexType.EXTREME_STORM);
 
-        var actual = txtForecastDtoMapper.convertToEntity(dto, GeneratorHelper.generateForecastEntity(1L)).orElseThrow();
+        var actual = txtForecastDtoMapper.convertToEntity(dto, GeneratorHelper.generateForecastEntity(1L));
         assertNotEquals(testEntity, actual);
         assertEquals(dto.getIndex(), actual.getIndex());
         assertEquals(dto.getInterval().getTimeInterval(), actual.getForecastTime());
     }
 
     @Test
-    @DisplayName("convertToDto(): a successful call returns a stream when arg is a stream")
-    void successfulStreamConvertToDto() {
-        var dtoSet = GeneratorHelper.generateSetTxtForecastDto();
-
-        var entityStream = txtForecastDtoMapper.convertToEntity(dtoSet.stream());
-        assertNotNull(entityStream);
-
-        var actual = entityStream.count();
-        assertEquals(dtoSet.size(), actual);
-    }
-
-    @Test
-    @DisplayName("convertToDto(): a successful call returns a stream when arg is a collection")
+    @DisplayName("convertToDto(): a successful call returns a collection of d when arg is a collection")
     void successfulCollectionConvertToDto() {
-        var dtoSet = GeneratorHelper.generateSetTxtForecastDto();
-
-        var entityStream = txtForecastDtoMapper.convertToEntity(dtoSet);
-        assertNotNull(entityStream);
-
-        var actual = entityStream.count();
-        assertEquals(dtoSet.size(), actual);
+        var dtos = GeneratorHelper.generateSetTxtForecastDto();
+        var actual = txtForecastDtoMapper.convertToEntities(dtos);
+        assertEquals(dtos.size(), actual.size());
     }
 
     //  -----------------------   unsuccessful tests   -------------------------
 
     @Test
-    @DisplayName("convertToDto(): an unsuccessful call returns an empty optional when an arg dto is null")
+    @DisplayName("convertToDto(): an unsuccessful call throws IllegalArgumentException when an arg dto is null")
     void unsuccessfulEmptyConvertToDto() {
-        var actual = assertDoesNotThrow(() -> txtForecastDtoMapper.convertToEntity((TxtForecastDto) null));
-        assertTrue(actual.isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> txtForecastDtoMapper.convertToEntity(null));
     }
 
     @Test
-    @DisplayName("convertToDto(): an unsuccessful call returns an unchanged dto when an arg entity is null")
+    @DisplayName("convertToDto(): an unsuccessful call throws IllegalArgumentException when an arg entity is null")
     void unsuccessfulNullEntityConvertToDto() {
-
-        var optionalDto = assertDoesNotThrow(() -> txtForecastDtoMapper.convertToEntity(null, testEntity));
-        assertTrue(optionalDto.isPresent());
-
-        var actual = optionalDto.get();
-        assertEquals(GeneratorHelper.generateForecastEntity(1L), actual);
+        assertThrows(IllegalArgumentException.class, () -> txtForecastDtoMapper.convertToEntity(null, testEntity));
     }
 
     @Test
-    @DisplayName("convertToDto(): an unsuccessful call returns a new dto when an arg dto is null")
+    @DisplayName("convertToDto(): an unsuccessful call throws IllegalArgumentException when an arg dto is null")
     void unsuccessfulNullDtoConvertToDto() {
-        var optionalDto = assertDoesNotThrow(() -> txtForecastDtoMapper.convertToEntity(textDto, null));
-        assertTrue(optionalDto.isPresent());
-
-        var actual = optionalDto.get();
-        assertEquals(textDto.getIndex(), actual.getIndex());
+        assertThrows(IllegalArgumentException.class, () -> txtForecastDtoMapper.convertToEntity(textDto, null));
     }
 }
