@@ -6,6 +6,7 @@ import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
 import net.c7j.weather.geomagnetic.service.ForecastUpsertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ public class ForecastUpsertServiceImpl implements ForecastUpsertService {
     }
     
     @Override
+    @Transactional
     public List<ForecastEntity> upsertForecasts(Stream<ForecastEntity> forecasts, LocalDate date) {
         Assert.notNull(forecasts, "The 'forecasts' shouldn't be null!");
         Assert.notNull(date, "The 'date' shouldn't be null!");

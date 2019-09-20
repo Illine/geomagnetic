@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @Component
@@ -29,7 +28,6 @@ public class ForecastListener {
         this.forecastUpsertService = forecastUpsertService;
     }
 
-    @Transactional
     @EventListener
     @Async(value = "forecastEventThreadPool")
     public void onEvent(ForecastEventWrapper eventWrapper) {

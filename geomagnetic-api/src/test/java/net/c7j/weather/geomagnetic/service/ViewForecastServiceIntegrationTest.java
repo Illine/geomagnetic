@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -73,7 +74,7 @@ class ViewForecastServiceIntegrationTest {
         when(forecastAccessServiceMock.findDiurnal(any())).thenReturn(GeneratorHelper.generateStreamForecastEntity(countForecast));
 
         var forecasts = AssertionHelper.assertCall(countForecast).apply(viewForecastService.getDiurnal());
-        assertThat(forecasts).isSorted();
+        assertThat(new ArrayList<>(forecasts)).isSorted();
     }
 
     @Test
@@ -83,7 +84,7 @@ class ViewForecastServiceIntegrationTest {
         when(forecastAccessServiceMock.findCurrent(any())).thenReturn(GeneratorHelper.generateStreamForecastEntity(countForecast));
 
         var forecasts = AssertionHelper.assertCall(countForecast).apply(viewForecastService.getCurrent());
-        assertThat(forecasts).isSorted();
+        assertThat(new ArrayList<>(forecasts)).isSorted();
     }
 
     @Test
@@ -93,7 +94,7 @@ class ViewForecastServiceIntegrationTest {
         when(forecastAccessServiceMock.findThreeDay(any())).thenReturn(GeneratorHelper.generateStreamForecastEntity(countForecast));
 
         var forecasts = AssertionHelper.assertCall(countForecast).apply(viewForecastService.getThreeDay());
-        assertThat(forecasts).isSorted();
+        assertThat(new ArrayList<>(forecasts)).isSorted();
     }
 
     //  -----------------------   unsuccessful tests   -------------------------

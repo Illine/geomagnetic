@@ -7,7 +7,7 @@ import net.c7j.weather.geomagnetic.model.dto.ForecastResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.function.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +26,7 @@ public final class AssertionHelper {
         return expected -> assertEquals(expected, supplier.get());
     }
 
-    public static Function<ResponseEntity<ForecastResponse>, List<ForecastDto>> assertCall(int expectedCountForecasts) {
+    public static Function<ResponseEntity<ForecastResponse>, Collection<ForecastDto>> assertCall(int expectedCountForecasts) {
         return responseEntity -> {
             assertNotNull(responseEntity);
             assertEquals(HttpStatus.OK, responseEntity.getStatusCode());

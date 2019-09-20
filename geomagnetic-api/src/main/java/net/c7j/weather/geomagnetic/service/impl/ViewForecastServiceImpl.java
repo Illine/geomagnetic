@@ -12,6 +12,7 @@ import net.c7j.weather.geomagnetic.service.ViewForecastService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ public class ViewForecastServiceImpl implements ViewForecastService<ForecastResp
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<ForecastResponse> getDiurnal() {
         LOGGER.info("Receipt of a diurnal forecast is starting...");
         try (var forecastStream = forecastAccessService.findDiurnal(LocalDate.now())) {
@@ -46,6 +48,7 @@ public class ViewForecastServiceImpl implements ViewForecastService<ForecastResp
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<ForecastResponse> getCurrent() {
         LOGGER.info("Receipt of a current forecast is starting...");
         try (var forecastStream = forecastAccessService.findCurrent(LocalDateTime.now())) {
@@ -56,6 +59,7 @@ public class ViewForecastServiceImpl implements ViewForecastService<ForecastResp
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<ForecastResponse> getThreeDay() {
         LOGGER.info("Receipt of a three days' forecast is starting...");
         try (var forecastStream = forecastAccessService.findThreeDay(LocalDate.now())) {
