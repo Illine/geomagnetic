@@ -25,13 +25,13 @@ import java.util.stream.Stream;
 
 @Service
 @Slf4j(topic = "GEOMAGNETIC-SERVICE")
-public class ViewForecastServiceImpl implements ViewForecastService<ForecastResponse>, HandleException {
+public class MobileWeatherForecastServiceImpl implements ViewForecastService<ForecastResponse>, HandleException {
 
     private final ForecastAccessService forecastAccessService;
     private final ForecastDtoMapper mapper;
 
     @Autowired
-    ViewForecastServiceImpl(ForecastAccessService forecastAccessService, ForecastDtoMapper mapper) {
+    MobileWeatherForecastServiceImpl(ForecastAccessService forecastAccessService, ForecastDtoMapper mapper) {
         this.forecastAccessService = forecastAccessService;
         this.mapper = mapper;
     }
