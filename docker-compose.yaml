@@ -15,4 +15,4 @@ services:
       - config-service
     restart: always
     environment:
-      GEOMAGENTIC_OPTS: $GEOMAGENTIC_OPTS
+      GEOMAGNETIC_OPTS: $GEOMAGNETIC_OPTS
