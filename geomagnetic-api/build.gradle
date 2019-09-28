@@ -51,10 +51,10 @@ liquibase {
         main {
             changeLogFile "${projectDir}/src/main/resources/liquibase/changelog.yaml"
             outputFile "${buildDir}/liquibase/sql-migration.sql"
-            url "jdbc:postgresql://${System.getenv("LIQUIBASE_DATABASE_URI")}:${System.getenv("LIQUIBASE_DATABASE_PORT")}/geomagnetic"
-            username System.getenv("LIQUIBASE_DATABASE_USER")
-            password System.getenv("LIQUIBASE_DATABASE_PASSWORD")
-            defaultSchemaName System.getenv("LIQUIBASE_DATABASE_SCHEMA")
+            url "jdbc:postgresql://${System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_URI")}:${System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_PORT")}/geomagnetic"
+            username System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_USER")
+            password System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_PASSWORD")
+            defaultSchemaName System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_SCHEMA")
         }
     }
 }

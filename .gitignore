@@ -9,3 +9,6 @@
 *.iml
 *.ipr
 */out/*
+
+### Ignore 'dev' configs
+*-dev.*

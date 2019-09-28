@@ -9,7 +9,7 @@ spring:
         default_schema: geomagnetic
     open-in-view: false
   datasource:
-    url: jdbc:p6spy:postgresql://geomagnetic-postgres:5432/geomagnetic
+    url: jdbc:p6spy:postgresql://geomagnetic-database:5432/geomagnetic
     username: geomagnetic
     password: geomagnetic
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
@@ -23,7 +23,7 @@ spring:
       minimum-idle: 2
       schema: geomagnetic
   liquibase:
-    url: jdbc:postgresql://geomagnetic-postgres:5432/geomagnetic
+    url: jdbc:postgresql://geomagnetic-database:5432/geomagnetic
     default-schema: geomagnetic
     user: geomagnetic
     password: geomagnetic

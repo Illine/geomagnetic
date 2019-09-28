@@ -1,7 +1,7 @@
 version: "3.3"
 services:
-  geomagnetic-postgres:
-    container_name: geomagnetic-postgres
+  geomagnetic-database:
+    container_name: geomagnetic-database
     image: postgres:9.5-alpine
     ports:
       - 5432:5432
@@ -16,7 +16,7 @@ services:
   config-service:
     build:
       config-service/
-    image: weather/config-service:dev
+    image: weather/config-service:native
     ports:
       - 8888:8888
     environment:
@@ -24,10 +24,10 @@ services:
 
   geomagnetic-api:
     depends_on:
-      - geomagnetic-postgres
+      - geomagnetic-database
       - config-service
     build:
       geomagnetic-api/
-    image: weather/geomagnetic-api:dev
+    image: weather/geomagnetic-api:native
     ports:
       - 8001:8001
