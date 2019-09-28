@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Illine/weather.svg?branch=develop)](https://travis-ci.org/Illine/weather)
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Illine/weather/blob/develop/LICENSE)
+
 # Weather
 The services is designed for an android application [Weather: Any place on the Earth!](https://play.google.com/store/apps/details?id=net.c7j.wna&hl=ru "Google Play")
 
@@ -53,7 +56,7 @@ If you want to launch the project within an IDE (for example, Intellij IDEA) you
 * create an `application-dev.yaml` to a `resources` folder of the config-service
 
 A pattern of an `application-dev.yaml` via an username and a password
-```
+```yaml
 spring:
   application:
     name: config-service
@@ -72,7 +75,7 @@ server:
     context-path: /config-service
 ```
 A pattern of an `aplication-dev.yaml` via ssh
-```
+```yaml
 spring:
   cloud:
     config:
@@ -159,10 +162,7 @@ The Weather uses next libraries:
 * [H2]
 * [P6 SPY]
 
-### License
-[MIT](LICENSE)
-
-This project itself is open source with a [public repository][git-repo].
+#### This project itself is open source with a [public repository][git-repo].
 
 
 [Spring Boot]: <https://spring.io/projects/spring-boot>
