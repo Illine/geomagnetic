@@ -1,0 +1,8 @@
+geomagnetic_api_spring:
+  spring:
+    application:
+      name: "{{ geomagnetic_api_name }}"
+    cloud:
+      config:
+        uri: "http://config-service:{{ config_service_port }}{{ config_service_context_path }}"
+        fail-fast: true

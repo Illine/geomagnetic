@@ -16,7 +16,7 @@ services:
   config-service:
     build:
       config-service/
-    image: weather/config-service:native
+    image: illine/config-service:${TAG}
     ports:
       - 8888:8888
     environment:
@@ -28,6 +28,6 @@ services:
       - config-service
     build:
       geomagnetic-api/
-    image: weather/geomagnetic-api:native
+    image: illine/geomagnetic-api:${TAG}
     ports:
       - 8001:8001

@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: geomagnetic-api
-  cloud:
-    config:
-      uri: http://config-service:8888/config-service
-      fail-fast: true

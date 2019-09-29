@@ -10,5 +10,14 @@
 *.ipr
 */out/*
 
-### Ignore 'dev' configs
-*-dev.*
+### Ignore stage configs
+*-dev.yaml
+*-test.yaml
+*-native.yaml
+!*-integration-test.yaml
+!*-system-test.yaml
+
+### Ignore tmp ansible files
+*.retry
+*.password
+!ansible-vault-native.password
