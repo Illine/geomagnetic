@@ -15,7 +15,7 @@ spring:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      poolName: DevHikariPool
+      poolName: NativeikariPool
       max-lifetime: 600000
       connection-timeout: 15000
       maximum-pool-size: 10
@@ -28,7 +28,7 @@ spring:
     user: geomagnetic
     password: geomagnetic
     change-log: classpath:liquibase/changelog.yaml
-    contexts: dev
+    contexts: native
   groovy:
     template:
       enabled: false

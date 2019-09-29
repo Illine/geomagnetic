@@ -1,0 +1,14 @@
+- hosts: localhost
+  vars:
+    ansible_eth0:
+      ipv4:
+        address: 127.0.0.1
+  vars_files:
+    - project_vars.yaml
+  tasks:
+  - name: Generate Configs
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: 0644
+    with_items: "{{ project_templates }}"

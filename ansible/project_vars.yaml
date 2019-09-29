@@ -1,0 +1,18 @@
+project_dir: "{{ lookup('env', 'WEATHER_PROJECT_DIR') }}"
+active_profile: "{{ lookup('env', 'ACTIVE_PROFILE') }}"
+
+config_service_template_dir: "{{ project_dir }}/ansible/templates/config-service/application.yaml.j2"
+geomagnetic_api_template_dir: "{{ project_dir }}/ansible/templates/geomagnetic-api/bootstrap.yaml.j2"
+
+config_service_config_dir: "{{ project_dir }}/config-service/src/main/resources"
+geomagnetic_api_config_dir: "{{ project_dir }}/geomagnetic-api/src/main/resources"
+
+project_templates:
+  - { src: "{{ config_service_template_dir }}" , dest: "{{ config_service_config_dir }}/application-{{ active_profile }}.yaml" } # config-service
+  - { src: "{{ geomagnetic_api_template_dir }}", dest: "{{ geomagnetic_api_config_dir }}/bootstrap-{{ active_profile }}.yaml" } # geomagnetic-api
+
+config_service_name: config-service
+config_service_port: 8888
+config_service_context_path: /config-service
+
+geomagnetic_api_name: geomagnetic-api

@@ -1,0 +1,18 @@
+config_service_spring:
+  spring:
+    application:
+      name: "{{ config_service_name }}"
+    cloud:
+      config:
+        server:
+          git:
+            clone-on-start: true
+            search-paths: "{application}/{profile}"
+            uri: "{{ spring_cloud_config_git_uri }}"
+            username: "{{ spring_cloud_config_git_username }}"
+            password: "{{ spring_cloud_config_git_password }}"
+config_service_server:
+  server:
+    port: "{{ config_service_port }}"
+    servlet:
+      context-path: "{{ config_service_context_path }}"
