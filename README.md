@@ -1,9 +1,7 @@
 [![Build Status](https://travis-ci.org/Illine/weather.svg?branch=develop)](https://travis-ci.org/Illine/weather)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Illine/weather/blob/develop/LICENSE)
 
-# Weather
-The services is designed for an android application [Weather: Any place on the Earth!](https://play.google.com/store/apps/details?id=net.c7j.wna&hl=ru "Google Play")
-
+* [Weather Info](https://github.com/Illine/weather#weather)
 * [Services](https://github.com/Illine/weather#services)
     * [Functional Services](https://github.com/Illine/weather#geomagnetic-api)
         * [Geomagnetic API](https://github.com/Illine/weather#geomagnetic-api)
@@ -21,6 +19,9 @@ The services is designed for an android application [Weather: Any place on the E
         * [Testing mode](https://github.com/Illine/weather#testing-mode)
         * [Production mode](https://github.com/Illine/weather#production-mode)
 * [Tech](https://github.com/Illine/weather#tech)
+
+# Weather
+The services is designed for an android application [Weather: Any place on the Earth!](https://play.google.com/store/apps/details?id=net.c7j.wna&hl=ru "Google Play")
 
 ### Services
 
@@ -73,8 +74,12 @@ All templates are kept to a `tenplates` folder and also the templates divides vi
 All inventories have an attribute `all`  
 Passwords file are kept to a `password` folder  
 
+Ansible uses `ACTIVE_PROFILE` environment which can be: `native`, `test` or `production`.
+
 A build of configs via a command:  
-`ansible-playbook -i ansible/inventories/$ACTIVE_PROFILE ansible/playbook.yaml --vault-password-file=ansible/password/ansible-vault-$ACTIVE_PROFILE.password`
+```shell script
+ansible-playbook -i ansible/inventories/$ACTIVE_PROFILE ansible/playbook.yaml --vault-password-file=ansible/password/ansible-vault-$ACTIVE_PROFILE.password
+```
 
 ### Local launch
 
@@ -107,7 +112,7 @@ server:
     context-path: /config-service
 ```
 
-An [`geomagnetic-api/application-dev.yaml` example](https://github.com/Illine/weather/blob/develop/config-service/src/main/resources/shared/geomagnetic-api-native.yaml):
+An [`geomagnetic-api/application-dev.yaml`](https://github.com/Illine/weather/blob/develop/config-service/src/main/resources/shared/geomagnetic-api-native.yaml) example:
 ```yaml
 spring:
   jpa:
@@ -134,7 +139,7 @@ spring:
       minimum-idle: 2
       schema: geomagnetic
   liquibase:
-    url: jdbc:postgresql://geomagnetic-database:5432/geomagnetic
+    url: jdbc:postgresql://{database}:{port}/geomagnetic
     default-schema: geomagnetic
     user: geomagnetic
     password: geomagnetic
@@ -182,27 +187,36 @@ after that run a command:
 in a root directory of one.   
 
 If you have the Windows machine when you should export next environments:
-```
-GEOMAGNETIC_OPTS="-Dspring.profiles.active=native"
-CONFIG_SERVICE_OPTS="-Dspring.profiles.active=native"
+```shell script
+set WEATHER_PROJECT_DIR="echo %cd%"
+set ACTIVE_PROFILE=native
+set TAG=$ACTIVE_PROFILE
+set GEOMAGNETIC_OPTS="--add-opens java.base/java.time=ALL-UNNAMED --illegal-access=deny -Dspring.profiles.active=$ACTIVE_PROFILE"
+set CONFIG_SERVICE_OPTS="-Dspring.profiles.active=$ACTIVE_PROFILE"
 ``` 
 
 **Make sure** you have assembled artifacts    
 If you don't have the assembled artifacts then read a [build](https://github.com/Illine/weather#build) of the project
 
-After that run a command:  
-`docker-compose -f docker-compose.yaml -f docker-compose-native.yaml up -d`    
+After that run commands:  
+```shell script
+ansible-playbook -i ansible/inventories/$ACTIVE_PROFILE ansible/playbook.yaml --vault-password-file=ansible/password/ansible-vault-$ACTIVE_PROFILE.password
+docker-compose -f docker-compose.yaml -f docker-compose-native.yaml up -d
+```  
 
-Images will be created and run:
+If you use Mac then you can handle yourself :)  
+
+**Images will be created and run**:
 * _postgres:9.5-alpine as geomagnetic-database, a port 5432_
 * _weather/config-service:native as config-service, a port 8888_
 * _weather/geomagnetic-api:native as geomagnetic-api, a port 8001_
 
 For a comfortable testing all services are launched via a 'bridge' network mode.
 
-When you will need to stop a running application, input a command:  
-`docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml -v --rmi all`  
-in a root of the project.  
+When you will need to stop a running application, input a command in a root of the project:    
+```shell script
+docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml -v --rmi all
+```  
 
 After completion of the command, the images will be removed (include a base image of the PostgreSQL!), also created networks and volumes will be deleted.
 
