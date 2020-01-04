@@ -1,20 +1,20 @@
 package net.c7j.weather.geomagnetic.dao.access;
 
-import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
+import net.c7j.weather.geomagnetic.model.dto.ForecastDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.Set;
 
 public interface ForecastAccessService {
 
-    void save(Collection<ForecastEntity> forecasts);
+    void save(Collection<ForecastDto> forecasts);
 
-    Stream<ForecastEntity> findDiurnal(LocalDate today);
+    Set<ForecastDto> findDiurnal(LocalDate today);
 
-    Stream<ForecastEntity> findCurrent(LocalDateTime today);
+    Set<ForecastDto> findCurrent(LocalDateTime today);
 
-    Stream<ForecastEntity> findThreeDay(LocalDate today);
+    Set<ForecastDto> findThreeDays(LocalDate today);
 
 }

@@ -1,17 +1,18 @@
-version: "3.3"
+version: "3.7"
+
+volumes:
+  postgres:
+
 services:
   geomagnetic-database:
     container_name: geomagnetic-database
-    image: postgres:9.5-alpine
+    build:
+      postgres/
     ports:
       - 5432:5432
-    environment:
-       POSTGRES_DB: geomagnetic
-       POSTGRES_USER: geomagnetic
-       POSTGRES_PASSWORD: geomagnetic
     volumes:
-      - ./postgres/geomagnetic_init.sql:/docker-entrypoint-initdb.d/geomagnetic_init.sql
-    restart: always
+      - postgres:/var/lib/postgresql
+    restart: on-failure
 
   config-service:
     build:
@@ -21,6 +22,7 @@ services:
       - 8888:8888
     environment:
       CONFIG_SERVICE_OPTS: $CONFIG_SERVICE_OPTS
+    restart: on-failure
 
   geomagnetic-api:
     depends_on:
@@ -31,3 +33,4 @@ services:
     image: illine/geomagnetic-api:${TAG}
     ports:
       - 8001:8001
+    restart: on-failure

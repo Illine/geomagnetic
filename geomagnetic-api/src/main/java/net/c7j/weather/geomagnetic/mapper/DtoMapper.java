@@ -2,17 +2,17 @@ package net.c7j.weather.geomagnetic.mapper;
 
 import java.util.Collection;
 
-public interface DtoMapper<E, D> {
+public interface DtoMapper<S, D> {
 
-    E convertToEntity(D dto);
+    S convertToSource(D destination);
 
-    E convertToEntity(D dto, E entity);
+    S convertToSource(D destination, S source);
 
-    D convertToDto(E entity);
+    D convertToDestination(S source);
 
-    D convertToDto(E entity, D dto);
+    D convertToDestination(S source, D destination);
 
-    Collection<E> convertToEntities(Collection<D> collection);
+    Collection<S> convertToSources(Collection<D> collection);
 
-    Collection<D> convertToDtos(Collection<E> collection);
+    Collection<D> convertToDestinations(Collection<S> collection);
 }

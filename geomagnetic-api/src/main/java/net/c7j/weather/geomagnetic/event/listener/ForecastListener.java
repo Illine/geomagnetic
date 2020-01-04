@@ -34,8 +34,8 @@ public class ForecastListener {
         Assert.notNull(eventWrapper, "The 'eventWrapper' shouldn't be null!");
         Assert.notEmpty(eventWrapper.getTxtForecasts(), "A set of TxtForecast shouldn't be null or empty!");
         LOGGER.info("A set of text forecast was listened");
-        var convertedForecasts = txtForecastMapper.convertToEntities(eventWrapper.getTxtForecasts());
-        var upsertedForecast = forecastUpsertService.upsertForecasts(convertedForecasts.stream(), LocalDate.now());
+        var convertedForecasts = txtForecastMapper.convertToSources(eventWrapper.getTxtForecasts());
+        var upsertedForecast = forecastUpsertService.upsertForecasts(convertedForecasts, LocalDate.now());
         forecastAccessService.save(upsertedForecast);
     }
 }

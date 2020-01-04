@@ -11,7 +11,7 @@ import java.util.Objects;
 public enum ActiveType {
 
     ENABLED(true),
-    DELETED(false);
+    DISABLED(false);
 
     private final boolean active;
 

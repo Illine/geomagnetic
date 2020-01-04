@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.function.Function;
 
 @Service
-@Slf4j(topic = "GEOMAGNETIC_CLIENT")
+@Slf4j(topic = "GEOMAGNETIC-CLIENT")
 public class SwpcNoaaClientImpl implements SwpNoaaClient {
 
     private final RestProperties properties;

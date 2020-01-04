@@ -1,7 +1,7 @@
 package net.c7j.weather.geomagnetic.rest.controller;
 
-import net.c7j.weather.geomagnetic.model.dto.ForecastResponse;
-import net.c7j.weather.geomagnetic.service.ViewForecastService;
+import net.c7j.weather.geomagnetic.model.dto.MobileForecastResponse;
+import net.c7j.weather.geomagnetic.rest.presenter.ForecastPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,25 +13,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/forecasts")
 public class ForecastController {
 
-    private final ViewForecastService<ForecastResponse> viewForecastService;
+    private final ForecastPresenter forecastPresenter;
 
     @Autowired
-    ForecastController(ViewForecastService<ForecastResponse> viewForecastService) {
-        this.viewForecastService = viewForecastService;
+    ForecastController(ForecastPresenter forecastPresenter) {
+        this.forecastPresenter = forecastPresenter;
     }
 
-    @GetMapping(value = "/get/diurnal", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<ForecastResponse> diurnal() {
-        return viewForecastService.getDiurnal();
+    @GetMapping(value = "/diurnal", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<MobileForecastResponse> getDiurnal() {
+        return ResponseEntity.ok(forecastPresenter.getDiurnal());
     }
 
-    @GetMapping(value = "/get/current", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<ForecastResponse> current() {
-        return viewForecastService.getCurrent();
+    @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<MobileForecastResponse> getCurrent() {
+        return ResponseEntity.ok(forecastPresenter.getCurrent());
     }
 
-    @GetMapping(value = "/get/three-day", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<ForecastResponse> threeDay() {
-        return viewForecastService.getThreeDay();
+    @GetMapping(value = "/three-day", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<MobileForecastResponse> getThreeDays() {
+        return ResponseEntity.ok(forecastPresenter.getThreeDays());
     }
 }

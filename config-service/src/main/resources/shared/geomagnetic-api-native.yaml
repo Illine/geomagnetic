@@ -9,9 +9,9 @@ spring:
         default_schema: geomagnetic
     open-in-view: false
   datasource:
-    url: jdbc:p6spy:postgresql://geomagnetic-database:5432/geomagnetic
-    username: geomagnetic
-    password: geomagnetic
+    url: jdbc:p6spy:postgresql://geomagnetic-database:5432/weather
+    username: weather
+    password: weather
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -25,8 +25,8 @@ spring:
   liquibase:
     url: jdbc:postgresql://geomagnetic-database:5432/geomagnetic
     default-schema: geomagnetic
-    user: geomagnetic
-    password: geomagnetic
+    user: weather
+    password: weather
     change-log: classpath:liquibase/changelog.yaml
     contexts: native
   groovy:
@@ -35,8 +35,6 @@ spring:
       check-template-location: false
 server:
   port: 8001
-  servlet:
-    context-path: /geomagnetic
 rest:
   maxThread: 100
   maxRoute: 10

@@ -1,33 +1,35 @@
 package net.c7j.weather.geomagnetic.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Data;
+import lombok.NonNull;
 import net.c7j.weather.geomagnetic.model.base.IndexType;
 import net.c7j.weather.geomagnetic.util.JsonWriter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+@Data
 public class ForecastDto implements Comparable<ForecastDto> {
 
-    @JsonProperty(value = "id")
     private Long id;
 
-    @JsonProperty(value = "value")
     private IndexType index;
 
-    @JsonProperty(value = "time")
-    private Long time;
+    private LocalTime forecastTime;
 
-    public ForecastDto(IndexType index, Long time) {
-        this.index = index;
-        this.time = time;
+    private LocalDate forecastDate;
+
+    public ForecastDto updateIndex(IndexType index) {
+        setIndex(index);
+        return this;
     }
 
     @Override
     public int compareTo(@NonNull ForecastDto that) {
-        return Long.compare(this.time, that.time);
+        var thisDateTime = LocalDateTime.of(this.forecastDate, this.forecastTime);
+        var thatDateTime = LocalDateTime.of(that.forecastDate, that.forecastTime);
+        return thisDateTime.compareTo(thatDateTime);
     }
 
     @Override

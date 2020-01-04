@@ -1,6 +1,7 @@
 package net.c7j.weather.geomagnetic.dao.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.c7j.weather.geomagnetic.model.base.ActiveType;
 import net.c7j.weather.geomagnetic.model.base.IndexType;
@@ -10,13 +11,13 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"id", "forecastTime", "forecastDate", "index", "active"})
 @Entity
 @Table(
         name = "forecast",
@@ -27,9 +28,7 @@ import java.time.LocalTime;
 )
 @SQLDelete(sql = "UPDATE forecast SET active = false, modified = current_timestamp WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "active = true")
-public class ForecastEntity implements Serializable {
-
-    private static final long serialVersionUID = -6095660675931508374L;
+public class ForecastEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "forecastSeqGenerator")
@@ -65,11 +64,6 @@ public class ForecastEntity implements Serializable {
         return JsonWriter.toStringAsJson(this);
     }
 
-    public ForecastEntity updateIndex(IndexType index) {
-        setIndex(index);
-        return this;
-    }
-
     @PrePersist
     private void onCreate() {
         LocalDateTime current = LocalDateTime.now();
@@ -86,6 +80,6 @@ public class ForecastEntity implements Serializable {
     @PreRemove
     private void onDelete() {
         modified = LocalDateTime.now();
-        active = ActiveType.DELETED;
+        active = ActiveType.DISABLED;
     }
 }

@@ -43,24 +43,33 @@ The service is used for a loading of properties from a private git repository vi
 ### Build
 The application can be built via one of the next gradle command:
  
-`./gradlew build` on a Linux machine  
+`./gradlew build` on a UNIX machine  
 `gradlew.bat build` on a Windows machine
 
 ### Liquibase
 For testing or prod stages must be used [Liquibase Gradle Plugin], the plugin is needed to manual a run liquibase's scripts.
-To run correctly you need it to set the next environments:  
-`LIQUIBASE_GEOMAGNETIC_DATABASE_URI` - a correct database uri  
-`LIQUIBASE_GEOMAGNETIC_DATABASE_PORT` - a correct database port  
-`LIQUIBASE_GEOMAGNETIC_DATABASE_USER` - a correct database username  
-`LIQUIBASE_GEOMAGNETIC_DATABASE_PASSWORD`- a correct database password  
-`LIQUIBASE_GEOMAGNETIC_DATABASE_SCHEMA` - a correct database schema  
+To run correctly you need it to create `liquibase.properties` files to a sub-project directories (_./geomagnetic-api_/liquibase.properties etc).  
+You can create the file via Ansible or by hand.  
+An Ansible command:
+```shell script
+ansible-playbook -i ansible/inventories/$ACTIVE_PROFILE ansible/playbook.yaml --vault-password-file=ansible/password/ansible-vault-$ACTIVE_PROFILE.password
+```  
+More details: [Ansible]
+
+An `liquibase.properties` example:
+```properties
+```properties
+url=jdbc:postgresql://localhost:5432/weather
+username=liquibase_username
+password=liquibase_password
+```
     
 A command executing scripts:  
-`./gradlew :{liquibase-service-name}:update` on Linux  
+`./gradlew :{liquibase-service-name}:update` on UNIX  
 `gradlew.bat :{liquibase-service-name}:update`on Windows  
   
 A command deleting all (**I recommend to use extremely carefully this command! And only on a test stage!**):  
-`./gradlew :{liquibase-service-name}:dropAll` on Linux  
+`./gradlew :{liquibase-service-name}:dropAll` on UNIX  
 `gradlew.bat :{liquibase-service-name}:dropAll` on Windows
 
 For more details to read an [official page](https://github.com/liquibase/liquibase-gradle-plugin) 
@@ -70,9 +79,13 @@ Given project supports a generating of configs via Ansible.
 A root ansible folder: `./ansible`  
 A playbook: `playbook.yaml`  
 A file of the project variables: `project_vars.yaml`  
-All templates are kept to a `tenplates` folder and also the templates divides via sub-projects  
+All templates are kept to a `templates` folder. The templates divides via sub-projects    
 All inventories have an attribute `all`  
 Passwords file are kept to a `password` folder  
+
+Liquibase templates are located to the templates folder. 
+
+**Note** all vault.yaml (by profiles!) have same passwords!
 
 Ansible uses `ACTIVE_PROFILE` environment which can be: `native`, `test` or `production`.
 
@@ -125,7 +138,7 @@ spring:
         default_schema: geomagnetic
     open-in-view: false
   datasource:
-    url: jdbc:p6spy:postgresql://{database}:{port}/geomagnetic
+    url: jdbc:p6spy:postgresql://{database}:{port}/weather
     username: geomagnetic
     password: geomagnetic
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
@@ -139,9 +152,9 @@ spring:
       minimum-idle: 2
       schema: geomagnetic
   liquibase:
-    url: jdbc:postgresql://{database}:{port}/geomagnetic
-    default-schema: geomagnetic
-    user: geomagnetic
+    url: jdbc:postgresql://{database}:{port}/weather
+    default-schema: weather
+    user: weather
     password: geomagnetic
     change-log: classpath:liquibase/changelog.yaml
     contexts: native
@@ -183,7 +196,7 @@ For more details to see [official Spring documentations](https://cloud.spring.io
 #### Native mode
 If you want to launch this project yourself (as a developer, for example) within the local Docker you should have a cloned project,
 after that run a command:  
-`./docker_start_native.sh` on a Linux machine  
+`make docker_native_start` on a UNIX machine  
 in a root directory of one.   
 
 If you have the Windows machine when you should export next environments:
@@ -204,8 +217,6 @@ ansible-playbook -i ansible/inventories/$ACTIVE_PROFILE ansible/playbook.yaml --
 docker-compose -f docker-compose.yaml -f docker-compose-native.yaml up -d
 ```  
 
-If you use Mac then you can handle yourself :)  
-
 **Images will be created and run**:
 * _postgres:9.5-alpine as geomagnetic-database, a port 5432_
 * _weather/config-service:native as config-service, a port 8888_
@@ -213,12 +224,12 @@ If you use Mac then you can handle yourself :)
 
 For a comfortable testing all services are launched via a 'bridge' network mode.
 
-When you will need to stop a running application, input a command in a root of the project:    
-```shell script
-docker-compose -f docker-compose.yaml -f docker-compose-dev.yaml -v --rmi all
-```  
+When you will need to stop a running application, input a command in a root of the project:  
+`make docker_native_stop` on UNIX system  
+or  
+`docker-compose -f docker-compose.yaml -f docker-compose-native.yaml down -v --rmi local` on Windows Machine
 
-After completion of the command, the images will be removed (include a base image of the PostgreSQL!), also created networks and volumes will be deleted.
+After completion of the command, the created images will be removed (include a created image of the PostgreSQL!), also created networks and volumes will be deleted.
 
 #### Testing mode
 

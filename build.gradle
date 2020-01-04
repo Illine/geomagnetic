@@ -42,12 +42,4 @@ subprojects {
         api "org.springframework.boot:spring-boot-starter-actuator"
         runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
     }
-
-    test {
-        useJUnitPlatform {
-            includeTags "UnitTest"
-            includeTags "IntegrationTest"
-            excludeTags "SystemTest"
-        }
-    }
 }

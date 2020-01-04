@@ -14,10 +14,11 @@
 *-dev.yaml
 *-test.yaml
 *-native.yaml
-!*-integration-test.yaml
-!*-system-test.yaml
+!*-local-test.yaml
+!docker-compose-test.yaml
 
 ### Ignore tmp ansible files
 *.retry
 *.password
 !ansible-vault-native.password
+liquibase.properties

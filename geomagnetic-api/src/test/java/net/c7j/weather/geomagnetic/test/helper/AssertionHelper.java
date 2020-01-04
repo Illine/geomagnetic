@@ -2,53 +2,30 @@ package net.c7j.weather.geomagnetic.test.helper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.c7j.weather.geomagnetic.model.dto.ForecastDto;
-import net.c7j.weather.geomagnetic.model.dto.ForecastResponse;
+import net.c7j.weather.geomagnetic.model.dto.MobileForecastResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Collection;
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AssertionHelper {
-
-    public static BiConsumer<ResponseEntity<String>, HttpStatus> assertCall(Predicate<String> predicate) {
-        return (responseEntity, status) -> {
-            assertEquals(status, responseEntity.getStatusCode());
-            assertFalse(predicate.test(responseEntity.getBody()));
-        };
-    }
 
     public static <T, R> Consumer<R> assertCall(Supplier<T> supplier) {
         return expected -> assertEquals(expected, supplier.get());
     }
 
-    public static Function<ResponseEntity<ForecastResponse>, Collection<ForecastDto>> assertCall(int expectedCountForecasts) {
-        return responseEntity -> {
-            assertNotNull(responseEntity);
-            assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-
-            var response = responseEntity.getBody();
+    public static <T extends MobileForecastResponse> BiConsumer<ResponseEntity<T>, HttpStatus> assertCall(boolean success) {
+        return (response, status) -> {
             assertNotNull(response);
-            assertTrue(response.isSuccess());
-            assertNotNull(response.getMessage());
-
-            var forecasts = response.getGeomagneticForecasts();
-            assertNotNull(forecasts);
-            assertEquals(expectedCountForecasts, forecasts.size());
-            return forecasts;
-        };
-    }
-
-    public static BiConsumer<ResponseEntity<ForecastResponse>, HttpStatus> assertCall(String errorMessage) {
-        return (responseEntity, status) -> {
-            assertNotNull(responseEntity);
-            assertEquals(status, responseEntity.getStatusCode());
-            assertNotNull(responseEntity.getBody());
-            assertEquals(errorMessage, responseEntity.getBody().getMessage());
+            assertEquals(status, response.getStatusCode());
+            assertNotNull(response.getBody());
+            assertEquals(success, response.getBody().isSuccess());
         };
     }
 }

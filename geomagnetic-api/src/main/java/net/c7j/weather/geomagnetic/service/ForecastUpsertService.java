@@ -1,12 +1,11 @@
 package net.c7j.weather.geomagnetic.service;
 
-import net.c7j.weather.geomagnetic.dao.entity.ForecastEntity;
+import net.c7j.weather.geomagnetic.model.dto.ForecastDto;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.stream.Stream;
+import java.util.Set;
 
 public interface ForecastUpsertService {
 
-    Collection<ForecastEntity> upsertForecasts(Stream<ForecastEntity> forecasts, LocalDate date);
+    Set<ForecastDto> upsertForecasts(Set<ForecastDto> forecasts, LocalDate date);
 }

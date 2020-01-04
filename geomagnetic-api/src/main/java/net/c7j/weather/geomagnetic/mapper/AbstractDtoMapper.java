@@ -7,20 +7,21 @@ import org.springframework.util.Assert;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "GEOMAGNETIC-MAPPER")
-public abstract class AbstractDtoMapper<E, D> implements DtoMapper<E, D> {
+public abstract class AbstractDtoMapper<S, D> implements DtoMapper<S, D> {
 
-    private static final String NOT_NULL_DTO_ERROR_MESSAGE = "A dto shouldn't be null!";
-    private static final String NOT_NULL_ENTITY_ERROR_MESSAGE = "An entity shouldn't be null!";
+    private static final String NOT_NULL_DESTINATION_ERROR_MESSAGE = "A destination shouldn't be null!";
+    private static final String NOT_NULL_SOURCE_ERROR_MESSAGE = "An source shouldn't be null!";
     private static final String NOT_NULL_COLLECTION_ERROR_MESSAGE = "A collection shouldn't be null!";
 
     protected final ModelMapper modelMapper;
 
-    protected Class<E> entityClass;
-    protected Class<D> dtoClass;
+    protected Class<S> sourceClass;
+    protected Class<D> destinationClass;
 
     protected AbstractDtoMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
@@ -29,65 +30,65 @@ public abstract class AbstractDtoMapper<E, D> implements DtoMapper<E, D> {
     }
 
     @Override
-    public E convertToEntity(D dto) {
-        Assert.notNull(dto, NOT_NULL_DTO_ERROR_MESSAGE);
-        LOGGER.debug("Map to an 'entity'. A 'dto': {}", dto);
-        return modelMapper.map(dto, entityClass);
+    public S convertToSource(D destination) {
+        Assert.notNull(destination, NOT_NULL_DESTINATION_ERROR_MESSAGE);
+        LOGGER.debug("Map to an 'entity'. A 'dto': {}", destination);
+        return modelMapper.map(destination, sourceClass);
     }
 
     @Override
-    public E convertToEntity(D dto, E entity) {
-        Assert.notNull(dto, NOT_NULL_DTO_ERROR_MESSAGE);
-        Assert.notNull(entity, NOT_NULL_ENTITY_ERROR_MESSAGE);
-        LOGGER.debug("Update map to an 'entity'. The 'entity': {}, a 'dto': {}", entity, dto);
-        modelMapper.map(dto, entity);
-        return entity;
+    public S convertToSource(D destination, S source) {
+        Assert.notNull(destination, NOT_NULL_DESTINATION_ERROR_MESSAGE);
+        Assert.notNull(source, NOT_NULL_SOURCE_ERROR_MESSAGE);
+        LOGGER.debug("Update map to an 'entity'. The 'entity': {}, a 'dto': {}", source, destination);
+        modelMapper.map(destination, source);
+        return source;
     }
 
     @Override
-    public D convertToDto(E entity) {
-        Assert.notNull(entity, NOT_NULL_ENTITY_ERROR_MESSAGE);
-        LOGGER.debug("Map to a 'dto'. An 'entity': {}", entity);
-        return modelMapper.map(entity, dtoClass);
+    public D convertToDestination(S source) {
+        Assert.notNull(source, NOT_NULL_SOURCE_ERROR_MESSAGE);
+        LOGGER.debug("Map to a 'dto'. An 'entity': {}", source);
+        return modelMapper.map(source, destinationClass);
     }
 
     @Override
-    public D convertToDto(E entity, D dto) {
-        Assert.notNull(entity, NOT_NULL_ENTITY_ERROR_MESSAGE);
-        Assert.notNull(dto, NOT_NULL_DTO_ERROR_MESSAGE);
-        LOGGER.debug("Update map to a 'dto'. The 'dto': {}, an 'entity': {}", dto, entity);
-        modelMapper.map(entity, dto);
-        return dto;
+    public D convertToDestination(S source, D destination) {
+        Assert.notNull(source, NOT_NULL_SOURCE_ERROR_MESSAGE);
+        Assert.notNull(destination, NOT_NULL_DESTINATION_ERROR_MESSAGE);
+        LOGGER.debug("Update map to a 'dto'. The 'dto': {}, an 'entity': {}", destination, source);
+        modelMapper.map(source, destination);
+        return destination;
     }
 
     @Override
-    public Collection<E> convertToEntities(Collection<D> collection) {
+    public Set<S> convertToSources(Collection<D> collection) {
         Assert.notNull(collection, NOT_NULL_COLLECTION_ERROR_MESSAGE);
         LOGGER.debug("A collection of dtos is mapped to a collection of entities");
-        return collection.stream().map(this::convertToEntity).collect(Collectors.toList());
+        return collection.stream().map(this::convertToSource).collect(Collectors.toSet());
     }
 
     @Override
-    public Collection<D> convertToDtos(Collection<E> collection) {
+    public Set<D> convertToDestinations(Collection<S> collection) {
         Assert.notNull(collection, NOT_NULL_COLLECTION_ERROR_MESSAGE);
         LOGGER.debug("A collection of entities is mapped to a collection of dtos");
-        return collection.stream().map(this::convertToDto).collect(Collectors.toList());
+        return collection.stream().map(this::convertToDestination).collect(Collectors.toSet());
     }
 
-    protected Converter<E, D> toDtoConverter(BiConsumer<E, D> toDtoConverter) {
+    protected Converter<S, D> toDestinationConverter(BiConsumer<S, D> toDestinationConverter) {
         return context -> {
             var source = context.getSource();
             var destination = context.getDestination();
-            toDtoConverter.accept(source, destination);
+            toDestinationConverter.accept(source, destination);
             return destination;
         };
     }
 
-    protected Converter<D, E> toEntityConverter(BiConsumer<D, E> toEntityConverter) {
+    protected Converter<D, S> toSourceConverter(BiConsumer<D, S> toSourceConverter) {
         return context -> {
             var source = context.getSource();
             var destination = context.getDestination();
-            toEntityConverter.accept(source, destination);
+            toSourceConverter.accept(source, destination);
             return destination;
         };
     }
@@ -96,7 +97,7 @@ public abstract class AbstractDtoMapper<E, D> implements DtoMapper<E, D> {
 
     @SuppressWarnings("unchecked")
     private void init() {
-        entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        dtoClass = (Class<D>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        sourceClass = (Class<S>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        destinationClass = (Class<D>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
 }

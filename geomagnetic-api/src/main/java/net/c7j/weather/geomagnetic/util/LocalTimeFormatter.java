@@ -14,37 +14,31 @@ import java.time.format.DateTimeFormatter;
 @Slf4j(topic = "GEOMAGNETIC-UTIL")
 public final class LocalTimeFormatter {
 
-    private static final String NOT_NULL_MESSAGE = "The 'formatter' should be null!";
-
     /**
      * The date and time pattern: {@code HH:mm:ss dd.MM.yyyy}
      */
     public static final String DEFAULT_DATE_TIME_PATTERN = "HH:mm:ss dd.MM.yyyy";
-
     /**
      * The date pattern: {@code dd.MM.yyyy}
      */
     public static final String DEFAULT_DATE_PATTERN = "dd.MM.yyyy";
-
     /**
      * The time pattern: {@code HH:mm:ss}
      */
     public static final String DEFAULT_TIME_PATTERN = "HH:mm:ss";
-
     /**
      * The formatter uses {@link LocalTimeFormatter#DEFAULT_DATE_TIME_PATTERN}
      */
     public static final DateTimeFormatter DEFAULT_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_PATTERN);
-
     /**
      * The formatter uses {@link LocalTimeFormatter#DEFAULT_DATE_PATTERN}
      */
     public static final DateTimeFormatter DEFAULT_DATE_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_PATTERN);
-
     /**
      * The formatter uses {@link LocalTimeFormatter#DEFAULT_TIME_PATTERN}
      */
     public static final DateTimeFormatter DEFAULT_TIME_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_TIME_PATTERN);
+    private static final String NOT_NULL_MESSAGE = "The 'formatter' should be null!";
 
     public static String formatToString(LocalDateTime dateTime) {
         return formatToString(dateTime, DEFAULT_DATE_TIME_FORMATTER);

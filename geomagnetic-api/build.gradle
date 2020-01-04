@@ -1,5 +1,12 @@
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage
+
 plugins {
     id "org.liquibase.gradle" version "2.0.1"
+    id "com.bmuschko.docker-java-application" version "6.1.1"
 }
 
 version = "1.0.0"
@@ -14,7 +21,6 @@ ext {
     set("liquibaseDslVersion", "2.0.1")
     set("logbackVersion", "1.2.3")
     set("junitVersion", "5.4.2")
-    set("h2Version", "1.4.199")
 }
 
 dependencies {
@@ -35,7 +41,6 @@ dependencies {
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-    testImplementation "com.h2database:h2:${h2Version}"
 
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testCompileOnly "org.springframework.boot:spring-boot-configuration-processor"
@@ -47,14 +52,62 @@ dependencies {
 }
 
 liquibase {
+    def resourceDir = sourceSets.main.resources.srcDirs.first().name
+    def properties = new Properties()
+    def propertyFile = file("${resourceDir}/liquibase.properties")
+
+    if (propertyFile.exists()) {
+        propertyFile.withInputStream { properties.load(it) }
+    }
+
     activities {
         main {
             changeLogFile "${projectDir}/src/main/resources/liquibase/changelog.yaml"
             outputFile "${buildDir}/liquibase/sql-migration.sql"
-            url "jdbc:postgresql://${System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_URI")}:${System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_PORT")}/geomagnetic"
-            username System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_USER")
-            password System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_PASSWORD")
-            defaultSchemaName System.getenv("LIQUIBASE_GEOMAGNETIC_DATABASE_SCHEMA")
+            url properties.getOrDefault("url", "jdbc:postgresql://localhost:5432/weather")
+            username properties.getOrDefault("username", "geomagnetic")
+            password properties.getOrDefault("password", "geomagnetic")
+            defaultSchemaName "geomagnetic"
         }
     }
+}
+
+def postgresImageName = "geomagnetic/postgres:latest"
+def postgresContainerName = "geomagnetic-postgres"
+
+task buildPostgresImage(type: DockerBuildImage) {
+    inputDir = file("${rootDir}/postgres")
+    images = [postgresImageName]
+}
+
+task removePostgresImage(type: DockerRemoveImage) {
+    targetImageId(postgresImageName)
+    force = true
+}
+
+task createPostgresContainer(type: DockerCreateContainer) {
+    dependsOn(buildPostgresImage)
+    targetImageId(postgresImageName)
+    containerName = postgresContainerName
+    hostConfig.portBindings = ["5432:5432"]
+    hostConfig.autoRemove = true
+}
+
+task startPostgresContainer(type: DockerStartContainer) {
+    dependsOn(createPostgresContainer)
+    targetContainerId(postgresContainerName)
+}
+
+task stopPostgresContainer(type: DockerStopContainer) {
+    targetContainerId(postgresContainerName)
+    finalizedBy(removePostgresImage)
+}
+
+test {
+    dependsOn(startPostgresContainer)
+    useJUnitPlatform {
+        includeTags "UnitTest"
+        includeTags "LocalTest"
+    }
+    finalizedBy(stopPostgresContainer)
 }
