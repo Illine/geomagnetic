@@ -6,9 +6,16 @@
   vars_files:
     - project_vars.yaml
   tasks:
-  - name: Generate Configs
+  - name: Generate Application Configs
     template:
       src: "{{ item.src }}"
       dest: "{{ item.dest }}"
       mode: 0644
     with_items: "{{ project_templates }}"
+
+  - name: Generate Liquibase Properties
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: 0644
+    with_items: "{{ liquibase_templates }}"

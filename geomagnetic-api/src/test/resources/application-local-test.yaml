@@ -1,5 +1,3 @@
-server:
-  port: 7001
 spring:
   application:
     name: geomagnetic-api
@@ -14,8 +12,8 @@ spring:
     open-in-view: false
   datasource:
     url: jdbc:p6spy:postgresql://localhost:5432/weather
-    username: weather
-    password: weather
+    username: geomagnetic
+    password: geomagnetic
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -30,8 +28,8 @@ spring:
     enabled: true
     url: jdbc:postgresql://localhost:5432/weather
     default-schema: geomagnetic
-    user: weather
-    password: weather
+    user: geomagnetic
+    password: geomagnetic
     change-log: classpath:liquibase/changelog.yaml
     contexts: auto-test
 rest:

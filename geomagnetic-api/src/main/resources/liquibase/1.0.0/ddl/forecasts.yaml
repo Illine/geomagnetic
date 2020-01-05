@@ -1,27 +1,27 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 1.0.0-forecasts
       author: illine
-      comment: Created forecast, forecast_seq
+      comment: Created forecasts, forecasts_seq
       changes:
         - tagDatabase:
             tag: release/1.0.0
 
         - createSequence:
-            sequenceName: forecast_seq
+            sequenceName: forecasts_seq
             startValue: 1
 
         - createTable:
             remarks: 'A table stores a parsed forecast from SWPC NOAA'
-            tableName: forecast
+            tableName: forecasts
             columns:
               - column:
                   constraints:
                     primaryKey: true
-                    primaryKeyName: forecast_pk
+                    primaryKeyName: forecasts_pk
                   name: id
                   type: bigint
-                  defaultValueSequenceNext: forecast_seq
+                  defaultValueSequenceNext: forecasts_seq
               - column:
                   name: index
                   remarks: 'A geomagnetic index'
@@ -46,8 +46,8 @@ databaseChangeLog:
                   type: timestamp(0)
                   defaultValueDate: current_timestamp
               - column:
-                  name: modified
-                  remarks: 'A modified date'
+                  name: updated
+                  remarks: 'A updated date'
                   type: timestamp(0)
                   defaultValueDate: current_timestamp
               - column:
@@ -61,13 +61,13 @@ databaseChangeLog:
               - column:
                   name: forecast_time
                   type: time
-            indexName: forecast_time_inx
-            tableName: forecast
+            indexName: forecasts_time_inx
+            tableName: forecasts
 
         - createIndex:
             columns:
               - column:
                   name: forecast_date
                   type: date
-            indexName: forecast_date_inx
-            tableName: forecast
+            indexName: forecasts_date_inx
+            tableName: forecasts
