@@ -17,7 +17,7 @@ services:
   config-service:
     build:
       config-service/
-    image: illine/config-service:${TAG}
+    image: illine/config-service:${DOCKER_TAG}
     ports:
       - 8888:8888
     environment:
@@ -30,7 +30,7 @@ services:
       - config-service
     build:
       geomagnetic-api/
-    image: illine/geomagnetic-api:${TAG}
+    image: illine/geomagnetic-api:${DOCKER_TAG}
     ports:
       - 8001:8001
     restart: on-failure

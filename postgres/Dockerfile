@@ -2,7 +2,7 @@ FROM postgres:9.5-alpine
 
 ENV TZ=Europe/Moscow \
     POSTGRES_DB=weather \
-    POSTGRES_USER=weather \
-    POSTGRES_PASSWORD=weather
+    POSTGRES_USER=geomagnetic \
+    POSTGRES_PASSWORD=geomagnetic
 
 COPY geomagnetic_init.sql /docker-entrypoint-initdb.d/geomagnetic_init.sql

@@ -1,3 +1,6 @@
+server:
+  port: 7001
+
 spring:
   cloud:
     config:

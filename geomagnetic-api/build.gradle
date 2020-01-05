@@ -52,7 +52,7 @@ dependencies {
 }
 
 liquibase {
-    def resourceDir = sourceSets.main.resources.srcDirs.first().name
+    def resourceDir = sourceSets.main.resources.srcDirs.first()
     def properties = new Properties()
     def propertyFile = file("${resourceDir}/liquibase.properties")
 

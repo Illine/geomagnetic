@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: ddl/forecast.yaml
+      file: ddl/forecasts.yaml
       relativeToChangelogFile: true

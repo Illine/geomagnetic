@@ -76,7 +76,7 @@ class ForecastRepositoryTest {
         assertNotNull(actual);
         assertNotNull(actual.getId());
         assertNotNull(actual.getCreated());
-        assertNotNull(actual.getModified());
+        assertNotNull(actual.getUpdated());
         assertNotNull(actual.getActive());
     }
 
@@ -86,7 +86,7 @@ class ForecastRepositoryTest {
         var entity = assertDoesNotThrow(() -> forecastRepository.save(testEntity));
         forecastRepository.flush();
 
-        var expectedModified = entity.getModified();
+        var expectedModified = entity.getUpdated();
         var expectedIndex = entity.getIndex();
 
         entity.setIndex(IndexType.EXTREME_STORM);
@@ -94,7 +94,7 @@ class ForecastRepositoryTest {
         forecastRepository.flush();
 
         assertNotEquals(expectedIndex, actual.getIndex());
-        assertTrue(expectedModified.isBefore(actual.getModified()));
+        assertTrue(expectedModified.isBefore(actual.getUpdated()));
     }
 
     @Test
@@ -104,12 +104,12 @@ class ForecastRepositoryTest {
         var entity = assertDoesNotThrow(() -> forecastRepository.save(testEntity));
         forecastRepository.flush();
 
-        var expectedModified = entity.getModified();
+        var expectedModified = entity.getUpdated();
         assertDoesNotThrow(() -> forecastRepository.delete(entity));
         forecastRepository.flush();
 
         assertEquals(ActiveType.DISABLED, entity.getActive());
-        assertNotEquals(expectedModified, entity.getModified());
+        assertNotEquals(expectedModified, entity.getUpdated());
     }
 
     //  -----------------------   unsuccessful tests   -------------------------

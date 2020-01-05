@@ -1,4 +1,6 @@
 geomagnetic_api_spring:
+  server:
+    port: 8001
   spring:
     application:
       name: "{{ geomagnetic_api_name }}"
