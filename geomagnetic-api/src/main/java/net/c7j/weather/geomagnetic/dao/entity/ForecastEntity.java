@@ -20,19 +20,19 @@ import java.time.LocalTime;
 @EqualsAndHashCode(of = {"id", "forecastTime", "forecastDate", "index", "active"})
 @Entity
 @Table(
-        name = "forecast",
+        name = "forecasts",
         indexes = {
-                @Index(name = "forecast_time_inx", columnList = "forecast_time"),
-                @Index(name = "forecast_date_inx", columnList = "forecast_date")
+                @Index(name = "forecasts_time_inx", columnList = "forecast_time"),
+                @Index(name = "forecasts_date_inx", columnList = "forecast_date")
         }
 )
-@SQLDelete(sql = "UPDATE forecast SET active = false, modified = current_timestamp WHERE id = ?", check = ResultCheckStyle.COUNT)
+@SQLDelete(sql = "UPDATE forecasts SET active = false, updated = current_timestamp WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "active = true")
 public class ForecastEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "forecastSeqGenerator")
-    @SequenceGenerator(name = "forecastSeqGenerator", sequenceName = "forecast_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "forecastsSeqGenerator")
+    @SequenceGenerator(name = "forecastsSeqGenerator", sequenceName = "forecasts_seq")
     private Long id;
 
     @Column(name = "index", nullable = false)
@@ -47,17 +47,11 @@ public class ForecastEntity {
     @Column(name = "created", updatable = false)
     private LocalDateTime created;
 
-    @Column(name = "modified")
-    private LocalDateTime modified;
+    @Column(name = "updated")
+    private LocalDateTime updated;
 
     @Column(name = "active", nullable = false)
     private ActiveType active;
-
-    public ForecastEntity(IndexType index, LocalTime forecastTime, LocalDate forecastDate) {
-        this.index = index;
-        this.forecastTime = forecastTime;
-        this.forecastDate = forecastDate;
-    }
 
     @Override
     public String toString() {
@@ -68,18 +62,18 @@ public class ForecastEntity {
     private void onCreate() {
         LocalDateTime current = LocalDateTime.now();
         created = current;
-        modified = current;
+        updated = current;
         active = ActiveType.ENABLED;
     }
 
     @PreUpdate
     private void onUpdate() {
-        modified = LocalDateTime.now();
+        updated = LocalDateTime.now();
     }
 
     @PreRemove
     private void onDelete() {
-        modified = LocalDateTime.now();
+        updated = LocalDateTime.now();
         active = ActiveType.DISABLED;
     }
 }
