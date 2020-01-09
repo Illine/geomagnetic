@@ -34,9 +34,6 @@ class ForecastControllerTest {
     private static final String URI_GET_CURRENT = "/forecasts/current";
     private static final String URI_GET_THREE_DAY = "/forecasts/three-day";
 
-    private static final String NOT_FOUND_MESSAGE = "NotFound";
-    private static final String INTERNAL_SERVER_MESSAGE = "InternalServerError";
-
     @LocalServerPort
     private int port;
 
@@ -94,7 +91,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getDiurnal(): returns 404 when a forecast not found")
     void unsuccessfulGetDiurnalNotFound() {
-        when(forecastPresenterMock.getDiurnal()).thenThrow(new NotFoundException(NOT_FOUND_MESSAGE));
+        when(forecastPresenterMock.getDiurnal()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_DIURNAL, port));
         assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
         verify(forecastPresenterMock).getDiurnal();
@@ -103,7 +100,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getDiurnal(): returns 500 when ParseException is thrown")
     void unsuccessfulGetDiurnalParseInternalServerError() {
-        when(forecastPresenterMock.getDiurnal()).thenThrow(new ParseException(INTERNAL_SERVER_MESSAGE));
+        when(forecastPresenterMock.getDiurnal()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_DIURNAL, port));
         assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getDiurnal();
@@ -112,7 +109,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getDiurnal(): returns 500 when an any unknown exception is thrown")
     void unsuccessfulGetDiurnalInternalServerError() {
-        when(forecastPresenterMock.getDiurnal()).thenThrow(new RuntimeException(INTERNAL_SERVER_MESSAGE));
+        when(forecastPresenterMock.getDiurnal()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_DIURNAL, port));
         assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getDiurnal();
@@ -121,7 +118,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getCurrent(): returns 404 when a forecast not found")
     void unsuccessfulGetCurrentNotFound() {
-        when(forecastPresenterMock.getCurrent()).thenThrow(new NotFoundException(NOT_FOUND_MESSAGE));
+        when(forecastPresenterMock.getCurrent()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_CURRENT, port));
         assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
         verify(forecastPresenterMock).getCurrent();
@@ -130,7 +127,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getCurrent(): returns 500 when ParseException is thrown")
     void unsuccessfulGetCurrentParseInternalServerError() {
-        when(forecastPresenterMock.getCurrent()).thenThrow(new ParseException(INTERNAL_SERVER_MESSAGE));
+        when(forecastPresenterMock.getCurrent()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_CURRENT, port));
         assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getCurrent();
@@ -139,7 +136,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getCurrent(): returns 500 when an any unknown exception is thrown")
     void unsuccessfulGetCurrentInternalServerError() {
-        when(forecastPresenterMock.getCurrent()).thenThrow(new RuntimeException(INTERNAL_SERVER_MESSAGE));
+        when(forecastPresenterMock.getCurrent()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_CURRENT, port));
         assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getCurrent();
@@ -148,7 +145,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getThreeDay(): returns 404 when a forecast not found")
     void unsuccessfulGetThreeDaysNotFound() {
-        when(forecastPresenterMock.getThreeDays()).thenThrow(new NotFoundException(NOT_FOUND_MESSAGE));
+        when(forecastPresenterMock.getThreeDays()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_THREE_DAY, port));
         assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
         verify(forecastPresenterMock).getThreeDays();
@@ -157,7 +154,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getThreeDay(): returns 500 when ParseException is thrown")
     void unsuccessfulThreeDaysParseInternalServerError() {
-        when(forecastPresenterMock.getThreeDays()).thenThrow(new ParseException(INTERNAL_SERVER_MESSAGE));
+        when(forecastPresenterMock.getThreeDays()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_THREE_DAY, port));
         assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         assertTrue(Objects.requireNonNull(actual.getBody()).getForecasts().isEmpty());
@@ -167,7 +164,7 @@ class ForecastControllerTest {
     @Test
     @DisplayName("getThreeDay(): returns 500 when an any unknown exception is thrown")
     void unsuccessfulThreeDaysInternalServerError() {
-        when(forecastPresenterMock.getThreeDays()).thenThrow(new RuntimeException(INTERNAL_SERVER_MESSAGE));
+        when(forecastPresenterMock.getThreeDays()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_THREE_DAY, port));
         assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getThreeDays();

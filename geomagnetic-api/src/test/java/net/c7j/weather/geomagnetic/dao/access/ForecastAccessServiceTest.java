@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static net.c7j.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper.generateForecastDto;
 import static org.junit.jupiter.api.Assertions.*;
 
 @LocalTest
@@ -32,6 +33,12 @@ class ForecastAccessServiceTest {
     private ForecastAccessService forecastAccessService;
 
     //  -----------------------   successful tests   -------------------------
+
+    @Test
+    @DisplayName("save(): saving collection of forecast dto")
+    void successfulSave() {
+        assertDoesNotThrow(() -> forecastAccessService.save(Collections.singleton(generateForecastDto())));
+    }
 
     @Test
     @DisplayName("findDiurnal(): returns a forecast set has size 8")
@@ -99,6 +106,12 @@ class ForecastAccessServiceTest {
     }
 
     //  -----------------------   unsuccessful tests   -------------------------
+
+    @Test
+    @DisplayName("save(): throws IllegalArgumentException when collection is null")
+    void unsuccessfulSave() {
+        assertThrows(IllegalArgumentException.class, () -> forecastAccessService.save(null));
+    }
 
     @Test
     @DisplayName("findDiurnal(): returns an empty set")
