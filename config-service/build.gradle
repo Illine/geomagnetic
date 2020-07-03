@@ -1,5 +1,0 @@
-version = "1.0.0"
-
-dependencies {
-    api "org.springframework.cloud:spring-cloud-config-server"
-}

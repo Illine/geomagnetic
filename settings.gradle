@@ -4,6 +4,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "weather"
-include "geomagnetic-api"
-include "config-service"
+rootProject.name = "geomagnetic"

@@ -9,16 +9,3 @@
 *.iml
 *.ipr
 */out/*
-
-### Ignore stage configs
-*-dev.yaml
-*-test.yaml
-*-native.yaml
-!*-local-test.yaml
-!docker-compose-test.yaml
-
-### Ignore tmp ansible files
-*.retry
-*.password
-!ansible-vault-native.password
-liquibase.properties
