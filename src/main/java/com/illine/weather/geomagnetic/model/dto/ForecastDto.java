@@ -26,7 +26,7 @@ public class ForecastDto implements Comparable<ForecastDto> {
     }
 
     @Override
-    public int compareTo(@NonNull ForecastDto that) {
+    public int compareTo(ForecastDto that) {
         var thisDateTime = LocalDateTime.of(this.forecastDate, this.forecastTime);
         var thatDateTime = LocalDateTime.of(that.forecastDate, that.forecastTime);
         return thisDateTime.compareTo(thatDateTime);
