@@ -1,8 +1,8 @@
 package com.illine.weather.geomagnetic.util;
 
+import com.illine.weather.geomagnetic.test.tag.UnitTest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import com.illine.weather.geomagnetic.test.tag.UnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

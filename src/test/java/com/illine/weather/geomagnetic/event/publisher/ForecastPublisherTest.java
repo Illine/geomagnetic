@@ -1,9 +1,9 @@
 package com.illine.weather.geomagnetic.event.publisher;
 
 import com.illine.weather.geomagnetic.exception.ParseException;
+import com.illine.weather.geomagnetic.model.dto.ForecastEventWrapper;
 import com.illine.weather.geomagnetic.service.ForecastParserService;
 import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
-import com.illine.weather.geomagnetic.model.dto.ForecastEventWrapper;
 import com.illine.weather.geomagnetic.test.tag.SpringMockTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

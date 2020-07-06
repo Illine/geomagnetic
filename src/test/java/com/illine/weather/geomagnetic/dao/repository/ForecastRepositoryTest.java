@@ -1,9 +1,9 @@
 package com.illine.weather.geomagnetic.dao.repository;
 
-import com.illine.weather.geomagnetic.test.helper.generator.EntityGeneratorHelper;
 import com.illine.weather.geomagnetic.dao.entity.ForecastEntity;
 import com.illine.weather.geomagnetic.model.base.ActiveType;
 import com.illine.weather.geomagnetic.model.base.IndexType;
+import com.illine.weather.geomagnetic.test.helper.generator.EntityGeneratorHelper;
 import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

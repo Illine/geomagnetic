@@ -1,8 +1,8 @@
 package com.illine.weather.geomagnetic.test.helper;
 
+import com.illine.weather.geomagnetic.model.dto.MobileForecastResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import com.illine.weather.geomagnetic.model.dto.MobileForecastResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

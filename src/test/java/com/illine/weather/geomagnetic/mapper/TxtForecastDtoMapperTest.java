@@ -10,8 +10,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper.generateTxtForecastDto;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringMockTest
 @DisplayName("TxtForecastDtoMapper Spring Mock Test")
