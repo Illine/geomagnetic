@@ -141,7 +141,7 @@ task stopContainer(type: DockerStopContainer) {
 test {
     dependsOn(startContainer)
     useJUnitPlatform {
-        includeTags "SpringMockTest", "SpringIntegrationTest", "UnitTest"
+        includeTags "spring-mock", "spring-integration", "unit"
     }
     finalizedBy(stopContainer)
 }
