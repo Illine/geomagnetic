@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Tag("SpringIntegrationTest")
+@Tag("spring-integration")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = GeomagneticApplication.class)
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("integration-test")

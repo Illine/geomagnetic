@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Tag("SpringMockTest")
+@Tag("spring-mock")
 @SpringBootTest(classes = GeomagneticApplication.class)
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("mock-test")
