@@ -87,11 +87,11 @@ class ForecastControllerTest {
         verify(forecastPresenterMock).getThreeDays();
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("getDiurnal(): returns 404 when a forecast not found")
-    void unsuccessfulGetDiurnalNotFound() {
+    void failGetDiurnalNotFound() {
         when(forecastPresenterMock.getDiurnal()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_DIURNAL, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
@@ -100,7 +100,7 @@ class ForecastControllerTest {
 
     @Test
     @DisplayName("getDiurnal(): returns 500 when ParseException is thrown")
-    void unsuccessfulGetDiurnalParseInternalServerError() {
+    void failGetDiurnalParseInternalServerError() {
         when(forecastPresenterMock.getDiurnal()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_DIURNAL, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -109,7 +109,7 @@ class ForecastControllerTest {
 
     @Test
     @DisplayName("getDiurnal(): returns 500 when an any unknown exception is thrown")
-    void unsuccessfulGetDiurnalInternalServerError() {
+    void failGetDiurnalInternalServerError() {
         when(forecastPresenterMock.getDiurnal()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_DIURNAL, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -118,7 +118,7 @@ class ForecastControllerTest {
 
     @Test
     @DisplayName("getCurrent(): returns 404 when a forecast not found")
-    void unsuccessfulGetCurrentNotFound() {
+    void failGetCurrentNotFound() {
         when(forecastPresenterMock.getCurrent()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_CURRENT, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
@@ -127,7 +127,7 @@ class ForecastControllerTest {
 
     @Test
     @DisplayName("getCurrent(): returns 500 when ParseException is thrown")
-    void unsuccessfulGetCurrentParseInternalServerError() {
+    void failGetCurrentParseInternalServerError() {
         when(forecastPresenterMock.getCurrent()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_CURRENT, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -136,7 +136,7 @@ class ForecastControllerTest {
 
     @Test
     @DisplayName("getCurrent(): returns 500 when an any unknown exception is thrown")
-    void unsuccessfulGetCurrentInternalServerError() {
+    void failGetCurrentInternalServerError() {
         when(forecastPresenterMock.getCurrent()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_CURRENT, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -145,7 +145,7 @@ class ForecastControllerTest {
 
     @Test
     @DisplayName("getThreeDay(): returns 404 when a forecast not found")
-    void unsuccessfulGetThreeDaysNotFound() {
+    void failGetThreeDaysNotFound() {
         when(forecastPresenterMock.getThreeDays()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_THREE_DAY, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
@@ -154,7 +154,7 @@ class ForecastControllerTest {
 
     @Test
     @DisplayName("getThreeDay(): returns 500 when ParseException is thrown")
-    void unsuccessfulThreeDaysParseInternalServerError() {
+    void failThreeDaysParseInternalServerError() {
         when(forecastPresenterMock.getThreeDays()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_THREE_DAY, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -164,7 +164,7 @@ class ForecastControllerTest {
 
     @Test
     @DisplayName("getThreeDay(): returns 500 when an any unknown exception is thrown")
-    void unsuccessfulThreeDaysInternalServerError() {
+    void failThreeDaysInternalServerError() {
         when(forecastPresenterMock.getThreeDays()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> ControllerHelper.exchangeGet(restTemplate, MobileForecastResponse.class, URI_GET_THREE_DAY, port));
         AssertionHelper.assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);

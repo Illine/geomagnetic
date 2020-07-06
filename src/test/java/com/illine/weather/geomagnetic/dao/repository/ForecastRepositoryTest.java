@@ -112,11 +112,11 @@ class ForecastRepositoryTest {
         assertNotEquals(expectedModified, entity.getUpdated());
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("findAllByForecastDateBetween(): returns an empty set")
-    void unsuccessfulFindAllByForecastDateBetween() {
+    void failFindAllByForecastDateBetween() {
         var date = LocalDate.of(1, 1, 1);
         var actual = forecastRepository.findAllByForecastDateBetween(date, date);
         assertTrue(actual.isEmpty());
@@ -124,7 +124,7 @@ class ForecastRepositoryTest {
 
     @Test
     @DisplayName("findAllByForecastDateBetweenAndForecastTimeGreaterThanEqual(): returns an empty set")
-    void unsuccessfulFindAllByForecastDateBetweenAndForecastTimeGreaterThanEqual() {
+    void failFindAllByForecastDateBetweenAndForecastTimeGreaterThanEqual() {
         var date = LocalDate.now().minusYears(1);
         var afterSixTime = LocalTime.of(18, 0);
         var actual = forecastRepository.findAllByForecastDateBetweenAndForecastTimeGreaterThanEqual(date, date, afterSixTime);

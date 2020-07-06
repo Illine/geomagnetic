@@ -43,17 +43,17 @@ class ForecastDtoMapperTest {
         Assertions.assertEquals(destination.getForecastTime(), actual.getForecastTime());
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("convertToDestination(): throws IllegalArgumentException when an arg destination is null")
-    void unsuccessfulConvertToDestinationNull() {
+    void failConvertToDestinationNull() {
         assertThrows(IllegalArgumentException.class, () -> forecastMapper.convertToDestination(null));
     }
 
     @Test
     @DisplayName("convertToSource(): throws IllegalArgumentException when an arg source is null")
-    void unsuccessfulConvertToSourceNull() {
+    void failConvertToSourceNull() {
         assertThrows(IllegalArgumentException.class, () -> forecastMapper.convertToSource(null));
     }
 }

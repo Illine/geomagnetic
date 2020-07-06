@@ -60,19 +60,19 @@ class ForecastPublisherTest {
         verify(forecastParserServiceMock).toParse(anyString());
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
-    @DisplayName("publish(): an unsuccessful call when an arg is null")
-    void unsuccessfulPublishNull() {
+    @DisplayName("publish(): an fail call when an arg is null")
+    void failPublishNull() {
         assertThrows(IllegalArgumentException.class, () -> forecastPublisher.publish(null));
         verify(applicationEventPublisherMock, never()).publishEvent(any(ForecastEventWrapper.class));
         verify(forecastParserServiceMock, never()).toParse(anyString());
     }
 
     @Test
-    @DisplayName("publish(): an unsuccessful call when a ParseException is thrown")
-    void unsuccessfulPublishParse() {
+    @DisplayName("publish(): an fail call when a ParseException is thrown")
+    void failPublishParse() {
         when(forecastParserServiceMock.toParse(anyString())).thenThrow(ParseException.class);
         forecastPublisher.publish(ResponseEntity.ok("Invalid Text Forecast"));
         verify(applicationEventPublisherMock, never()).publishEvent(any(ForecastEventWrapper.class));
@@ -80,8 +80,8 @@ class ForecastPublisherTest {
     }
 
     @Test
-    @DisplayName("publish(): an unsuccessful call when an any unknown exception is thrown")
-    void unsuccessfulPublishUnknown() {
+    @DisplayName("publish(): an fail call when an any unknown exception is thrown")
+    void failPublishUnknown() {
         doThrow(new RuntimeException("Unknown")).when(applicationEventPublisherMock).publishEvent(any(ForecastEventWrapper.class));
         forecastPublisher.publish(expectedResponseEntitySwaNoaa);
         verify(applicationEventPublisherMock).publishEvent(any(ForecastEventWrapper.class));

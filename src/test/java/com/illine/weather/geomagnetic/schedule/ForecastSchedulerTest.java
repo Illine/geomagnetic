@@ -52,11 +52,11 @@ class ForecastSchedulerTest {
         verify(forecastPublisherMock).publish(stubResponseEntity);
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
-    @DisplayName("receiveForecast(): an unsuccessful call when the Swp Noaa isn't availability")
-    void unsuccessfulReceiveForecast() {
+    @DisplayName("receiveForecast(): an fail call when the Swp Noaa isn't availability")
+    void failReceiveForecast() {
         doThrow(new RestClientException("Some error status http")).when(swpNoaaClientMock).get3DayGeomagForecast();
 
         assertDoesNotThrow(() -> forecastScheduler.receiveForecast());

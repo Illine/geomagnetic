@@ -53,19 +53,19 @@ class ForecastListenerTest {
         verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).only()).save(any());
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @RepeatedTest(5)
-    @DisplayName("onEvent(): an unsuccessful call when an arg is null")
-    void unsuccessfulOnEventArgNull() {
+    @DisplayName("onEvent(): an fail call when an arg is null")
+    void failOnEventArgNull() {
         forecastListener.onEvent(null);
         verify(forecastUpsertServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).upsertForecasts(any(), any());
         verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).save(any());
     }
 
     @RepeatedTest(5)
-    @DisplayName("onEvent(): an unsuccessful call when a collection into an arg is null or empty")
-    void unsuccessfulOnEventCollectionEmpty() {
+    @DisplayName("onEvent(): an fail call when a collection into an arg is null or empty")
+    void failOnEventCollectionEmpty() {
         forecastListener.onEvent(new ForecastEventWrapper(null));
         verify(forecastUpsertServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).upsertForecasts(any(), any());
         verify(forecastAccessServiceMock, timeout(DEFAULT_TIMEOUT).times(0)).save(any());

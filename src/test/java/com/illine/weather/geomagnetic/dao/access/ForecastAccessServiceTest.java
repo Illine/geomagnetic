@@ -106,50 +106,50 @@ class ForecastAccessServiceTest {
         assertEquals(expected, actual);
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("save(): throws IllegalArgumentException when collection is null")
-    void unsuccessfulSave() {
+    void failSave() {
         assertThrows(IllegalArgumentException.class, () -> forecastAccessService.save(null));
     }
 
     @Test
     @DisplayName("findDiurnal(): returns an empty set")
-    void unsuccessfulFindDiurnal() {
+    void failFindDiurnal() {
         var actual = forecastAccessService.findDiurnal(LocalDate.now().minusYears(1));
         assertTrue(actual.isEmpty());
     }
 
     @Test
     @DisplayName("findCurrent(): returns an empty set")
-    void unsuccessfulFindCurrent() {
+    void failFindCurrent() {
         var actual = forecastAccessService.findCurrent(LocalDateTime.now().minusYears(1));
         assertTrue(actual.isEmpty());
     }
 
     @Test
     @DisplayName("findThreeDay(): returns an empty set")
-    void unsuccessfulFindThreeDay() {
+    void failFindThreeDay() {
         var actual = forecastAccessService.findThreeDays(LocalDate.now().minusYears(1));
         assertTrue(actual.isEmpty());
     }
 
     @Test
     @DisplayName("findDiurnal(): throws IllegalArgumentException when an arg is null")
-    void unsuccessfulFindDiurnalNullDate() {
+    void failFindDiurnalNullDate() {
         assertThrows(IllegalArgumentException.class, () -> forecastAccessService.findDiurnal(null));
     }
 
     @Test
     @DisplayName("findCurrent(): throws IllegalArgumentException when an arg is null")
-    void unsuccessfulFindCurrentNullDateTime() {
+    void failFindCurrentNullDateTime() {
         assertThrows(IllegalArgumentException.class, () -> forecastAccessService.findCurrent(null));
     }
 
     @Test
     @DisplayName("findThreeDay(): throws IllegalArgumentException when an arg is null")
-    void unsuccessfulThreeDayNullDateFind() {
+    void failThreeDayNullDateFind() {
         assertThrows(IllegalArgumentException.class, () -> forecastAccessService.findThreeDays(null));
     }
 }

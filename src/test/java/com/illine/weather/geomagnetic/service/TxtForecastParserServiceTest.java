@@ -63,18 +63,18 @@ class TxtForecastParserServiceTest {
         assertEquals(expected, actual);
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
-    @DisplayName("toParse(): an unsuccessful call throws IllegalArgumentException when a 'null' file")
-    void unsuccessfulToParseNullFile() {
+    @DisplayName("toParse(): an fail call throws IllegalArgumentException when a 'null' file")
+    void failToParseNullFile() {
         String nullFile = null;
         assertThrows(IllegalArgumentException.class, () -> forecastParserService.toParse(nullFile));
     }
 
     @Test
-    @DisplayName("toParse(): an unsuccessful call throws IllegalArgumentException when an 'empty' file")
-    void unsuccessfulToParseEmptyFile() {
+    @DisplayName("toParse(): an fail call throws IllegalArgumentException when an 'empty' file")
+    void failToParseEmptyFile() {
         var emptyFile = "";
         assertThrows(IllegalArgumentException.class, () -> forecastParserService.toParse(emptyFile));
     }
@@ -88,8 +88,8 @@ class TxtForecastParserServiceTest {
                     "forecast/Geomagnetic_Forecast_3.txt"
             }
     )
-    @DisplayName("toParse(): an unsuccessful call throws ParseException when an invalid current date")
-    void unsuccessfulToParseInvalidDate(String arg) throws IOException {
+    @DisplayName("toParse(): an fail call throws ParseException when an invalid current date")
+    void failToParseInvalidDate(String arg) throws IOException {
         var path = FileHelper.getPath(arg, getClass());
         var fileContent = FileHelper.getFileContent(path);
         assertThrows(ParseException.class, () -> forecastParserService.toParse(fileContent));
@@ -97,16 +97,16 @@ class TxtForecastParserServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = "forecast/Geomagnetic_Forecast_5.txt")
-    @DisplayName("toParse(): an unsuccessful call throws ParseException when an invalid size of a result collection")
-    void unsuccessfulToParseSizeDate(String arg) throws IOException {
+    @DisplayName("toParse(): an fail call throws ParseException when an invalid size of a result collection")
+    void failToParseSizeDate(String arg) throws IOException {
         var path = FileHelper.getPath(arg, getClass());
         var fileContent = FileHelper.setDate(FileHelper.getFileContent(path), LocalDate.now(), LocalDate.now().plusDays(2));
         assertThrows(ParseException.class, () -> forecastParserService.toParse(fileContent));
     }
 
     @Test
-    @DisplayName("toParse(): an unsuccessful call throws ParseException when an invalid file")
-    void unsuccessfulToParseInvalidFile() {
+    @DisplayName("toParse(): an fail call throws ParseException when an invalid file")
+    void failToParseInvalidFile() {
         var invalidFile = CommonGeneratorHelper.generateString();
         assertThrows(ParseException.class, () -> forecastParserService.toParse(invalidFile));
     }

@@ -46,11 +46,11 @@ class MobileForecastDtoMapperTest {
         assertEquals(Instant.ofEpochMilli(actual.getTime()).atZone(ZoneOffset.UTC).toLocalTime(), testForecastDto.getForecastTime());
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("convertToDestination(): throws IllegalArgumentException when an arg destination is null")
-    void unsuccessfulConvertToDestinationNull() {
+    void failConvertToDestinationNull() {
         assertThrows(IllegalArgumentException.class, () -> forecastMobileMapper.convertToDestination(null));
     }
 }

@@ -27,18 +27,18 @@ class JsonWriterTest {
         assertEquals(String.format(JSON_PATTERN, arg), actual);
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
-    @DisplayName("toStringAsJson(): an unsuccessful call throws IllegalArgumentException when an arg is null")
-    void unsuccessfulToStringAsJson() {
+    @DisplayName("toStringAsJson(): an fail call throws IllegalArgumentException when an arg is null")
+    void failToStringAsJson() {
         assertThrows(IllegalArgumentException.class, () -> JsonWriter.toStringAsJson(null));
     }
 
-    @DisplayName("toStringAsJson(): an unsuccessful call returns 'unknown' when an arg class is invalid")
+    @DisplayName("toStringAsJson(): an fail call returns 'unknown' when an arg class is invalid")
     @ParameterizedTest
     @ValueSource(strings = {"first", "second", "third"})
-    void unsuccessfulInvalidToStringAsJson(String arg) {
+    void failInvalidToStringAsJson(String arg) {
         var actual = JsonWriter.toStringAsJson(new InvalidClassToJson(arg));
         assertNotEquals(String.format(JSON_PATTERN, arg), actual);
     }

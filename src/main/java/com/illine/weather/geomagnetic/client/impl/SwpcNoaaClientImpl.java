@@ -1,8 +1,8 @@
 package com.illine.weather.geomagnetic.client.impl;
 
+import com.illine.weather.geomagnetic.client.SwpNoaaClient;
 import com.illine.weather.geomagnetic.config.rest.RestProperties;
 import lombok.extern.slf4j.Slf4j;
-import com.illine.weather.geomagnetic.client.SwpNoaaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,7 @@ public class SwpcNoaaClientImpl implements SwpNoaaClient {
     @Override
     public ResponseEntity<String> get3DayGeomagForecast() {
         LOGGER.info("Exchange of a text forecast from SWPC NOAA is starting...");
-        var uri = new SwpcNoaaUriBuilder();
-        return swpNoaaRestTemplate.getForEntity(uri.apply(properties), String.class);
+        return swpNoaaRestTemplate.getForEntity(new SwpcNoaaUriBuilder().apply(properties), String.class);
     }
 
     private static class SwpcNoaaUriBuilder implements Function<RestProperties, String> {

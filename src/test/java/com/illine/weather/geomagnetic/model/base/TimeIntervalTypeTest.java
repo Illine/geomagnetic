@@ -126,18 +126,18 @@ class TimeIntervalTypeTest {
         assertEquals(arg, actual);
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("intervalOf(): throws NoSuchElementException when an incorrect any interval")
-    void unsuccessfulIntervalOfAnyString() {
+    void failIntervalOfAnyString() {
         var interval = "any string";
         assertThrows(NoSuchElementException.class, () -> TimeIntervalType.intervalOf(interval));
     }
 
     @Test
     @DisplayName("intervalOf(): throws NoSuchElementException when an incorrect interval")
-    void unsuccessfulIntervalOfIncorrect() {
+    void failIntervalOfIncorrect() {
         var interval = "01-02UT";
         assertThrows(NoSuchElementException.class, () -> TimeIntervalType.intervalOf(interval));
     }
