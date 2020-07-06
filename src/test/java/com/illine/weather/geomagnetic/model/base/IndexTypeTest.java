@@ -89,29 +89,29 @@ class IndexTypeTest {
         assertEquals(expected, actual);
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("indexOf(): throws NoSuchElementException when a 'null' Integer")
-    void unsuccessfulIndexOfIntegerNull() {
+    void failIndexOfIntegerNull() {
         assertThrows(NoSuchElementException.class, () -> IndexType.indexOf((Integer) null));
     }
 
     @Test
     @DisplayName("indexOf(): throws IllegalArgumentException when a 'null' String")
-    void unsuccessfulIndexOfStringNull() {
+    void failIndexOfStringNull() {
         assertThrows(IllegalArgumentException.class, () -> IndexType.indexOf((String) null));
     }
 
     @Test
     @DisplayName("indexOf(): throws IllegalArgumentException when an empty String")
-    void unsuccessfulIndexOfStringEmpty() {
+    void failIndexOfStringEmpty() {
         assertThrows(IllegalArgumentException.class, () -> IndexType.indexOf(""));
     }
 
     @Test
     @DisplayName("indexOf(): throws NoSuchElementException when an invalid value")
-    void unsuccessfulIndexOf() {
+    void failIndexOf() {
         assertThrows(NoSuchElementException.class, () -> IndexType.indexOf(-1));
     }
 }

@@ -104,46 +104,46 @@ class ForecastServiceTest {
         verify(forecastAccessServiceMock).findThreeDays(any());
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("findDiurnal(): throws NotFound exception when a forecast isn't exist")
-    void unsuccessfulFindDiurnalNotFound() {
+    void failFindDiurnalNotFound() {
         when(forecastAccessServiceMock.findDiurnal(any())).thenReturn(Collections.emptySet());
         assertThrows(NotFoundException.class, () -> forecastService.findDiurnal());
     }
 
     @Test
     @DisplayName("findDiurnal(): throws an exception when an unknown error")
-    void unsuccessfulFindDiurnalUnknownError() {
+    void failFindDiurnalUnknownError() {
         when(forecastAccessServiceMock.findDiurnal(any())).thenThrow(new RuntimeException(UNKNOWN_EXCEPTION_ERROR));
         assertThrows(RuntimeException.class, () -> forecastService.findDiurnal());
     }
 
     @Test
     @DisplayName("findCurrent(): throws NotFound exception when a forecast isn't exist")
-    void unsuccessfulFindCurrentNotFound() {
+    void failFindCurrentNotFound() {
         when(forecastAccessServiceMock.findCurrent(any())).thenReturn(Collections.emptySet());
         assertThrows(NotFoundException.class, () -> forecastService.findCurrent());
     }
 
     @Test
     @DisplayName("findCurrent(): throws an exception when an unknown error")
-    void unsuccessfulFindCurrentUnknownError() {
+    void failFindCurrentUnknownError() {
         when(forecastAccessServiceMock.findCurrent(any())).thenThrow(new RuntimeException(UNKNOWN_EXCEPTION_ERROR));
         assertThrows(RuntimeException.class, () -> forecastService.findCurrent());
     }
 
     @Test
     @DisplayName("findThreeDays(): throws NotFound exception when a forecast isn't exist")
-    void unsuccessfulFindThreeDaysNotFound() {
+    void failFindThreeDaysNotFound() {
         when(forecastAccessServiceMock.findThreeDays(any())).thenReturn(Collections.emptySet());
         assertThrows(NotFoundException.class, () -> forecastService.findThreeDays());
     }
 
     @Test
     @DisplayName("findThreeDays(): throws an exception when an unknown error")
-    void unsuccessfulFindThreeDaysUnknownError() {
+    void failFindThreeDaysUnknownError() {
         when(forecastAccessServiceMock.findThreeDays(any())).thenThrow(new RuntimeException(UNKNOWN_EXCEPTION_ERROR));
         assertThrows(RuntimeException.class, () -> forecastService.findThreeDays());
     }

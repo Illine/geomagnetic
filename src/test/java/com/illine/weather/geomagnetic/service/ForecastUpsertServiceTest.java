@@ -79,17 +79,17 @@ class ForecastUpsertServiceTest {
         Assertions.assertEquals(expectedNewForecasts, actualMap.get(Boolean.FALSE).size());
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("upsertForecasts(): throws IllegalArgumentException when an arg set is null")
-    void unsuccessfulUpsertForecastsNullSet() {
+    void failUpsertForecastsNullSet() {
         assertThrows(IllegalArgumentException.class, () -> forecastUpsertService.upsertForecasts(null, LocalDate.now()));
     }
 
     @Test
     @DisplayName("upsertForecasts(): throws IllegalArgumentException when an arg date is null")
-    void unsuccessfulUpsertForecastsNullDate() {
+    void failUpsertForecastsNullDate() {
         assertThrows(IllegalArgumentException.class, () -> forecastUpsertService.upsertForecasts(Collections.emptySet(), null));
     }
 }

@@ -39,11 +39,11 @@ class TxtForecastDtoMapperTest {
         Assertions.assertEquals(textDestination.getInterval().getTimeInterval(), actual.getForecastTime());
     }
 
-    //  -----------------------   unsuccessful tests   -------------------------
+    //  -----------------------   fail tests   -------------------------
 
     @Test
     @DisplayName("convertToDestination(): throws IllegalArgumentException when an arg source is null")
-    void unsuccessfulConvertToDestinationNull() {
+    void failConvertToDestinationNull() {
         assertThrows(IllegalArgumentException.class, () -> txtForecastDtoMapper.convertToSource(null));
     }
 }
