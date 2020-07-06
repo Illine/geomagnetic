@@ -1,12 +1,12 @@
 package com.illine.weather.geomagnetic.rest.controller;
 
-import com.illine.weather.geomagnetic.test.helper.AssertionHelper;
-import com.illine.weather.geomagnetic.test.helper.ControllerHelper;
-import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
 import com.illine.weather.geomagnetic.exception.NotFoundException;
 import com.illine.weather.geomagnetic.exception.ParseException;
 import com.illine.weather.geomagnetic.model.dto.MobileForecastResponse;
 import com.illine.weather.geomagnetic.rest.presenter.ForecastPresenter;
+import com.illine.weather.geomagnetic.test.helper.AssertionHelper;
+import com.illine.weather.geomagnetic.test.helper.ControllerHelper;
+import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
 import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Objects;
 
-import static com.illine.weather.geomagnetic.test.helper.AssertionHelper.assertCall;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;

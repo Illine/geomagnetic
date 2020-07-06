@@ -1,10 +1,10 @@
 package com.illine.weather.geomagnetic.test.helper.generator;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import com.illine.weather.geomagnetic.dao.entity.ForecastEntity;
 import com.illine.weather.geomagnetic.model.base.IndexType;
 import com.illine.weather.geomagnetic.model.base.TimeIntervalType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 

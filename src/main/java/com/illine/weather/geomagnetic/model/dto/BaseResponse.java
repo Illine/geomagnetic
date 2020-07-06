@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class BaseResponse {
 
     protected boolean success = true;
-    protected String message = "Success";
+    protected String message = "success";
 
 }

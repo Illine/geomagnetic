@@ -15,8 +15,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static com.illine.weather.geomagnetic.test.helper.generator.CommonGeneratorHelper.generateString;
-import static com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper.generateTxtForecastDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

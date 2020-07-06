@@ -1,7 +1,7 @@
 package com.illine.weather.geomagnetic.dao.access;
 
-import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
 import com.illine.weather.geomagnetic.model.dto.ForecastDto;
+import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
 import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper.generateForecastDto;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringIntegrationTest

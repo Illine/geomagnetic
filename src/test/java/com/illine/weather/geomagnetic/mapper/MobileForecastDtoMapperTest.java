@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
-import static com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper.generateForecastDto;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringMockTest

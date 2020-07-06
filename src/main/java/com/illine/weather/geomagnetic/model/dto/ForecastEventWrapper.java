@@ -1,16 +1,16 @@
 package com.illine.weather.geomagnetic.model.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ForecastEventWrapper {
 
     @NotEmpty
-    private Set<TxtForecastDto> txtForecasts;
+    private final Set<TxtForecastDto> txtForecasts;
 
 }
