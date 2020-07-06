@@ -1,9 +1,8 @@
 package com.illine.weather.geomagnetic.mapper.impl;
 
-import com.illine.weather.geomagnetic.model.dto.MobileForecastDto;
-import com.illine.weather.geomagnetic.service.DtoMapperChecker;
 import com.illine.weather.geomagnetic.mapper.AbstractDtoMapper;
 import com.illine.weather.geomagnetic.model.dto.ForecastDto;
+import com.illine.weather.geomagnetic.model.dto.MobileForecastDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -25,11 +24,11 @@ public class MobileForecastDtoMapper extends AbstractDtoMapper<ForecastDto, Mobi
                 .setPostConverter(toDestinationConverter(new DestinationConverter()));
     }
 
-    public static class DestinationConverter implements BiConsumer<ForecastDto, MobileForecastDto>, DtoMapperChecker {
+    public static class DestinationConverter implements BiConsumer<ForecastDto, MobileForecastDto> {
 
         @Override
         public void accept(ForecastDto source, MobileForecastDto destination) {
-            whenNotNull(source, it -> destination.setTime(getTime(it)));
+            destination.setTime(getTime(source));
         }
 
         private Long getTime(ForecastDto source) {
