@@ -10,11 +10,11 @@ plugins {
     id "idea"
     id "io.spring.dependency-management" version "1.0.5.RELEASE"
     id "org.springframework.boot" version "2.1.5.RELEASE"
-    id "org.liquibase.gradle" version "2.0.1"
+    id "org.liquibase.gradle" version "2.0.4"
     id "com.bmuschko.docker-remote-api" version "6.4.0"
 }
 
-version = "1.0.0"
+version = "1.0.0-SNAPSHOT"
 group = "com.illine"
 targetCompatibility = JavaVersion.VERSION_11
 sourceCompatibility = JavaVersion.VERSION_11
@@ -107,9 +107,9 @@ liquibase {
             changeLogFile "${projectDir}/src/main/resources/liquibase/changelog.yaml"
             outputFile "${buildDir}/liquibase/sql-migration.sql"
             url properties.getOrDefault("url", "jdbc:postgresql://localhost:5432/weather")
-            username properties.getOrDefault("username", "geomagnetic")
-            password properties.getOrDefault("password", "geomagnetic")
-            defaultSchemaName "geomagnetic"
+            username properties.getOrDefault("username", "weather")
+            password properties.getOrDefault("password", "weather")
+            defaultSchemaName properties.getOrDefault("schema", "geomagnetic")
         }
     }
 }
