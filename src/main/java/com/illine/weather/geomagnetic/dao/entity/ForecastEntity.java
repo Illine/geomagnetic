@@ -2,7 +2,6 @@ package com.illine.weather.geomagnetic.dao.entity;
 
 import com.illine.weather.geomagnetic.model.base.ActiveType;
 import com.illine.weather.geomagnetic.model.base.IndexType;
-import com.illine.weather.geomagnetic.util.JsonWriter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -51,19 +50,13 @@ public class ForecastEntity {
     private LocalDateTime updated;
 
     @Column(name = "active", nullable = false)
-    private ActiveType active;
-
-    @Override
-    public String toString() {
-        return JsonWriter.toStringAsJson(this);
-    }
+    private ActiveType active = ActiveType.ENABLED;
 
     @PrePersist
     private void onCreate() {
-        LocalDateTime current = LocalDateTime.now();
+        var current = LocalDateTime.now();
         created = current;
         updated = current;
-        active = ActiveType.ENABLED;
     }
 
     @PreUpdate

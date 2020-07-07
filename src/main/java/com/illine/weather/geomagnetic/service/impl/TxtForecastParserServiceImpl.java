@@ -41,7 +41,7 @@ public class TxtForecastParserServiceImpl implements ForecastParserService, Hand
     private static final int GROUP_DATE_AFTER_TOMORROW = 4;
 
     @Override
-    public Set<TxtForecastDto> toParse(String threeDayGeomagForecast) {
+    public Set<TxtForecastDto> parse(String threeDayGeomagForecast) {
         Assert.hasText(threeDayGeomagForecast, "The 'threeDayGeomagForecast' should have a text!");
         LOGGER.info("A text forecast is being parsed to a 'TxtForecastDto' set");
         LOGGER.debug("A file content is: \n===============================================\n{}\n===============================================", threeDayGeomagForecast);

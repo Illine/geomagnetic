@@ -34,9 +34,9 @@ public class ForecastAccessServiceImpl implements ForecastAccessService {
 
     @Transactional
     @Override
-    public void save(Collection<ForecastDto> forecasts) {
+    public void update(Collection<ForecastDto> forecasts) {
         Assert.notNull(forecasts, "The 'collection' shouldn't be null!");
-        LOGGER.info("A collection of a 'ForecastEntity' will be saved or updated.");
+        LOGGER.info("A collection of a 'ForecastEntity' will be updated.");
         forecastRepository.saveAll(forecastMapper.convertToSources(forecasts));
     }
 

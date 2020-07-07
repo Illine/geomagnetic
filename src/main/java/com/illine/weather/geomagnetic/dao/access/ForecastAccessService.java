@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface ForecastAccessService {
 
-    void save(Collection<ForecastDto> forecasts);
+    void update(Collection<ForecastDto> forecasts);
 
     Set<ForecastDto> findDiurnal(LocalDate today);
 

@@ -1,5 +1,6 @@
-package com.illine.weather.geomagnetic.config.rest;
+package com.illine.weather.geomagnetic.config;
 
+import com.illine.weather.geomagnetic.config.property.RestProperties;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +10,17 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-class RestTemplateFactory {
+class RestTemplateConfig {
 
     private final RestProperties properties;
 
     @Autowired
-    RestTemplateFactory(RestProperties properties) {
+    RestTemplateConfig(RestProperties properties) {
         this.properties = properties;
     }
 
     @Bean
-    RestTemplate swpNoaaRestTemplate(HttpComponentsClientHttpRequestFactory commonHttpRequestFactory) {
+    RestTemplate swpcNoaaRestTemplate(HttpComponentsClientHttpRequestFactory commonHttpRequestFactory) {
         return new RestTemplate(commonHttpRequestFactory);
     }
 

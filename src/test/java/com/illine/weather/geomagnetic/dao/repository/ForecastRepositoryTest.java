@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringIntegrationTest
 @DisplayName("ForecastRepository Spring Integration Test")
 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:sql/ForecastRepository/fill.sql")
-@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:sql/ForecastRepository/clean.sql")
+@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:sql/ForecastRepository/clear.sql")
 class ForecastRepositoryTest {
 
     private static final int EXPECTED_SIZE_BY_DATE = 8;

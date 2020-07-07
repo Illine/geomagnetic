@@ -6,6 +6,6 @@ import java.util.Set;
 
 public interface ForecastParserService {
 
-    Set<TxtForecastDto> toParse(String threeDayGeomagForecast);
+    Set<TxtForecastDto> parse(String threeDayGeomagForecast);
 
 }

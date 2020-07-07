@@ -1,3 +1,6 @@
+server:
+  port: 8000
+
 spring:
   application:
     name: geomagnetic
@@ -11,13 +14,13 @@ spring:
         default_schema: geomagnetic
     open-in-view: false
   datasource:
-    url: jdbc:p6spy:postgresql://localhost:5000/weather
+    url: jdbc:p6spy:postgresql://localhost:5432/weather
     username: weather
     password: weather
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      poolName: TestHikariPool
+      poolName: HikariPool
       max-lifetime: 600000
       connection-timeout: 15000
       maximum-pool-size: 10
@@ -44,4 +47,4 @@ swpc-noaa:
 etl:
   scheduled:
     enabled: true
-    cron: "*/10 * * * * ?" # Every 10 seconds
+    cron: "0 0 0/1 * * ?" # Every hour

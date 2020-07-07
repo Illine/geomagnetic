@@ -4,7 +4,7 @@ import com.illine.weather.geomagnetic.mapper.impl.MobileForecastDtoMapper;
 import com.illine.weather.geomagnetic.model.dto.ForecastDto;
 import com.illine.weather.geomagnetic.test.helper.generator.CommonGeneratorHelper;
 import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
-import com.illine.weather.geomagnetic.test.tag.SpringMockTest;
+import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +16,8 @@ import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringMockTest
-@DisplayName("ForecastDtoMapper Spring Mock Test")
+@SpringIntegrationTest
+@DisplayName("ForecastDtoMapper Spring Integration Test")
 class MobileForecastDtoMapperTest {
 
     private static final Long DEFAULT_ID = CommonGeneratorHelper.generateLong();
@@ -25,18 +25,12 @@ class MobileForecastDtoMapperTest {
     @Autowired
     private MobileForecastDtoMapper forecastMobileMapper;
 
-    private ForecastDto testForecastDto;
-
-    @BeforeEach
-    void setUp() {
-        testForecastDto = DtoGeneratorHelper.generateForecastDto(DEFAULT_ID);
-    }
-
     //  -----------------------   successful tests   -------------------------
 
     @Test
     @DisplayName("convertToDestination(): returns a valid destination")
     void successfulConvertToDestination() {
+        var testForecastDto = DtoGeneratorHelper.generateForecastDto(DEFAULT_ID);
         var actual = forecastMobileMapper.convertToDestination(testForecastDto);
         assertNotNull(actual);
         Assertions.assertEquals(DEFAULT_ID, actual.getId());

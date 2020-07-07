@@ -21,6 +21,7 @@ sourceCompatibility = JavaVersion.VERSION_11
 
 ext {
     set("springCloudVersion", "Greenwich.SR1")
+    set("springRetryVersion", "1.2.5.RELEASE")
     set("groovyVersion", "2.5.5")
     set("liquibaseCoreVersion", "3.6.3")
     set("modelMapperVersion", "2.3.4")
@@ -31,6 +32,7 @@ ext {
     set("liquibaseDslVersion", "2.0.1")
     set("logbackVersion", "1.2.3")
     set("junitVersion", "5.4.2")
+    set("awaitilityVersion", "4.0.3")
 }
 
 configurations {
@@ -61,9 +63,11 @@ dependencyManagement {
 dependencies {
     api "org.springframework.boot:spring-boot-starter-actuator"
     api "org.springframework.boot:spring-boot-starter-web"
-    api "org.springframework.cloud:spring-cloud-starter-config"
     api "org.springframework.boot:spring-boot-starter-data-jpa"
     api "org.springframework.boot:spring-boot-starter-validation"
+    api "org.springframework.boot:spring-boot-starter-validation"
+    api "org.springframework.retry:spring-retry:${springRetryVersion}"
+
 
     api "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
     api "org.modelmapper:modelmapper:${modelMapperVersion}"
@@ -78,6 +82,7 @@ dependencies {
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation "org.awaitility:awaitility:${awaitilityVersion}"
 
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testCompileOnly "org.springframework.boot:spring-boot-configuration-processor"

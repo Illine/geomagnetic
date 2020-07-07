@@ -3,7 +3,7 @@ package com.illine.weather.geomagnetic.mapper;
 import com.illine.weather.geomagnetic.mapper.impl.ForecastDtoMapper;
 import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
 import com.illine.weather.geomagnetic.test.helper.generator.EntityGeneratorHelper;
-import com.illine.weather.geomagnetic.test.tag.SpringMockTest;
+import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringMockTest
-@DisplayName("ForecastDtoMapper Spring Mock Test")
+@SpringIntegrationTest
+@DisplayName("ForecastDtoMapper Spring Integration Test")
 class ForecastDtoMapperTest {
 
     @Autowired
