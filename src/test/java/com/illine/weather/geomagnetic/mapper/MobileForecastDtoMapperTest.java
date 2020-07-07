@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("ForecastDtoMapper Spring Integration Test")
 class MobileForecastDtoMapperTest {
 
-    private static final Long DEFAULT_ID = CommonGeneratorHelper.generateLong();
-
     @Autowired
     private MobileForecastDtoMapper forecastMobileMapper;
 
@@ -30,10 +28,9 @@ class MobileForecastDtoMapperTest {
     @Test
     @DisplayName("convertToDestination(): returns a valid destination")
     void successfulConvertToDestination() {
-        var testForecastDto = DtoGeneratorHelper.generateForecastDto(DEFAULT_ID);
+        var testForecastDto = DtoGeneratorHelper.generateForecastDto();
         var actual = forecastMobileMapper.convertToDestination(testForecastDto);
         assertNotNull(actual);
-        Assertions.assertEquals(DEFAULT_ID, actual.getId());
         Assertions.assertEquals(testForecastDto.getIndex(), actual.getIndex());
         assertEquals(Instant.ofEpochMilli(actual.getTime()).atZone(ZoneOffset.UTC).toLocalDate(), testForecastDto.getForecastDate());
         assertEquals(Instant.ofEpochMilli(actual.getTime()).atZone(ZoneOffset.UTC).toLocalTime(), testForecastDto.getForecastTime());
