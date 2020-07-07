@@ -2,8 +2,8 @@ package com.illine.weather.geomagnetic.client;
 
 import org.springframework.http.ResponseEntity;
 
-public interface SwpNoaaClient {
+public interface SwpcNoaaClient {
 
-    ResponseEntity<String> get3DayGeomagForecast();
+    ResponseEntity<String> get3DayGeomagneticForecast();
 
 }

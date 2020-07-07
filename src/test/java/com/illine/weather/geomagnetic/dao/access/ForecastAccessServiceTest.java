@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringIntegrationTest
 @DisplayName("ForecastAccessService Spring Integration Test")
 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:sql/ForecastAccessService/fill.sql")
-@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:sql/ForecastAccessService/clean.sql")
+@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:sql/ForecastAccessService/clear.sql")
 class ForecastAccessServiceTest {
 
     private static final LocalDate DEFAULT_DATE = LocalDate.now();
@@ -35,9 +35,9 @@ class ForecastAccessServiceTest {
     //  -----------------------   successful tests   -------------------------
 
     @Test
-    @DisplayName("save(): saving collection of forecast dto")
-    void successfulSave() {
-        assertDoesNotThrow(() -> forecastAccessService.save(Collections.singleton(DtoGeneratorHelper.generateForecastDto())));
+    @DisplayName("update(): saving collection of forecast dto")
+    void successfulUpdate() {
+        assertDoesNotThrow(() -> forecastAccessService.update(Collections.singleton(DtoGeneratorHelper.generateForecastDto())));
     }
 
     @Test
@@ -108,9 +108,9 @@ class ForecastAccessServiceTest {
     //  -----------------------   fail tests   -------------------------
 
     @Test
-    @DisplayName("save(): throws IllegalArgumentException when collection is null")
-    void failSave() {
-        assertThrows(IllegalArgumentException.class, () -> forecastAccessService.save(null));
+    @DisplayName("update(): throws IllegalArgumentException when collection is null")
+    void failUpdate() {
+        assertThrows(IllegalArgumentException.class, () -> forecastAccessService.update(null));
     }
 
     @Test

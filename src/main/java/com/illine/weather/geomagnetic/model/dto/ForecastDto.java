@@ -1,9 +1,8 @@
 package com.illine.weather.geomagnetic.model.dto;
 
 import com.illine.weather.geomagnetic.model.base.IndexType;
-import com.illine.weather.geomagnetic.util.JsonWriter;
 import lombok.Data;
-import lombok.NonNull;
+import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,13 +26,9 @@ public class ForecastDto implements Comparable<ForecastDto> {
 
     @Override
     public int compareTo(ForecastDto that) {
+        Assert.notNull(that, "The 'that' shouldn't be null!");
         var thisDateTime = LocalDateTime.of(this.forecastDate, this.forecastTime);
         var thatDateTime = LocalDateTime.of(that.forecastDate, that.forecastTime);
         return thisDateTime.compareTo(thatDateTime);
-    }
-
-    @Override
-    public String toString() {
-        return JsonWriter.toStringAsJson(this);
     }
 }

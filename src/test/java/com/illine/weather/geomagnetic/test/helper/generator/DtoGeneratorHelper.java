@@ -3,7 +3,6 @@ package com.illine.weather.geomagnetic.test.helper.generator;
 import com.illine.weather.geomagnetic.model.base.IndexType;
 import com.illine.weather.geomagnetic.model.base.TimeIntervalType;
 import com.illine.weather.geomagnetic.model.dto.ForecastDto;
-import com.illine.weather.geomagnetic.model.dto.ForecastEventWrapper;
 import com.illine.weather.geomagnetic.model.dto.MobileForecastResponse;
 import com.illine.weather.geomagnetic.model.dto.TxtForecastDto;
 import lombok.AccessLevel;
@@ -48,18 +47,13 @@ public final class DtoGeneratorHelper {
             "NOAA Kp index forecast %s - %s\n" +
             "           Today  Tomorrow    AfterTomorrow\n" +
             "00-03UT        4         3         2\n" +
-            "03-06UT        4         2         2\n" +
-            "06-09UT        3         2         1\n" +
-            "09-12UT        2         2         1\n" +
-            "12-15UT        2         2         1\n" +
-            "15-18UT        2         2         1\n" +
-            "18-21UT        2         2         1\n" +
-            "21-00UT        3         2         2";
-
-    public static ForecastEventWrapper generateForecastEventWrapper(LocalDate todayDate) {
-        var txtForecasts = generateTxtForecastDto(todayDate);
-        return new ForecastEventWrapper(txtForecasts);
-    }
+            "03-06UT        4         3         2\n" +
+            "06-09UT        4         3         2\n" +
+            "09-12UT        4         3         2\n" +
+            "12-15UT        4         3         2\n" +
+            "15-18UT        4         3         2\n" +
+            "18-21UT        4         3         2\n" +
+            "21-00UT        4         3         2";
 
     public static Set<TxtForecastDto> generateTxtForecastDto(LocalDate todayDate) {
         var tomorrowDate = todayDate.plusDays(1);
@@ -94,7 +88,7 @@ public final class DtoGeneratorHelper {
         );
     }
 
-    public static ResponseEntity<String> generateSwaNoaaResponseEntity() {
+    public static ResponseEntity<String> generateSwpcNoaaResponseEntity() {
         var formattedToday = DEFAULT_DATE.format(CHECK_DATE_FORMATTER);
         var formattedAfterTomorrow = DEFAULT_DATE.plusDays(2).format(CHECK_DATE_FORMATTER);
         var textForecast = String.format(TXT_FORECAST_PATTERN, formattedToday, formattedAfterTomorrow);
