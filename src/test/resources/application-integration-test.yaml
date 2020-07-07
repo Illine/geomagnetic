@@ -33,8 +33,7 @@ spring:
     default-schema: geomagnetic
     user: weather
     password: weather
-    change-log: classpath:liquibase/changelog.yaml
-    contexts: test
+    change-log: file:liquibase/changelog.yaml
 
 rest:
   maxThread: 100

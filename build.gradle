@@ -104,7 +104,7 @@ liquibase {
 
     activities {
         main {
-            changeLogFile "${projectDir}/src/main/resources/liquibase/changelog.yaml"
+            changeLogFile "${projectDir}/liquibase/changelog.yaml"
             outputFile "${buildDir}/liquibase/sql-migration.sql"
             url properties.getOrDefault("url", "jdbc:postgresql://localhost:5432/weather")
             username properties.getOrDefault("username", "weather")
