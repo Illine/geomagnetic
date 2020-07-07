@@ -11,9 +11,6 @@ import com.illine.weather.geomagnetic.model.base.IndexType;
 @NoArgsConstructor
 public class MobileForecastDto {
 
-    @JsonProperty(value = "id")
-    private Long id;
-
     @JsonProperty(value = "value")
     private IndexType index;
 

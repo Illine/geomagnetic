@@ -103,15 +103,6 @@ public final class DtoGeneratorHelper {
         return dto;
     }
 
-    public static ForecastDto generateForecastDto(Long id) {
-        var dto = new ForecastDto();
-        dto.setId(id);
-        dto.setForecastDate(DEFAULT_DATE);
-        dto.setForecastTime(DEFAULT_INTERVAL.getTimeInterval());
-        dto.setIndex(DEFAULT_INDEX);
-        return dto;
-    }
-
     public static ForecastDto generateForecastDto(LocalDate forecastDate, LocalTime forecastTime) {
         var dto = new ForecastDto();
         dto.setForecastDate(forecastDate);
