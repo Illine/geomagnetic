@@ -1,12 +1,9 @@
 package com.illine.weather.geomagnetic.mapper;
 
 import com.illine.weather.geomagnetic.mapper.impl.MobileForecastDtoMapper;
-import com.illine.weather.geomagnetic.model.dto.ForecastDto;
-import com.illine.weather.geomagnetic.test.helper.generator.CommonGeneratorHelper;
 import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
 import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

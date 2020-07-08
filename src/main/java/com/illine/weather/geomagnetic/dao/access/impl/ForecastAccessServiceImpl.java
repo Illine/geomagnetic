@@ -1,11 +1,11 @@
 package com.illine.weather.geomagnetic.dao.access.impl;
 
+import com.illine.weather.geomagnetic.dao.access.ForecastAccessService;
+import com.illine.weather.geomagnetic.dao.repository.ForecastRepository;
 import com.illine.weather.geomagnetic.mapper.impl.ForecastDtoMapper;
 import com.illine.weather.geomagnetic.model.base.TimeIntervalType;
 import com.illine.weather.geomagnetic.model.dto.ForecastDto;
 import lombok.extern.slf4j.Slf4j;
-import com.illine.weather.geomagnetic.dao.access.ForecastAccessService;
-import com.illine.weather.geomagnetic.dao.repository.ForecastRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

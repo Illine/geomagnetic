@@ -1,8 +1,8 @@
 package com.illine.weather.geomagnetic;
 
-import com.illine.weather.geomagnetic.config.property.SwpcNoaaProperties;
 import com.illine.weather.geomagnetic.config.property.RestProperties;
 import com.illine.weather.geomagnetic.config.property.RestRetryProperties;
+import com.illine.weather.geomagnetic.config.property.SwpcNoaaProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

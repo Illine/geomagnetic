@@ -2,8 +2,8 @@ package com.illine.weather.geomagnetic.rest.presenter.impl;
 
 import com.illine.weather.geomagnetic.mapper.impl.MobileForecastDtoMapper;
 import com.illine.weather.geomagnetic.model.dto.MobileForecastResponse;
-import com.illine.weather.geomagnetic.service.ForecastService;
 import com.illine.weather.geomagnetic.rest.presenter.ForecastPresenter;
+import com.illine.weather.geomagnetic.service.ForecastService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
