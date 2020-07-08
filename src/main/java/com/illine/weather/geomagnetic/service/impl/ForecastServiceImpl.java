@@ -1,11 +1,11 @@
 package com.illine.weather.geomagnetic.service.impl;
 
-import lombok.extern.slf4j.Slf4j;
 import com.illine.weather.geomagnetic.dao.access.ForecastAccessService;
 import com.illine.weather.geomagnetic.exception.NotFoundException;
 import com.illine.weather.geomagnetic.model.dto.ForecastDto;
 import com.illine.weather.geomagnetic.service.ForecastService;
 import com.illine.weather.geomagnetic.service.HandleException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
