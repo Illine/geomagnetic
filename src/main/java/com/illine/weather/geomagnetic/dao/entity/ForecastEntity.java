@@ -31,7 +31,7 @@ public class ForecastEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "forecastsSeqGenerator")
-    @SequenceGenerator(name = "forecastsSeqGenerator", sequenceName = "forecasts_seq")
+    @SequenceGenerator(name = "forecastsSeqGenerator", sequenceName = "forecasts_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "index", nullable = false)
