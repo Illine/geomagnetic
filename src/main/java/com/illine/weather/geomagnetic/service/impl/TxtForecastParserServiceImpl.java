@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -26,11 +24,6 @@ import java.util.stream.Collectors;
 @Slf4j(topic = "GEOMAGNETIC-SERVICE")
 public class TxtForecastParserServiceImpl implements ForecastParserService, HandleException {
 
-    private static final Locale CHECK_DATE_LOCALE = Locale.ENGLISH;
-    private static final String CHECK_DATE_PATTERN = "dd MMM";
-    private static final DateTimeFormatter CHECK_DATE_FORMATTER = DateTimeFormatter.ofPattern(CHECK_DATE_PATTERN, CHECK_DATE_LOCALE);
-
-    private static final String CHECK_DATE_TEMPLATE_PATTERN = "NOAA Kp index forecast %s - %s";
     private static final String PARSE_PATTERN = "^([012][01235689]-[012][01235689]UT)\\s+(\\d)\\s+(\\d)\\s+(\\d)\\s*$";
     private static final Pattern GEOMAGNETIC_FORECAST_PATTERN = Pattern.compile(PARSE_PATTERN);
 
@@ -41,12 +34,11 @@ public class TxtForecastParserServiceImpl implements ForecastParserService, Hand
     private static final int GROUP_DATE_AFTER_TOMORROW = 4;
 
     @Override
-    public Set<TxtForecastDto> parse(String threeDayGeomagForecast) {
-        Assert.hasText(threeDayGeomagForecast, "The 'threeDayGeomagForecast' should have a text!");
+    public Set<TxtForecastDto> parse(String threeDayGeomagneticForecast) {
+        Assert.hasText(threeDayGeomagneticForecast, "The 'threeDayGeomagForecast' should have a text!");
         LOGGER.info("A text forecast is being parsed to a 'TxtForecastDto' set");
-        LOGGER.debug("A file content is: \n===============================================\n{}\n===============================================", threeDayGeomagForecast);
-        checkValidDate(threeDayGeomagForecast);
-        var txtForecasts = threeDayGeomagForecast.lines()
+        LOGGER.debug("A file content is: \n===============================================\n{}\n===============================================", threeDayGeomagneticForecast);
+        var txtForecasts = threeDayGeomagneticForecast.lines()
                 .filter(line -> GEOMAGNETIC_FORECAST_PATTERN.matcher(line).find())
                 .flatMap(line -> GEOMAGNETIC_FORECAST_PATTERN.matcher(line).results())
                 .map(this::createTxtForecast)
@@ -60,18 +52,6 @@ public class TxtForecastParserServiceImpl implements ForecastParserService, Hand
     public <T extends RuntimeException> void throwWhen(Set<?> set, Predicate<Set<?>> predicate, Supplier<T> exception) {
         LOGGER.debug("Verification the list of results of the forecast for invalid size");
         HandleException.super.throwWhen(set, predicate, exception);
-    }
-
-    private void checkValidDate(String fileContent) {
-        LOGGER.debug("Verification a date of the geomagnetic forecast text file");
-        var formattedToday = LocalDate.now().format(CHECK_DATE_FORMATTER);
-        var formattedAfterTomorrow = LocalDate.now().plusDays(2).format(CHECK_DATE_FORMATTER);
-        var formattedPattern = String.format(CHECK_DATE_TEMPLATE_PATTERN, formattedToday, formattedAfterTomorrow);
-        var pattern = Pattern.compile(formattedPattern);
-
-        if (!pattern.matcher(fileContent).find()) {
-            throw new ParseException("An invalid geomagnetic forecast date!");
-        }
     }
 
     private List<TxtForecastDto> createTxtForecast(MatchResult matcher) {

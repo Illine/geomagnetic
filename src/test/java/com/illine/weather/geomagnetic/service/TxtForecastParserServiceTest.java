@@ -78,22 +78,6 @@ class TxtForecastParserServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(
-            strings = {
-                    "forecast/Geomagnetic_Forecast_0.txt",
-                    "forecast/Geomagnetic_Forecast_1.txt",
-                    "forecast/Geomagnetic_Forecast_2.txt",
-                    "forecast/Geomagnetic_Forecast_3.txt"
-            }
-    )
-    @DisplayName("toParse(): a fail call throws ParseException when an invalid current date")
-    void failToParseInvalidDate(String arg) throws IOException {
-        var path = FileHelper.getPath(arg, getClass());
-        var fileContent = FileHelper.getFileContent(path);
-        assertThrows(ParseException.class, () -> forecastParserService.parse(fileContent));
-    }
-
-    @ParameterizedTest
     @ValueSource(strings = "forecast/Geomagnetic_Forecast_5.txt")
     @DisplayName("toParse(): a fail call throws ParseException when an invalid size of a result collection")
     void failToParseSizeDate(String arg) throws IOException {
