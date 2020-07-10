@@ -10,12 +10,6 @@ public final class CommonGeneratorHelper {
 
     private static final int DEFAULT_WORD_LENGTH = 20;
 
-    public static Long generateLong() {
-        var leftLimit = 1L;
-        var rightLimit = Long.MAX_VALUE;
-        return leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
-    }
-
     public static String generateString() {
         return generateString(DEFAULT_WORD_LENGTH);
     }
@@ -30,5 +24,9 @@ public final class CommonGeneratorHelper {
                 .limit(length)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
+    }
+
+    public static Integer generateInteger(Integer min, Integer max) {
+        return new Random().nextInt(max + 1 - min) + min;
     }
 }
