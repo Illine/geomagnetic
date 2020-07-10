@@ -196,8 +196,8 @@ class SwpcNoaaGeomagneticForecastParserServiceTest {
         when(clockMock.getZone()).thenReturn(Clock.systemDefaultZone().getZone());
         var path = FileHelper.getPath(txtForecastPattern, getClass());
         var tmpFileContent = FileHelper.getFileContent(path);
-        var from = LocalDate.now().minusDays(generateInteger(1, 10));
-        var to = LocalDate.now().plusDays(generateInteger(1, 10));
+        var from = LocalDate.now().minusDays(generateInteger(3, 10));
+        var to = LocalDate.now().plusDays(generateInteger(3, 10));
         var fileContent = FileHelper.setDate(tmpFileContent, from, to);
         assertThrows(ParseException.class, () -> forecastParserService.parse(fileContent));
     }
