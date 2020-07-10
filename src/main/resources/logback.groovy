@@ -4,7 +4,7 @@ statusListener(NopStatusListener)
 
 appender("CONSOLE", ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
-        Pattern = "%d{ISO8601} [%thread] [%-5level] [%logger{36}] - %msg%n"
+        pattern = "%d{ISO8601} [%level{5}] -- [%thread{40}] [%logger{36}] - %msg%n"
     }
 }
 
