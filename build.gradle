@@ -25,7 +25,7 @@ ext {
     set("groovyVersion", "2.5.5")
     set("liquibaseCoreVersion", "3.6.3")
     set("modelMapperVersion", "2.3.4")
-    set("p6spyVersion", "3.8.2")
+    set("p6spyVersion", "3.9.0")
     set("httpComponentsVersion", "4.5.9")
     set("lombokVersion", "1.18.8")
     set("postgresVersion", "42.2.5")
