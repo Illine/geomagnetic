@@ -13,7 +13,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.stream.Collectors;
@@ -22,6 +24,8 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.INFERRED;
 
 @SpringIntegrationTest
 @DisplayName("ForecastEtlService Spring Integration Test")
@@ -47,9 +51,10 @@ class ForecastEtlServiceTest {
     //  -----------------------   successful tests   -------------------------
 
     @Test
-    @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:sql/ForecastEtlService/fill.sql")
-    @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:sql/ForecastEtlService/clear.sql")
     @DisplayName("updateForecasts(): a successful update of forecasts")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastEtlService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastEtlService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulUpdateForecasts() {
         when(swpcNoaaClientMock.get3DayGeomagneticForecast()).thenReturn(DtoGeneratorHelper.generateSwpcNoaaResponseEntity());
         assertDoesNotThrow(forecastEtlService::updateForecasts);

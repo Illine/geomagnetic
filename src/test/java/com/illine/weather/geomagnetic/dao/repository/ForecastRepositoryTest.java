@@ -1,27 +1,24 @@
 package com.illine.weather.geomagnetic.dao.repository;
 
-import com.illine.weather.geomagnetic.dao.entity.ForecastEntity;
 import com.illine.weather.geomagnetic.model.base.ActiveType;
-import com.illine.weather.geomagnetic.model.base.IndexType;
 import com.illine.weather.geomagnetic.test.helper.generator.EntityGeneratorHelper;
 import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.INFERRED;
 
 @SpringIntegrationTest
 @DisplayName("ForecastRepository Spring Integration Test")
-@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:sql/ForecastRepository/fill.sql")
-@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:sql/ForecastRepository/clear.sql")
 class ForecastRepositoryTest {
 
     private static final int EXPECTED_SIZE_BY_DATE = 8;
@@ -30,29 +27,13 @@ class ForecastRepositoryTest {
     @Autowired
     private ForecastRepository forecastRepository;
 
-    private ForecastEntity testEntity;
-
-    @BeforeEach
-    void setUp() {
-        testEntity = EntityGeneratorHelper.generateForecastEntity();
-    }
-
     //  -----------------------   successful tests   -------------------------
 
     @Test
-    @DisplayName("findAll(): returns enabled entities")
-    void successfulFindAll() {
-        var allEntities = forecastRepository.findAll();
-        assertFalse(allEntities.isEmpty());
-
-        boolean onlyEnabled =
-                allEntities.stream()
-                        .allMatch(it -> Objects.equals(it.getActive(), ActiveType.ENABLED));
-        assertTrue(onlyEnabled);
-    }
-
-    @Test
-    @DisplayName("findAllByForecastDateBetween(): returns a filled set")
+    @DisplayName("findAllByForecastDateBetween(): returns a collection has 8 elements")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastRepository/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastRepository/clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, config = @SqlConfig(transactionMode = INFERRED))
     void successfulFindAllByForecastDateBetween() {
         var date = LocalDate.now();
         var actual = forecastRepository.findAllByForecastDateBetween(date, date);
@@ -60,7 +41,10 @@ class ForecastRepositoryTest {
     }
 
     @Test
-    @DisplayName("findAllByForecastDateBetweenAndForecastTimeGreaterThanEqual(): returns a filled set")
+    @DisplayName("findAllByForecastDateBetweenAndForecastTimeGreaterThanEqual(): returns a collection has 2 elements")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastRepository/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastRepository/clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, config = @SqlConfig(transactionMode = INFERRED))
     void successfulFindAllByForecastDateBetweenAndForecastTimeGreaterThanEqual() {
         var date = LocalDate.now();
         var afterSixTime = LocalTime.of(18, 0);
@@ -70,7 +54,10 @@ class ForecastRepositoryTest {
 
     @Test
     @DisplayName("save(): returns a saved entity")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastRepository/clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, config = @SqlConfig(transactionMode = INFERRED))
     void successfulSave() {
+        var testEntity = EntityGeneratorHelper.generateForecastEntity();
         var actual = assertDoesNotThrow(() -> forecastRepository.save(testEntity));
 
         assertNotNull(actual);
@@ -81,26 +68,12 @@ class ForecastRepositoryTest {
     }
 
     @Test
-    @DisplayName("save(): returns an updated entity")
-    void successfulUpdateSave() {
-        var entity = assertDoesNotThrow(() -> forecastRepository.save(testEntity));
-        forecastRepository.flush();
-
-        var expectedModified = entity.getUpdated();
-        var expectedIndex = entity.getIndex();
-
-        entity.setIndex(IndexType.EXTREME_STORM);
-        var actual = assertDoesNotThrow(() -> forecastRepository.save(entity));
-        forecastRepository.flush();
-
-        assertNotEquals(expectedIndex, actual.getIndex());
-        assertTrue(expectedModified.isBefore(actual.getUpdated()));
-    }
-
-    @Test
+    @DisplayName("delete(): updates an entity status to DISABLED")
     @Transactional
-    @DisplayName("delete(): updates a status of an entity")
+    @Sql(scripts = "classpath:sql/ForecastRepository/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastRepository/clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, config = @SqlConfig(transactionMode = INFERRED))
     void successfulDelete() {
+        var testEntity = EntityGeneratorHelper.generateForecastEntity();
         var entity = assertDoesNotThrow(() -> forecastRepository.save(testEntity));
         forecastRepository.flush();
 

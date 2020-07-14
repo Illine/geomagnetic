@@ -46,7 +46,7 @@ public class ForecastEtlServiceImpl implements EtlService {
 
     private Set<ForecastDto> getForecasts() {
         var stringForecast = swpcNoaaClient.get3DayGeomagneticForecast();
-        LOGGER.info("Get response from SWP NOAA: \n{}", stringForecast.getBody());
+        LOGGER.info("Get response from SWP NOAA: \n{}\n", stringForecast.getBody());
         var txtForecasts = forecastParserService.parse(stringForecast.getBody());
         return txtForecastMapper.convertToSources(txtForecasts);
     }

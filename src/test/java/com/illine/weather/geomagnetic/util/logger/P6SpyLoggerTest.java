@@ -46,6 +46,16 @@ class P6SpyLoggerTest {
     }
 
     @Test
+    @DisplayName("logSQL(): a method does nothing when Category.ROLLBACK")
+    void successfulLogSQLRollback() {
+        p6SpyLogger.logSQL(generateInteger(), generateString(), generateLong(), Category.ROLLBACK, generateString(), generateString(), generateString());
+        verify(loggerMock, never()).debug(anyString());
+        verify(loggerMock, never()).info(anyString());
+        verify(loggerMock, never()).warn(anyString());
+        verify(loggerMock, never()).error(anyString());
+    }
+
+    @Test
     @DisplayName("logSQL(): a successful call the method executes an logger.error when Category.ERROR")
     void successfulLogSQLError() {
         p6SpyLogger.logSQL(generateInteger(), generateString(), generateLong(), Category.ERROR, generateString(), generateString(), generateString());
