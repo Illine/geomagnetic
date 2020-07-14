@@ -32,7 +32,6 @@ logbook:
     - /*
   logger:
     name: GEOMAGNETIC-REST
-    level: INFO
 
 rest:
   maxThread: 100

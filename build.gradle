@@ -66,6 +66,7 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-web"
     api "org.springframework.boot:spring-boot-starter-data-jpa"
     api "org.springframework.boot:spring-boot-starter-validation"
+    api "org.springframework.cloud:spring-cloud-starter-sleuth"
     api "org.springframework.retry:spring-retry:${springRetryVersion}"
 
     api "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
@@ -149,38 +150,39 @@ test {
     useJUnitPlatform {
         includeTags "spring-mock", "spring-integration", "unit"
     }
-    finalizedBy(stopContainer, jacocoTestReport)
+    finalizedBy(stopContainer, jacocoTestReport, jacocoTestCoverageVerification)
 }
 
 jacocoTestCoverageVerification {
     violationRules {
         rule {
             element = "CLASS"
-            limit {
-                counter = "LINE"
-                value = "COVEREDRATIO"
-            }
-            excludes = [
-                    "com.illine.weather.geomagnetic.GeomagneticApplication"
-            ]
+            excludes = ["com.illine.weather.geomagnetic.GeomagneticApplication"]
         }
         rule {
             element = "PACKAGE"
-            excludes = [
-                    "com.illine.weather.geomagnetic.config"
+            includes = [
+                    "com.illine.weather.geomagnetic.client",
+                    "com.illine.weather.geomagnetic.config",
+                    "com.illine.weather.geomagnetic.dao",
+                    "com.illine.weather.geomagnetic.exception",
+                    "com.illine.weather.geomagnetic.mapper",
+                    "com.illine.weather.geomagnetic.model",
+                    "com.illine.weather.geomagnetic.rest",
+                    "com.illine.weather.geomagnetic.scheduler",
+                    "com.illine.weather.geomagnetic.service",
+                    "com.illine.weather.geomagnetic.util"
             ]
             limit {
                 counter = "LINE"
                 value = "COVEREDRATIO"
-                minimum = 0.9
+                minimum = 1.0
             }
         }
     }
-
 }
 
 jacocoTestReport {
-    dependsOn(test)
     reports {
         html.destination file("${buildDir}/jacoco/html")
     }
