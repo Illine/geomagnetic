@@ -8,4 +8,4 @@ build/*
 *.iws
 *.iml
 *.ipr
-*/out/*
+out/*

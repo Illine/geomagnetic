@@ -38,7 +38,6 @@ logbook:
     style: http
   logger:
     name: GEOMAGNETIC-REST
-    level: INFO
 
 rest:
   maxThread: 100
