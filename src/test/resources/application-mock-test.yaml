@@ -27,6 +27,13 @@ spring:
   liquibase:
     enabled: false
 
+logbook:
+  exclude:
+    - /*
+  logger:
+    name: GEOMAGNETIC-REST
+    level: INFO
+
 rest:
   maxThread: 100
   maxRoute: 10

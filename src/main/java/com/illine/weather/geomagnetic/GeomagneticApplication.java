@@ -1,5 +1,6 @@
 package com.illine.weather.geomagnetic;
 
+import com.illine.weather.geomagnetic.config.property.LogbookProperties;
 import com.illine.weather.geomagnetic.config.property.RestProperties;
 import com.illine.weather.geomagnetic.config.property.RestRetryProperties;
 import com.illine.weather.geomagnetic.config.property.SwpcNoaaProperties;
@@ -12,7 +13,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync
-@EnableConfigurationProperties(value = {RestProperties.class, SwpcNoaaProperties.class, RestRetryProperties.class})
+@EnableConfigurationProperties(value =
+        {
+                RestProperties.class, SwpcNoaaProperties.class,
+                RestRetryProperties.class, LogbookProperties.class
+        }
+)
 public class GeomagneticApplication {
 
     public static void main(String[] args) {
