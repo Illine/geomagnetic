@@ -21,6 +21,9 @@ public class P6SpyLogger extends FormattedLogger {
 
     @Override
     public void logSQL(int connectionId, String now, long elapsed, Category category, String prepared, String sql, String url) {
+        if (Objects.equals(category, Category.ROLLBACK)) {
+            return;
+        }
         var message = strategy.formatMessage(connectionId, now, elapsed, category.toString(), prepared, sql, url);
         log(category, message);
     }

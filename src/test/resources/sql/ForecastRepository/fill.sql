@@ -13,8 +13,7 @@ values (1, '15:00:00', current_date); -- id 6
 insert into forecasts (index, forecast_time, forecast_date)
 values (1, '18:00:00', current_date); -- id 7
 insert into forecasts (index, forecast_time, forecast_date)
-values (1, '21:00:00', current_date);
--- id 8
+values (1, '21:00:00', current_date); -- id 8
 
 insert into forecasts (index, forecast_time, forecast_date)
 values (1, '00:00:00', current_date + interval '1 day'); -- id 9
@@ -31,8 +30,7 @@ values (1, '15:00:00', current_date + interval '1 day'); -- id 14
 insert into forecasts (index, forecast_time, forecast_date)
 values (1, '18:00:00', current_date + interval '1 day'); -- id 15
 insert into forecasts (index, forecast_time, forecast_date)
-values (1, '21:00:00', current_date + interval '1 day');
--- id 16
+values (1, '21:00:00', current_date + interval '1 day'); -- id 16
 
 -- deleted
 insert into forecasts (index, forecast_time, forecast_date, active)

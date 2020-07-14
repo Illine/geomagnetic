@@ -7,6 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,11 +18,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.INFERRED;
 
 @SpringIntegrationTest
 @DisplayName("ForecastAccessService Spring Integration Test")
-@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:sql/ForecastAccessService/fill.sql")
-@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:sql/ForecastAccessService/clear.sql")
 class ForecastAccessServiceTest {
 
     private static final LocalDate DEFAULT_DATE = LocalDate.now();
@@ -36,12 +38,18 @@ class ForecastAccessServiceTest {
 
     @Test
     @DisplayName("update(): saving collection of forecast dto")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastAccessService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastAccessService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulUpdate() {
         assertDoesNotThrow(() -> forecastAccessService.update(Collections.singleton(DtoGeneratorHelper.generateForecastDto())));
     }
 
     @Test
     @DisplayName("findDiurnal(): returns a forecast set has size 8")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastAccessService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastAccessService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulFindDiurnal() {
         var actual = forecastAccessService.findDiurnal(DEFAULT_DATE);
         assertEquals(EXCEPTED_COUNT_DIURNAL_FORECAST, actual.size());
@@ -49,6 +57,9 @@ class ForecastAccessServiceTest {
 
     @Test
     @DisplayName("findDiurnal(): returns a correct date of a forecast")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastAccessService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastAccessService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulCorrectDateFindDiurnal() {
         var actual =
                 forecastAccessService.findDiurnal(DEFAULT_DATE)
@@ -60,6 +71,9 @@ class ForecastAccessServiceTest {
 
     @Test
     @DisplayName("findCurrent(): returns a forecast set has size 6")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastAccessService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastAccessService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulFindCurrent() {
         var sevenTime = LocalTime.of(7, 0);
         var actual = forecastAccessService.findCurrent(LocalDateTime.of(DEFAULT_DATE, sevenTime));
@@ -68,6 +82,9 @@ class ForecastAccessServiceTest {
 
     @Test
     @DisplayName("findCurrent(): returns a correct date and time of a forecast")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastAccessService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastAccessService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulCorrectDateTimeFindCurrent() {
         var expected = Set.of(
                 LocalDateTime.of(DEFAULT_DATE, LocalTime.of(6, 0)),
@@ -88,6 +105,9 @@ class ForecastAccessServiceTest {
 
     @Test
     @DisplayName("findThreeDay(): returns a forecast set has size 24")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastAccessService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastAccessService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulFindThreeDay() {
         var actual = forecastAccessService.findThreeDays(DEFAULT_DATE);
         assertEquals(EXCEPTED_COUNT_THREE_DAY_FORECAST, actual.size());
@@ -95,6 +115,9 @@ class ForecastAccessServiceTest {
 
     @Test
     @DisplayName("findThreeDay(): returns a correct date of a forecast")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastAccessService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
+    @Sql(scripts = "classpath:sql/ForecastAccessService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulCorrectDateFindThreeDay() {
         var expected = Set.of(LocalDate.now(), LocalDate.now().plusDays(1), LocalDate.now().plusDays(2));
         var actual =
