@@ -3,6 +3,7 @@ package com.illine.weather.geomagnetic.util.logger;
 import com.illine.weather.geomagnetic.test.helper.ReflectionHelper;
 import com.illine.weather.geomagnetic.test.tag.UnitTest;
 import com.p6spy.engine.logging.Category;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,11 @@ class P6SpyLoggerTest {
         p6SpyLogger = new P6SpyLogger();
         loggerMock = Mockito.mock(Logger.class);
         ReflectionHelper.setStaticFinalField(p6SpyLogger, "LOGGER", loggerMock);
+    }
+
+    @AfterEach
+    void tearDown() {
+        reset(loggerMock);
     }
 
     //  -----------------------   successful tests   -------------------------

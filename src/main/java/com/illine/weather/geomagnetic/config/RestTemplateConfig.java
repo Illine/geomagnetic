@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+import org.zalando.logbook.Logbook;
+import org.zalando.logbook.httpclient.LogbookHttpRequestInterceptor;
+import org.zalando.logbook.httpclient.LogbookHttpResponseInterceptor;
 
 @Configuration
 class RestTemplateConfig {
@@ -25,12 +28,15 @@ class RestTemplateConfig {
     }
 
     @Bean
-    HttpComponentsClientHttpRequestFactory commonHttpRequestFactory(PoolingHttpClientConnectionManager commonConnection) {
-        HttpComponentsClientHttpRequestFactory httpRequestFactory =
+    HttpComponentsClientHttpRequestFactory commonHttpRequestFactory(Logbook logbook,
+                                                                    PoolingHttpClientConnectionManager commonConnection) {
+        var httpRequestFactory =
                 new HttpComponentsClientHttpRequestFactory(
                         HttpClients
                                 .custom()
                                 .setConnectionManager(commonConnection)
+                                .addInterceptorFirst(new LogbookHttpRequestInterceptor(logbook))
+                                .addInterceptorFirst(new LogbookHttpResponseInterceptor())
                                 .build()
                 );
         httpRequestFactory.setReadTimeout(properties.getReadTimeout());
