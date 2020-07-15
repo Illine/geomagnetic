@@ -10,7 +10,7 @@ import org.zalando.logbook.*;
 import static com.illine.weather.geomagnetic.util.LogbackHelper.getLogger;
 
 @Configuration
-public class LogbookConfig {
+class LogbookConfig {
 
     @Bean
     HttpLogWriter writer(LogbookProperties properties) {
