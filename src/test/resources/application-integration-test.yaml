@@ -34,6 +34,10 @@ spring:
     user: weather
     password: weather
     change-log: file:liquibase/changelog.yaml
+  sleuth:
+    web:
+      client:
+        enabled: false
 
 logbook:
   strategy: body-only-if-status-at-least
