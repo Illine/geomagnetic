@@ -8,8 +8,8 @@ plugins {
     id "java-library"
     id "jacoco"
     id "idea"
-    id "io.spring.dependency-management" version "1.0.5.RELEASE"
-    id "org.springframework.boot" version "2.1.5.RELEASE"
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id "org.springframework.boot" version "2.3.1.RELEASE"
     id "org.liquibase.gradle" version "2.0.4"
     id "com.bmuschko.docker-remote-api" version "6.4.0"
 }
@@ -23,14 +23,14 @@ ext {
     set("springCloudVersion", "Greenwich.SR1")
     set("springRetryVersion", "1.2.5.RELEASE")
     set("groovyVersion", "2.5.5")
-    set("liquibaseCoreVersion", "3.6.3")
+    set("liquibaseCoreVersion", "3.10.1")
     set("modelMapperVersion", "2.3.4")
     set("p6spyVersion", "3.9.0")
     set("httpComponentsVersion", "4.5.9")
     set("logbookVersion", "2.1.0")
     set("lombokVersion", "1.18.8")
     set("postgresVersion", "42.2.5")
-    set("liquibaseDslVersion", "2.0.1")
+    set("liquibaseDslVersion", "2.1.2")
     set("logbackVersion", "1.2.3")
     set("junitVersion", "5.4.2")
     set("awaitilityVersion", "4.0.3")

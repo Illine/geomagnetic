@@ -29,6 +29,10 @@ spring:
       schema: geomagnetic
   liquibase:
     enabled: false
+  sleuth:
+    web:
+      client:
+        enabled: false
 
 logbook:
   strategy: body-only-if-status-at-least

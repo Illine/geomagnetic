@@ -1,11 +1,15 @@
 package com.illine.weather.geomagnetic.config;
 
+import brave.Span;
 import brave.Tracer;
+import brave.propagation.TraceContext;
 import com.illine.weather.geomagnetic.config.property.LogbookProperties;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.zalando.logbook.*;
+
+import java.util.Optional;
 
 import static com.illine.weather.geomagnetic.util.LogbackHelper.getLogger;
 
@@ -50,13 +54,16 @@ class LogbookConfig {
 
         private final Tracer tracer;
 
-        public SleuthCorrelationId(Tracer tracer) {
+        SleuthCorrelationId(Tracer tracer) {
             this.tracer = tracer;
         }
 
         @Override
         public String generate(HttpRequest request) {
-            return tracer.currentSpan().context().traceIdString();
+            return Optional.ofNullable(tracer.currentSpan())
+                    .map(Span::context)
+                    .map(TraceContext::traceIdString)
+                    .orElse(new DefaultCorrelationId().generate(request));
         }
     }
 }

@@ -26,6 +26,10 @@ spring:
       schema: geomagnetic
   liquibase:
     enabled: false
+  sleuth:
+    web:
+      client:
+        enabled: false
 
 logbook:
   exclude:
