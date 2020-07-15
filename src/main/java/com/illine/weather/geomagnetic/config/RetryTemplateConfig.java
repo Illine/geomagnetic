@@ -10,7 +10,7 @@ import org.springframework.retry.support.RetryTemplate;
 
 @Configuration
 @RequiredArgsConstructor
-public class RetryTemplateConfig {
+class RetryTemplateConfig {
 
     private final RestRetryProperties properties;
 
