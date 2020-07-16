@@ -2,7 +2,6 @@ import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
 import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
 import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer
 import com.bmuschko.gradle.docker.tasks.image.DockerPullImage
-import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage
 
 plugins {
     id "java-library"
@@ -14,10 +13,13 @@ plugins {
     id "com.bmuschko.docker-remote-api" version "6.4.0"
 }
 
-version = "1.0.0-SNAPSHOT"
 group = "com.illine"
 targetCompatibility = JavaVersion.VERSION_11
 sourceCompatibility = JavaVersion.VERSION_11
+
+bootJar {
+    archiveName = "${jar.baseName}.${jar.extension}"
+}
 
 ext {
     set("springCloudVersion", "Greenwich.SR1")
@@ -122,11 +124,6 @@ task pullImage(type: DockerPullImage) {
     image = imagePostgres
 }
 
-task removeImage(type: DockerRemoveImage) {
-    targetImageId(imagePostgres)
-    force = true
-}
-
 task createContainer(type: DockerCreateContainer) {
     dependsOn(pullImage)
     targetImageId(imagePostgres)
@@ -142,7 +139,6 @@ task startContainer(type: DockerStartContainer) {
 
 task stopContainer(type: DockerStopContainer) {
     targetContainerId(containerPostgres)
-    finalizedBy(removeImage)
 }
 
 test {

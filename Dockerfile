@@ -1,9 +1,8 @@
 FROM openjdk:11
 
-LABEL Mainteiner="Kovtun Evgeniya, eekovtun@gmail.com" \
-      Version="1.0.0"
+LABEL Mainteiner="Kovtun Evgeniya, eekovtun@gmail.com"
 
-ARG GEOMAGNETIC_HOME=/opt/geomagnetic-api
+ARG GEOMAGNETIC_HOME=/opt/geomagnetic
 ARG GEOMAGNETIC_JAR=geomagnetic.jar
 
 ENV TZ=Europe/Moscow \
@@ -12,6 +11,6 @@ ENV TZ=Europe/Moscow \
 
 WORKDIR $APP_HOME
 
-COPY build/libs/geomagnetic-api-*.jar $APP_HOME/$APP_JAR
+COPY build/libs/geomagnetic.jar $APP_HOME/$APP_JAR
 
 ENTRYPOINT java $GEOMAGNETIC_OPTS -jar $APP_JAR

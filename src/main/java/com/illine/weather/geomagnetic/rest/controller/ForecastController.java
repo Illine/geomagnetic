@@ -20,17 +20,17 @@ public class ForecastController {
         this.forecastPresenter = forecastPresenter;
     }
 
-    @GetMapping(value = "/diurnal", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/diurnal", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MobileForecastResponse> getDiurnal() {
         return ResponseEntity.ok(forecastPresenter.getDiurnal());
     }
 
-    @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MobileForecastResponse> getCurrent() {
         return ResponseEntity.ok(forecastPresenter.getCurrent());
     }
 
-    @GetMapping(value = "/three-day", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/three-day", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MobileForecastResponse> getThreeDays() {
         return ResponseEntity.ok(forecastPresenter.getThreeDays());
     }
