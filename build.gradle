@@ -180,6 +180,12 @@ jacocoTestCoverageVerification {
 
 jacocoTestReport {
     reports {
-        html.destination file("${buildDir}/jacoco/html")
+        html {
+            enabled false
+        }
+        xml {
+            enabled true
+            destination file("${buildDir}/jacoco/coverage.xml")
+        }
     }
 }
