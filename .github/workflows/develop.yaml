@@ -23,6 +23,15 @@ jobs:
       - name: Gradle Test
         run: ./gradlew test
 
+      - name: Codecov
+        uses: codecov/codecov-action@v1.0.10
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./build/jacoco/coverage.xml
+          name: codecov-geomagnetic-unit
+          flags: unit
+          fail_ci_if_error: true
+
   build:
     if: github.event_name == 'push'
     needs:
