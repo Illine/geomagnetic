@@ -1,4 +1,4 @@
-name: "build"
+name: "beta"
 
 on:
   push:
@@ -63,39 +63,13 @@ jobs:
           name: geomagnetic.jar
           path: build/libs/geomagnetic.jar
 
-  tag:
-    if: github.event_name == 'push'
-    needs:
-      - test
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Tag bump and push
-        uses: anothrNick/github-tag-action@1.22.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch
-          WITH_V: false
-          RELEASE_BRANCHES: develop
-
   docker:
     if: github.event_name == 'push'
     needs:
-      - tag
-      - test
       - build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Find Latest Tag
-        id: latest_tag
-        uses: oprypin/find-latest-tag@v1.0.2
-        with:
-          repository: illine/geomagnetic
 
       - name: Download JAR
         uses: actions/download-artifact@v1
@@ -103,10 +77,13 @@ jobs:
           name: geomagnetic.jar
           path: build/libs/geomagnetic.jar
 
-      - name: Docker build and push
+      - name: Get Docker Tag
+        run: echo ::set-env name=DOCKER_TAG::$(echo ${GITHUB_SHA::8})
+
+      - name: Docker Build and Push
         uses: elgohr/Publish-Docker-Github-Action@2.18
         with:
           name: illine/geomagnetic
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: ${{ steps.latest_tag.outputs.tag }}
+          tags: ${{ env.DOCKER_TAG }}
