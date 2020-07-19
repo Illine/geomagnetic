@@ -1,12 +1,13 @@
-name: "beta"
+name: "pull request"
 
 on:
-  push:
+  pull_request:
     branches:
+      - master
       - develop
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,17 +29,3 @@ jobs:
           name: codecov-geomagnetic-unit
           flags: unit
           fail_ci_if_error: true
-
-      - name: Gradle Build
-        run: ./gradlew assemble
-
-      - name: Get Docker Tag
-        run: echo ::set-env name=DOCKER_TAG::$(echo ${GITHUB_SHA::8})
-
-      - name: Docker Build and Push
-        uses: elgohr/Publish-Docker-Github-Action@2.18
-        with:
-          name: illine/geomagnetic
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: ${{ env.DOCKER_TAG }}
