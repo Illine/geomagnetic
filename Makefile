@@ -13,3 +13,5 @@ start:
 stop:
 	@echo "Removing and Stopping Service"
 	@kubectl delete all -l app=geomagnetic
+	@kubectl delete cm -l app=geomagnetic
+	@kubectl delete secret -l app=geomagnetic
