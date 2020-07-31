@@ -1,0 +1,67 @@
+server:
+  port: {{ application.web_port }}
+
+management:
+  server:
+    port: {{ application.service_port }}
+
+spring:
+  application:
+    name: {{ application.name }}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp.use_jdbc_metadata_defaults: false
+        default_schema: {{ application.name }}
+    open-in-view: false
+  datasource:
+    url: {{ spring.database.url }}
+    username: "${DATABASE_USERNAME}"
+    password: "${DATABASE_PASSWORD}"
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: {{ spring.datasource.hikari.pool_name | default('HikariPool') }}
+      max-lifetime: {{ spring.datasource.hikari.max_lifetime | default(600000) }}
+      connection-timeout: {{ spring.datasource.hikari.connection_timeout | default(15000) }}
+      maximum-pool-size: {{ spring.datasource.hikari.maximum_pool_size | default(10) }}
+      idle-timeout: {{ spring.datasource.hikari.idle_timeout | default(200000) }}
+      minimum-idle: {{ spring.datasource.hikari.idle_timeout | default(200000) }}
+      schema: {{ application.name }}
+  liquibase:
+    enabled: false
+  sleuth:
+    web:
+      client:
+        enabled: false
+
+logbook:
+  strategy: body-only-if-status-at-least
+  exclude:
+    - /actuator/*
+  format:
+    style: http
+  logger:
+    name: GEOMAGNETIC-REST
+
+rest:
+  max-thread: {{ rest.max_thread | default(100) }}
+  max-route: {{ rest.max_route | default(10) }}
+  read-timeout: {{ rest.read_timeout | default(15000) }}
+  connection-timeout: {{ rest.connection_timeout | default(10000) }}
+  retry:
+    delay-in-ms: {{ rest.retry.delay_in_ms | default(500) }}
+    max-attempts: {{ rest.retry.max_attempts | default(5) }}
+
+swpc-noaa:
+  schema: {{ swpc_noaa.schema }}
+  host: {{ swpc_noaa.host }}
+  path: {{ swpc_noaa.path }}
+
+etl:
+  scheduled:
+    enabled: {{ etl.scheduled.enabled | lower }}
+    cron: "{{ etl.scheduled.cron }}"

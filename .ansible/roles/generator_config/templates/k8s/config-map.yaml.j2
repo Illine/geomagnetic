@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  namespace: {{ namespace }}
+  name: {{ application.name }}
+  labels:
+    app: {{ application.name }}
+data:
+  application.yaml: |
+    {{ lookup('template', '{{ playbook_dir }}/roles/{{ role_name }}/templates/application/application.yaml.j2') | indent }}
+  logback.groovy: |
+    {{ lookup('template', '{{ playbook_dir }}/roles/{{ role_name }}/templates/application/logback.groovy.j2') | indent }}

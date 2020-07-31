@@ -32,7 +32,7 @@ jobs:
       - name: Gradle Build
         run: ./gradlew assemble
 
-      - name: Get Docker Tag
+      - name: Setup Docker Tag
         run: echo ::set-env name=DOCKER_TAG::$(echo ${GITHUB_SHA::8})
 
       - name: Docker Build and Push
@@ -42,3 +42,76 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           tags: ${{ env.DOCKER_TAG }}
+
+  deploy:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Database URL
+        run: echo ::set-env name=DATABASE_URL::$(echo ${{ secrets.TEST_DATABASE_URL }})
+
+      - name: Setup Image Tag
+        run: echo ::set-env name=IMAGE_TAG::$(echo ${GITHUB_SHA::8})
+
+      - name: Setup Kubernetes Config Directory
+        run: echo ::set-env name=K8S_DIR::$(echo ".ansible/configs/k8s")
+
+      - name: Generate Configs by Ansible Playbook
+        uses: saubermacherag/ansible-playbook-docker-action@v1.3
+        with:
+          playbookName: .ansible/main.yaml
+          keyFileVaultPass: ${{ secrets.TEST_ANSIBLE_VAULT_PASSWORD }}
+          inventoryFile: .ansible/inventories/test/hosts.yml
+          extraVars: -e env=test
+
+      - name: Copy liquibase.properties to a config folder
+        run: cp .ansible/configs/liquibase/liquibase.properties config/liquibase.properties
+
+      - name: Update Database by Liquibase
+        run: ./gradlew update
+
+      - name: Upload Kubernetes ConfigMap
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_AUTH }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: ${{ secrets.GKE_ZONE_NAME }}
+        with:
+          args: apply -f $K8S_DIR/config-map.yaml
+
+      - name: Upload Kubernetes Secret
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_AUTH }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: ${{ secrets.GKE_ZONE_NAME }}
+        with:
+          args: apply -f $K8S_DIR/secret.yaml
+
+      - name: Upload Kubernetes Service
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_AUTH }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: ${{ secrets.GKE_ZONE_NAME }}
+        with:
+          args: apply -f $K8S_DIR/service.yaml
+
+      - name: Upload Kubernetes Deployment
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_AUTH }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: ${{ secrets.GKE_ZONE_NAME }}
+        with:
+          args: apply -f $K8S_DIR/deployment.yaml --record
+
+      - name: Push build tag
+        run: git tag docker/$IMAGE_TAG && git push origin docker/$IMAGE_TAG

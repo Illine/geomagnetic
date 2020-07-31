@@ -48,3 +48,73 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           tags: "latest,${{ steps.build.outputs.tag }}"
+
+  deploy:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Database URL
+        run: echo ::set-env name=DATABASE_URL::$(echo ${{ secrets.PROD_DATABASE_URL }})
+
+      - name: Setup Image Tag
+        run: echo ::set-env name=IMAGE_TAG::$(echo ${{ steps.build.outputs.tag }})
+
+      - name: Setup Kubernetes Config Directory
+        run: echo ::set-env name=K8S_DIR::$(echo ".ansible/configs/k8s")
+
+      - name: Generate Configs by Ansible Playbook
+        uses: saubermacherag/ansible-playbook-docker-action@v1.3
+        with:
+          playbookName: .ansible/main.yaml
+          keyFileVaultPass: ${{ secrets.PROD_ANSIBLE_VAULT_PASSWORD }}
+          inventoryFile: .ansible/inventories/prod/hosts.yml
+          extraVars: -e env=prod
+
+      - name: Copy liquibase.properties to a config folder
+        run: cp .ansible/configs/liquibase/liquibase.properties config/liquibase.properties
+
+      - name: Update Database by Liquibase
+        run: ./gradlew update
+
+      - name: Upload Kubernetes ConfigMap
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_AUTH }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: ${{ secrets.GKE_ZONE_NAME }}
+        with:
+          args: apply -f $K8S_DIR/config-map.yaml
+
+      - name: Upload Kubernetes Secret
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_AUTH }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: ${{ secrets.GKE_ZONE_NAME }}
+        with:
+          args: apply -f $K8S_DIR/secret.yaml
+
+      - name: Upload Kubernetes Service
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_AUTH }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: ${{ secrets.GKE_ZONE_NAME }}
+        with:
+          args: apply -f $K8S_DIR/service.yaml
+
+      - name: Upload Kubernetes Deployment
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_AUTH }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: ${{ secrets.GKE_ZONE_NAME }}
+        with:
+          args: apply -f $K8S_DIR/deployment.yaml --record

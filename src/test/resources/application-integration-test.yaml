@@ -33,7 +33,7 @@ spring:
     default-schema: geomagnetic
     user: weather
     password: weather
-    change-log: file:liquibase/changelog.yaml
+    change-log: file:.liquibase/changelog.yaml
     contexts: unit-tests
   sleuth:
     web:
