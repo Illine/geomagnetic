@@ -67,8 +67,8 @@ jobs:
           inventoryFile: .ansible/inventories/test/hosts.yml
           extraVars: -e env=test
 
-      - name: Copy liquibase.properties to a config folder
-        run: cp .ansible/configs/liquibase/liquibase.properties config/liquibase.properties
+      - name: Copy liquibase.properties to a .liquibase folder
+        run: cp .ansible/configs/liquibase/liquibase.properties .liquibase/liquibase.properties
 
       - name: Update Database by Liquibase
         run: ./gradlew update

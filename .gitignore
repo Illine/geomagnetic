@@ -12,3 +12,6 @@ out/*
 
 ### Ansible ###
 .ansible/configs/*
+
+### Configs ###
+liquibase.properties

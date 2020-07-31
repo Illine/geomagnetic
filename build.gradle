@@ -100,7 +100,7 @@ dependencies {
 
 liquibase {
     def properties = new Properties()
-    def propertyFile = file("config/liquibase.properties")
+    def propertyFile = file(".liquibase/liquibase.properties")
 
     if (propertyFile.exists()) {
         propertyFile.withInputStream { properties.load(it) }
