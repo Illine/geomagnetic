@@ -38,6 +38,9 @@ spring:
       client:
         enabled: false
 
+logging:
+  config: {{ application.directory.config }}/logback.groovy
+
 logbook:
   strategy: body-only-if-status-at-least
   exclude:
