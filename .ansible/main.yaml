@@ -1,0 +1,10 @@
+---
+- hosts: "{{ env }}"
+  gather_facts: false
+  roles:
+    - name: Generator Configs from Templates Role
+      role: generator_config
+
+    - name: Load or Update configurations to Minikube
+      role: uploader_minikube
+      when: env == 'local'

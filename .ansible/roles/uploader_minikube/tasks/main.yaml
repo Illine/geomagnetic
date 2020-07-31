@@ -1,0 +1,9 @@
+---
+- name: Upload Configs
+  k8s:
+    context: minikube
+    state: present
+    src: "{{ k8s.directory.configs }}/{{ item }}"
+    validate:
+      fail_on_error: yes
+  with_items: "{{ k8s.files }}"

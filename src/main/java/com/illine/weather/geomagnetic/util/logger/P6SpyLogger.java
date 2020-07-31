@@ -27,6 +27,6 @@ public class P6SpyLogger extends FormattedLogger {
 
     @Override
     public boolean isCategoryEnabled(Category category) {
-        return Objects.equals(category, Category.DEBUG) || Objects.equals(category, Category.INFO);
+        return Objects.equals(category, Category.INFO);
     }
 }

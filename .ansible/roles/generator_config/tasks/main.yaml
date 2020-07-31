@@ -1,0 +1,24 @@
+---
+- name: Create k8s config folder
+  file:
+    dest: "{{ k8s.directory.configs }}"
+    state: directory
+
+- name: Generate Kubernetes Configs from Templates
+  template:
+    src: "{{ k8s.directory.templates }}/{{ item }}.j2"
+    dest: "{{ k8s.directory.configs }}/{{ item }}"
+  with_items: "{{ k8s.files }}"
+
+- name: Create Liquibase config folder
+  file:
+    dest: "{{ liquibase.directory.configs }}"
+    state: directory
+  when: env != 'local'
+
+- name: Generate Liquibase Config from Templates
+  template:
+    src: "{{ liquibase.directory.templates }}/{{ item }}.j2"
+    dest: "{{ liquibase.directory.configs }}/{{ item }}"
+  with_items: "{{ liquibase.files }}"
+  when: env != 'local'

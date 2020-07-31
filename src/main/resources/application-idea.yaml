@@ -1,6 +1,10 @@
 server:
   port: 8000
 
+management:
+  server:
+    port: 7000
+
 spring:
   application:
     name: geomagnetic
@@ -44,10 +48,10 @@ logbook:
     name: GEOMAGNETIC-REST
 
 rest:
-  maxThread: 100
-  maxRoute: 10
-  readTimeout: 15000
-  connectionTimeout: 10000
+  max-thread: 100
+  max-route: 10
+  read-timeout: 15000
+  connection-timeout: 10000
   retry:
     delay-in-ms: 500
     max-attempts: 5

@@ -9,3 +9,6 @@ build/*
 *.iml
 *.ipr
 out/*
+
+### Ansible ###
+.ansible/configs/*
