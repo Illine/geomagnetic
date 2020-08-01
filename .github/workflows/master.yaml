@@ -33,6 +33,7 @@ jobs:
         run: ./gradlew assemble
 
       - name: Tag Bump and Push
+        id: tag_bump
         uses: anothrNick/github-tag-action@1.22.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,7 +46,7 @@ jobs:
           name: illine/geomagnetic
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "latest,${{ steps.build.outputs.new_tag }}"
+          tags: "latest,${{ steps.tag_bump.outputs.new_tag }}"
 
   deploy:
     needs:
