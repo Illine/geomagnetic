@@ -1,6 +1,6 @@
-HELP.md
+### Gradle ###
 .gradle
-/build/
+build/*
 !gradle/wrapper/gradle-wrapper.jar
 
 ### IntelliJ IDEA ###
@@ -8,4 +8,10 @@ HELP.md
 *.iws
 *.iml
 *.ipr
-/out/
+out/*
+
+### Ansible ###
+.ansible/configs/*
+
+### Configs ###
+liquibase.properties

@@ -1,0 +1,25 @@
+:Product: Geomagnetic Forecast
+:Issued: Year Month Date 2205 UTC
+# Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather Prediction Center
+#
+NOAA Ap Index Forecast
+Observed Date
+Estimated Date
+Predicted DateFrom-DateTo 012-008-005
+
+NOAA Geomagnetic Activity Probabilities today-afterTomorrow
+Active                40/25/10
+Minor storm           25/05/01
+Moderate storm        10/01/01
+Strong-Extreme storm  01/01/01
+
+NOAA Kp index forecast today - afterTomorrow
+           Today  Tomorrow    AfterTomorrow
+00-03UT        1         2         3
+03-06UT        1         2         3
+06-09UT        1         2         3
+09-12UT        1         2         3
+12-15UT        1         2         3
+15-18UT        1         2         3
+18-21UT        1         2         3
+21-00UT        1         2         3

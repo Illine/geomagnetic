@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ namespace }}
+  name: {{ application.name }}
+  labels:
+    app: {{ application.name }}
+    version: "{{ lookup('env', 'IMAGE_TAG') }}"
+spec:
+  minReadySeconds: {{ deployment.health.initial_delay_seconds }}
+  progressDeadlineSeconds: {{ deployment.health.progress_deadline_seconds }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: {{ application.name }}
+  replicas: {{ deployment.replicas | default(1) }}
+  template:
+    metadata:
+      namespace: {{ namespace }}
+      name: {{ application.name }}
+      labels:
+        app: {{ application.name }}
+    spec:
+      containers:
+        - name: {{ application.name }}
+          image: "{{ docker_repository }}/{{ application.name }}:{{ lookup('env', 'IMAGE_TAG') }}"
+          imagePullPolicy: {{ deployment.image_pull_policy | default('Always') }}
+
+          env:
+            - name: JAVA_OPTS
+              value: "{{ resources.java_opts | join(' ') }}"
+
+          envFrom:
+            - secretRef:
+                name: {{ application.name }}
+
+          ports:
+            - name: http
+              containerPort: {{ application.web_port }}
+            - name: actuator
+              containerPort: {{ application.service_port }}
+
+          volumeMounts:
+            - name: {{ application.name }}-config
+              mountPath: {{ application.directory.config }}
+              readOnly: true
+
+            - name: {{ application.name }}-logs
+              mountPath: {{ application.directory.logs }}
+
+          resources:
+            requests:
+              cpu: {{ resources.requests.cpu }}
+              memory: {{ resources.requests.memory }}
+            limits:
+              cpu: {{ resources.limits.cpu }}
+              memory: {{ resources.limits.memory }}
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: {{ application.service_port }}
+            initialDelaySeconds: {{ deployment.health.initial_delay_seconds }}
+            periodSeconds: {{ deployment.health.period_seconds }}
+            timeoutSeconds: {{ deployment.health.timeout_seconds }}
+            failureThreshold: {{ deployment.health.failure_threshold }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: {{ application.service_port }}
+            initialDelaySeconds: {{ deployment.health.initial_delay_seconds }}
+            periodSeconds: {{ deployment.health.period_seconds }}
+            timeoutSeconds: {{ deployment.health.timeout_seconds }}
+            failureThreshold: {{ deployment.health.failure_threshold }}
+
+      restartPolicy: {{ deployment.restart_policy }}
+
+      volumes:
+        - name: {{ application.name }}-config
+          configMap:
+            name: {{ application.name }}
+        - name: {{ application.name }}-logs
+          emptyDir: {}

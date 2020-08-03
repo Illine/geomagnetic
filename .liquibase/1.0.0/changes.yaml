@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.0.0
+      author: eekovtun
+      comment: Database Initial
+      changes:
+        - tagDatabase:
+            tag: 1.0.0
+
+  - include:
+      file: ddl/forecasts.sql
+      relativeToChangelogFile: true
+  - include:
+      file: grant/geomagnetic.sql
+      relativeToChangelogFile: true

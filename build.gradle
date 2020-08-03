@@ -1,29 +1,51 @@
-buildscript {
-    ext {
-        junitVersion = "5.4.2"
-        h2Version = "1.4.199"
-    }
-}
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStopContainer
+import com.bmuschko.gradle.docker.tasks.image.DockerPullImage
 
 plugins {
-    id "java"
+    id "java-library"
+    id "jacoco"
     id "idea"
-    id "io.spring.dependency-management" version "1.0.7.RELEASE"
-    id "org.springframework.boot" version "2.1.5.RELEASE"
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id "org.springframework.boot" version "2.3.1.RELEASE"
+    id "org.liquibase.gradle" version "2.0.4"
+    id "com.bmuschko.docker-remote-api" version "6.4.0"
 }
 
-group = "net.c7j.weather"
-version = "0.0.1-SNAPSHOT"
-targetCompatibility = '11'
-sourceCompatibility = '11'
+group = "com.illine"
+targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_11
+
+bootJar {
+    archiveName = "${jar.baseName}.${jar.extension}"
+}
+
+ext {
+    set("springCloudVersion", "Greenwich.SR1")
+    set("springRetryVersion", "1.2.5.RELEASE")
+    set("groovyVersion", "2.5.5")
+    set("liquibaseCoreVersion", "3.10.1")
+    set("modelMapperVersion", "2.3.4")
+    set("p6spyVersion", "3.9.0")
+    set("httpComponentsVersion", "4.5.9")
+    set("logbookVersion", "2.1.0")
+    set("lombokVersion", "1.18.8")
+    set("postgresVersion", "42.2.5")
+    set("liquibaseDslVersion", "2.1.2")
+    set("logbackVersion", "1.2.3")
+    set("snakeyamlVersion", "1.26")
+    set("junitVersion", "5.4.2")
+    set("awaitilityVersion", "4.0.3")
+}
 
 configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
+    annotationProcessor {
+        extendsFrom compileOnly
     }
-    compileOnly {
-        extendsFrom annotationProcessor
+
+    testAnnotationProcessor {
+        extendsFrom testCompileOnly
     }
 }
 
@@ -33,28 +55,138 @@ repositories {
 
 ext {
     set("springCloudVersion", "Greenwich.SR1")
-}
-
-dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-validation"
-    implementation "org.flywaydb:flyway-core"
-
-    compileOnly "org.projectlombok:lombok"
-
-    runtimeOnly "org.postgresql:postgresql"
-    
-    annotationProcessor "org.projectlombok:lombok"
-
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-
-    testCompile "com.h2database:h2:${h2Version}"
+    set("groovyVersion", "2.5.5")
 }
 
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    api "org.springframework.boot:spring-boot-starter-actuator"
+    api "org.springframework.boot:spring-boot-starter-web"
+    api "org.springframework.boot:spring-boot-starter-data-jpa"
+    api "org.springframework.boot:spring-boot-starter-validation"
+    api "org.springframework.cloud:spring-cloud-starter-sleuth"
+    api "org.springframework.retry:spring-retry:${springRetryVersion}"
+
+    api "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
+    api "org.modelmapper:modelmapper:${modelMapperVersion}"
+    api "p6spy:p6spy:${p6spyVersion}"
+    api "org.apache.httpcomponents:httpclient:${httpComponentsVersion}"
+    api "org.zalando:logbook-spring-boot-starter:${logbookVersion}"
+
+    runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation "org.awaitility:awaitility:${awaitilityVersion}"
+
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
+    liquibaseRuntime "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
+    liquibaseRuntime "org.liquibase:liquibase-groovy-dsl:${liquibaseDslVersion}"
+    liquibaseRuntime "ch.qos.logback:logback-classic:${logbackVersion}"
+    liquibaseRuntime "org.postgresql:postgresql:${postgresVersion}"
+    liquibaseRuntime "org.yaml:snakeyaml:${snakeyamlVersion}"
+}
+
+liquibase {
+    def properties = new Properties()
+    def propertyFile = file(".liquibase/liquibase.properties")
+
+    if (propertyFile.exists()) {
+        propertyFile.withInputStream { properties.load(it) }
+    }
+
+    activities {
+        main {
+            changeLogFile "${projectDir}/.liquibase/changelog.yaml"
+            outputFile "${buildDir}/liquibase/sql-migration.sql"
+            url properties.getOrDefault("url", "jdbc:postgresql://localhost:5432/weather")
+            username properties.getOrDefault("username", "weather")
+            password properties.getOrDefault("password", "weather")
+            defaultSchemaName properties.getOrDefault("schema", "geomagnetic")
+        }
+    }
+}
+
+def imagePostgres = "illine/postgres-weather:latest"
+def containerPostgres = "postgres-weather"
+
+task pullImage(type: DockerPullImage) {
+    image = imagePostgres
+}
+
+task createContainer(type: DockerCreateContainer) {
+    dependsOn(pullImage)
+    targetImageId(imagePostgres)
+    containerName = containerPostgres
+    hostConfig.portBindings = ["5000:5432"]
+    hostConfig.autoRemove = true
+}
+
+task startContainer(type: DockerStartContainer) {
+    dependsOn(createContainer)
+    targetContainerId(containerPostgres)
+}
+
+task stopContainer(type: DockerStopContainer) {
+    targetContainerId(containerPostgres)
+}
+
+test {
+    dependsOn(startContainer)
+    useJUnitPlatform {
+        includeTags "spring-mock", "spring-integration", "unit"
+    }
+    finalizedBy(stopContainer, jacocoTestReport, jacocoTestCoverageVerification)
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = "CLASS"
+            excludes = ["com.illine.weather.geomagnetic.GeomagneticApplication"]
+        }
+        rule {
+            element = "PACKAGE"
+            includes = [
+                    "com.illine.weather.geomagnetic.client",
+                    "com.illine.weather.geomagnetic.config",
+                    "com.illine.weather.geomagnetic.dao",
+                    "com.illine.weather.geomagnetic.exception",
+                    "com.illine.weather.geomagnetic.mapper",
+                    "com.illine.weather.geomagnetic.model",
+                    "com.illine.weather.geomagnetic.rest",
+                    "com.illine.weather.geomagnetic.scheduler",
+                    "com.illine.weather.geomagnetic.service",
+                    "com.illine.weather.geomagnetic.util"
+            ]
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = 1.0
+            }
+        }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        html {
+            enabled false
+        }
+        xml {
+            enabled true
+            destination file("${buildDir}/jacoco/coverage.xml")
+        }
     }
 }

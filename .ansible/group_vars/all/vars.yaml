@@ -1,0 +1,11 @@
+---
+application:
+  name: geomagnetic
+  web_port: 8000
+  service_port: 7000
+
+  directory:
+    config: "/opt/geomagnetic/config"
+    logs: "/opt/geomagnetic/logs"
+
+docker_repository: illine
