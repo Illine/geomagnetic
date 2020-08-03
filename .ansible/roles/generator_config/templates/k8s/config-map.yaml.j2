@@ -6,6 +6,8 @@ metadata:
   labels:
     app: {{ application.name }}
 data:
+  bootstrap.yaml: |
+    {{ lookup('template', '{{ playbook_dir }}/roles/{{ role_name }}/templates/application/bootstrap.yaml.j2') | indent }}
   application.yaml: |
     {{ lookup('template', '{{ playbook_dir }}/roles/{{ role_name }}/templates/application/application.yaml.j2') | indent }}
   logback.groovy: |

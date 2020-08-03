@@ -13,6 +13,10 @@ spring:
         temp.use_jdbc_metadata_defaults: false
         default_schema: geomagnetic
     open-in-view: false
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
   datasource:
     url: jdbc:p6spy:postgresql://localhost:5000/weather
     username: weather
@@ -39,6 +43,9 @@ spring:
     web:
       client:
         enabled: false
+  cloud:
+    kubernetes:
+      enabled: false
 
 logbook:
   strategy: body-only-if-status-at-least
