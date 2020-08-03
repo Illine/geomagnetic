@@ -13,4 +13,4 @@ WORKDIR $HOME
 
 COPY build/libs/geomagnetic.jar $HOME/$JAR
 
-ENTRYPOINT java $GEOMAGNETIC_OPTS -jar $JAR
+ENTRYPOINT java $JAVA_OPTS -jar $JAR
