@@ -1,13 +1,4 @@
-server:
-  port: {{ application.web_port }}
-
-management:
-  server:
-    port: {{ application.service_port }}
-
 spring:
-  application:
-    name: {{ application.name }}
   jpa:
     hibernate:
       ddl-auto: none
@@ -17,6 +8,10 @@ spring:
         temp.use_jdbc_metadata_defaults: false
         default_schema: {{ application.name }}
     open-in-view: false
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
   datasource:
     url: {{ spring.database.url }}
     username: "${DATABASE_USERNAME}"
