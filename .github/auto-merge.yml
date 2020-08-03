@@ -1,0 +1,14 @@
+updateBranch: true
+deleteBranchAfterMerge: true
+reportStatus: true
+mergeMethod: squash
+
+minApprovals:
+  COLLABORATOR: 0
+maxRequestedChanges:
+  NONE: 0
+
+requiredLabels:
+  - auto-merge
+blockingLabels:
+  - not-auto-merge
