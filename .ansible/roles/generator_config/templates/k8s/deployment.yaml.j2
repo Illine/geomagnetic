@@ -5,7 +5,7 @@ metadata:
   name: {{ application.name }}
   labels:
     app: {{ application.name }}
-    version: {{ lookup('env', 'IMAGE_TAG') }}
+    version: "{{ lookup('env', 'IMAGE_TAG') }}"
 spec:
   minReadySeconds: {{ deployment.health.initial_delay_seconds }}
   progressDeadlineSeconds: {{ deployment.health.progress_deadline_seconds }}
