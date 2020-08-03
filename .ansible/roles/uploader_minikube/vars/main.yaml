@@ -4,6 +4,6 @@ k8s:
     configs: "{{ playbook_dir }}/configs/k8s"
   files:
     - config-map.yaml
-    - deployment.yaml
     - secret.yaml
     - service.yaml
+    - deployment.yaml
