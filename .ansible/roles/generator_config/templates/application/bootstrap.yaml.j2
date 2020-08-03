@@ -1,0 +1,20 @@
+server:
+  port: {{ application.web_port }}
+
+management:
+  server:
+    port: {{ application.service_port }}
+
+spring:
+  application:
+    name: {{ application.name }}
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        name: {{ application.name }}
+        sources:
+          - namespace: {{ namespace }}
+            name: {{ application.name }}
+      reload:
+        enabled: true
