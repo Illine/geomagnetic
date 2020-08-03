@@ -1,0 +1,20 @@
+version: 1
+
+merge:
+  trigger:
+    labels: ["auto-merge"]
+    branches:
+      - develop
+      - master
+
+  ignore:
+    labels: ["not-auto-merge"]
+    comment_substrings: ["Label is not-auto-merge! Don't merge."]
+
+  method: squash
+
+  branch_method:
+    develop: squash
+    master: merge
+
+  delete_after_merge: true
