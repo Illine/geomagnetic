@@ -1,0 +1,19 @@
+source:
+  - 'src/main/java/*'
+
+config:
+  - any:
+    - 'src/main/resources/*'
+    - '.ansible/*'
+    - '.github/*'
+    - 'Dockerfile'
+    - '*.gradle'
+    - 'Makefile'
+    - '.gitignore'
+    - 'lombok.config'
+
+readme:
+  - 'README.md'
+
+test:
+  - 'src/test/*'
