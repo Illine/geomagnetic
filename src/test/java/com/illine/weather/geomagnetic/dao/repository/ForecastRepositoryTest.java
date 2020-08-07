@@ -1,6 +1,7 @@
 package com.illine.weather.geomagnetic.dao.repository;
 
 import com.illine.weather.geomagnetic.model.base.ActiveType;
+import com.illine.weather.geomagnetic.model.base.IndexType;
 import com.illine.weather.geomagnetic.test.helper.generator.EntityGeneratorHelper;
 import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
@@ -64,6 +65,26 @@ class ForecastRepositoryTest {
         assertNotNull(actual.getCreated());
         assertNotNull(actual.getUpdated());
         assertNotNull(actual.getActive());
+    }
+
+    @Test
+    @DisplayName("save(): returns a updated entity")
+    @Transactional
+    @Sql(scripts = "classpath:sql/ForecastRepository/clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, config = @SqlConfig(transactionMode = INFERRED))
+    void successfulUpdateSave() {
+        var testEntity = EntityGeneratorHelper.generateForecastEntity();
+        var entity = assertDoesNotThrow(() -> forecastRepository.save(testEntity));
+        forecastRepository.flush();
+
+        var expectedModified = entity.getUpdated();
+        var expectedIndex = entity.getIndex();
+
+        entity.setIndex(IndexType.EXTREME_STORM);
+        var actual = assertDoesNotThrow(() -> forecastRepository.save(entity));
+        forecastRepository.flush();
+
+        assertNotEquals(expectedIndex, actual.getIndex());
+        assertTrue(expectedModified.isBefore(actual.getUpdated()));
     }
 
     @Test

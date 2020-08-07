@@ -2,7 +2,7 @@ package com.illine.weather.geomagnetic.rest.presenter;
 
 import com.illine.weather.geomagnetic.mapper.impl.MobileForecastDtoMapper;
 import com.illine.weather.geomagnetic.service.ForecastService;
-import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
+import com.illine.weather.geomagnetic.test.tag.SpringMockTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +15,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@SpringIntegrationTest
-@DisplayName("ForecastPresenter Spring Integration Test")
+@SpringMockTest
+@DisplayName("ForecastPresenter Spring Mock Test")
 class ForecastPresenterTest {
 
     @Mock

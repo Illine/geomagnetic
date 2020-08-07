@@ -2,7 +2,7 @@ package com.illine.weather.geomagnetic.mapper;
 
 import com.illine.weather.geomagnetic.mapper.impl.TxtForecastDtoMapper;
 import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
-import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
+import com.illine.weather.geomagnetic.test.tag.SpringMockTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringIntegrationTest
-@DisplayName("TxtForecastDtoMapper Spring Integration Test")
+@SpringMockTest
+@DisplayName("TxtForecastDtoMapper Spring Mock Test")
 class TxtForecastDtoMapperTest {
 
     @Autowired

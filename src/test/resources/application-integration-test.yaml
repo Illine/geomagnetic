@@ -43,9 +43,6 @@ spring:
     web:
       client:
         enabled: false
-  cloud:
-    kubernetes:
-      enabled: false
 
 logbook:
   strategy: body-only-if-status-at-least
