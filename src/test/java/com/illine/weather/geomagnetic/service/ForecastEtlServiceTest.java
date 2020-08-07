@@ -2,42 +2,43 @@ package com.illine.weather.geomagnetic.service;
 
 import com.illine.weather.geomagnetic.client.SwpcNoaaClient;
 import com.illine.weather.geomagnetic.dao.access.ForecastAccessService;
+import com.illine.weather.geomagnetic.mapper.impl.TxtForecastDtoMapper;
 import com.illine.weather.geomagnetic.model.base.IndexType;
-import com.illine.weather.geomagnetic.model.dto.ForecastDto;
 import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
-import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
+import com.illine.weather.geomagnetic.test.tag.SpringMockTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.stream.Collectors;
 
-import static org.hamcrest.Matchers.hasItems;
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
-import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.INFERRED;
 
-@SpringIntegrationTest
-@DisplayName("ForecastEtlService Spring Integration Test")
+@SpringMockTest
+@DisplayName("ForecastEtlService Spring Mock Test")
 class ForecastEtlServiceTest {
-
-    private static final int DEFAULT_SIZE_THREE_DAYS_FORECAST = 24;
 
     @Mock
     private SwpcNoaaClient swpcNoaaClientMock;
 
-    @Autowired
-    private ForecastAccessService forecastAccessService;
+    @Mock
+    private ForecastParserService forecastParserServiceMock;
+
+    @Mock
+    private TxtForecastDtoMapper txtForecastMapperMock;
+
+    @Mock
+    private ForecastAccessService forecastAccessServiceMock;
 
     @Autowired
     private EtlService forecastEtlService;
@@ -46,23 +47,30 @@ class ForecastEtlServiceTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
         ReflectionTestUtils.setField(forecastEtlService, "swpcNoaaClient", swpcNoaaClientMock);
+        ReflectionTestUtils.setField(forecastEtlService, "forecastParserService", forecastParserServiceMock);
+        ReflectionTestUtils.setField(forecastEtlService, "txtForecastMapper", txtForecastMapperMock);
+        ReflectionTestUtils.setField(forecastEtlService, "forecastAccessService", forecastAccessServiceMock);
+    }
+
+    @AfterEach
+    void tearDown() {
+        Mockito.reset(swpcNoaaClientMock, forecastParserServiceMock, txtForecastMapperMock, forecastAccessServiceMock);
     }
 
     //  -----------------------   successful tests   -------------------------
 
     @Test
     @DisplayName("updateForecasts(): a successful update of forecasts")
-    @Transactional
-    @Sql(scripts = "classpath:sql/ForecastEtlService/fill.sql", config = @SqlConfig(transactionMode = INFERRED))
-    @Sql(scripts = "classpath:sql/ForecastEtlService/clear.sql", config = @SqlConfig(transactionMode = INFERRED), executionPhase = AFTER_TEST_METHOD)
     void successfulUpdateForecasts() {
         when(swpcNoaaClientMock.get3DayGeomagneticForecast()).thenReturn(DtoGeneratorHelper.generateSwpcNoaaResponseEntity());
+        when(forecastParserServiceMock.parse(anyString())).thenReturn(DtoGeneratorHelper.generateTxtForecastDto(LocalDate.now()));
+        when(txtForecastMapperMock.convertToSources(anyCollection())).thenReturn(DtoGeneratorHelper.generateDiurnalForecastDtoSet());
+        when(forecastAccessServiceMock.findThreeDays(any())).thenReturn(DtoGeneratorHelper.generateThreeDaysForecastDtoSet(IndexType.EXTREME_STORM));
         assertDoesNotThrow(forecastEtlService::updateForecasts);
-        var updatedForecastIndexes = forecastAccessService.findThreeDays(LocalDate.now()).stream().map(ForecastDto::getIndex).collect(Collectors.toList());
-        assertAll(() -> {
-            assertEquals(DEFAULT_SIZE_THREE_DAYS_FORECAST, updatedForecastIndexes.size());
-            assertThat(updatedForecastIndexes, hasItems(IndexType.QUITE, IndexType.UNSETTLED, IndexType.ACTIVE));
-        });
+        verify(swpcNoaaClientMock).get3DayGeomagneticForecast();
+        verify(forecastParserServiceMock).parse(anyString());
+        verify(txtForecastMapperMock).convertToSources(anyCollection());
+        verify(forecastAccessServiceMock).update(anyCollection());
     }
 
     //  -----------------------   fail tests   -------------------------

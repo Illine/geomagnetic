@@ -34,9 +34,6 @@ spring:
     web:
       client:
         enabled: false
-  cloud:
-    kubernetes:
-      enabled: false
 
 logbook:
   exclude:

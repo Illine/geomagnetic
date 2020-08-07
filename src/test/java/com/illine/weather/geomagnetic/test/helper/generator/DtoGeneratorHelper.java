@@ -55,6 +55,103 @@ public final class DtoGeneratorHelper {
             "18-21UT        4         3         2\n" +
             "21-00UT        4         3         2";
 
+    // Response
+    public static ResponseEntity<String> generateSwpcNoaaResponseEntity() {
+        var formattedToday = DEFAULT_DATE.format(CHECK_DATE_FORMATTER);
+        var formattedAfterTomorrow = DEFAULT_DATE.plusDays(2).format(CHECK_DATE_FORMATTER);
+        var textForecast = String.format(TXT_FORECAST_PATTERN, formattedToday, formattedAfterTomorrow);
+        return ResponseEntity.ok(textForecast);
+    }
+
+    public static MobileForecastResponse generateMobileForecastResponse() {
+        return new MobileForecastResponse();
+    }
+
+    // ForecastDto
+    public static ForecastDto generateForecastDto() {
+        var dto = new ForecastDto();
+        dto.setForecastDate(DEFAULT_DATE);
+        dto.setForecastTime(DEFAULT_INTERVAL.getTimeInterval());
+        dto.setIndex(DEFAULT_INDEX);
+        return dto;
+    }
+
+    public static ForecastDto generateForecastDto(LocalDate forecastDate, LocalTime forecastTime) {
+        return generateForecastDto(forecastDate, forecastTime, DEFAULT_INDEX);
+    }
+
+    public static ForecastDto generateForecastDto(LocalDate forecastDate,
+                                                  LocalTime forecastTime,
+                                                  IndexType indexType) {
+        var dto = new ForecastDto();
+        dto.setForecastDate(forecastDate);
+        dto.setForecastTime(forecastTime);
+        dto.setIndex(indexType);
+        return dto;
+    }
+
+    public static Set<ForecastDto> generateDiurnalForecastDtoSet() {
+        return Set.of(
+                generateForecastDto(DEFAULT_DATE, INTERVAL_03_06.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_06_09.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_09_12.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_12_15.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_15_18.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_18_21.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_21_00.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_00_03.getTimeInterval())
+        );
+    }
+
+    public static Set<ForecastDto> generateCurrentForecastDtoSet() {
+        return Set.of(
+                generateForecastDto(DEFAULT_DATE, INTERVAL_15_18.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_18_21.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_21_00.getTimeInterval()),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_00_03.getTimeInterval())
+        );
+    }
+
+    public static Set<ForecastDto> generateThreeDaysForecastDtoSet() {
+        return generateThreeDaysForecastDtoSet(DEFAULT_INDEX);
+    }
+
+    public static Set<ForecastDto> generateThreeDaysForecastDtoSet(IndexType indexType) {
+        return Set.of(
+                generateForecastDto(DEFAULT_DATE, INTERVAL_03_06.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_06_09.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_09_12.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_12_15.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_15_18.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_18_21.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_21_00.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE, INTERVAL_00_03.getTimeInterval(), indexType),
+
+                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_03_06.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_06_09.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_09_12.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_12_15.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_15_18.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_18_21.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_21_00.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_00_03.getTimeInterval(), indexType),
+
+                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_03_06.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_06_09.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_09_12.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_12_15.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_15_18.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_18_21.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_21_00.getTimeInterval(), indexType),
+                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_00_03.getTimeInterval(), indexType)
+        );
+    }
+
+    // TxtForecastDto
+    public static TxtForecastDto generateTxtForecastDto() {
+        return new TxtForecastDto(DEFAULT_INDEX, DEFAULT_INTERVAL, DEFAULT_DATE);
+    }
+
     public static Set<TxtForecastDto> generateTxtForecastDto(LocalDate todayDate) {
         var tomorrowDate = todayDate.plusDays(1);
         var afterTomorrowDate = todayDate.plusDays(2);
@@ -86,89 +183,5 @@ public final class DtoGeneratorHelper {
                 new TxtForecastDto(indexOf(3), INTERVAL_18_21, afterTomorrowDate),
                 new TxtForecastDto(indexOf(3), INTERVAL_21_00, afterTomorrowDate)
         );
-    }
-
-    public static ResponseEntity<String> generateSwpcNoaaResponseEntity() {
-        var formattedToday = DEFAULT_DATE.format(CHECK_DATE_FORMATTER);
-        var formattedAfterTomorrow = DEFAULT_DATE.plusDays(2).format(CHECK_DATE_FORMATTER);
-        var textForecast = String.format(TXT_FORECAST_PATTERN, formattedToday, formattedAfterTomorrow);
-        return ResponseEntity.ok(textForecast);
-    }
-
-    public static ForecastDto generateForecastDto() {
-        var dto = new ForecastDto();
-        dto.setForecastDate(DEFAULT_DATE);
-        dto.setForecastTime(DEFAULT_INTERVAL.getTimeInterval());
-        dto.setIndex(DEFAULT_INDEX);
-        return dto;
-    }
-
-    public static ForecastDto generateForecastDto(LocalDate forecastDate, LocalTime forecastTime) {
-        var dto = new ForecastDto();
-        dto.setForecastDate(forecastDate);
-        dto.setForecastTime(forecastTime);
-        dto.setIndex(DEFAULT_INDEX);
-        return dto;
-    }
-
-    public static TxtForecastDto generateTxtForecastDto() {
-        return new TxtForecastDto(DEFAULT_INDEX, DEFAULT_INTERVAL, DEFAULT_DATE);
-    }
-
-    public static Set<ForecastDto> generateDiurnalForecastDtoSet() {
-        return Set.of(
-                generateForecastDto(DEFAULT_DATE, INTERVAL_03_06.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_06_09.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_09_12.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_12_15.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_15_18.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_18_21.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_21_00.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_00_03.getTimeInterval())
-        );
-    }
-
-    public static Set<ForecastDto> generateCurrentForecastDtoSet() {
-        return Set.of(
-                generateForecastDto(DEFAULT_DATE, INTERVAL_15_18.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_18_21.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_21_00.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_00_03.getTimeInterval())
-        );
-    }
-
-    public static Set<ForecastDto> generateThreeDaysForecastDtoSet() {
-        return Set.of(
-                generateForecastDto(DEFAULT_DATE, INTERVAL_03_06.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_06_09.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_09_12.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_12_15.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_15_18.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_18_21.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_21_00.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE, INTERVAL_00_03.getTimeInterval()),
-
-                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_03_06.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_06_09.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_09_12.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_12_15.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_15_18.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_18_21.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_21_00.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(1), INTERVAL_00_03.getTimeInterval()),
-
-                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_03_06.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_06_09.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_09_12.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_12_15.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_15_18.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_18_21.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_21_00.getTimeInterval()),
-                generateForecastDto(DEFAULT_DATE.plusDays(2), INTERVAL_00_03.getTimeInterval())
-        );
-    }
-
-    public static MobileForecastResponse generateMobileForecastResponse() {
-        return new MobileForecastResponse();
     }
 }
