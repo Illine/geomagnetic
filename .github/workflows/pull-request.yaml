@@ -3,8 +3,9 @@ name: "pull request"
 on:
   pull_request:
     branches:
-      - master
-      - develop
+#      - master
+#      - develop
+      - mock/*
 
 jobs:
   test:
