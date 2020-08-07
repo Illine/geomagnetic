@@ -1,16 +1,3 @@
-automerge:
-  - '**'
-  - '.*/**'
-  - '.*'
-  - '*.config'
-  - '*.gradle'
-  - '*.md'
-  - 'src/main/**'
-  - 'src/test/**'
-  - 'Dockerfile'
-  - 'Makefile'
-  - 'LICENSE'
-
 source:
   - 'src/main/**'
 
