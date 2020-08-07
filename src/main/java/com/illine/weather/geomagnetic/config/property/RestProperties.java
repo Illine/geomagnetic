@@ -13,8 +13,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "rest")
-public
-class RestProperties {
+public class RestProperties {
 
     @NotNull
     @Min(1)
