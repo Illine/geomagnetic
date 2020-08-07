@@ -1,0 +1,32 @@
+automerge:
+  - '**'
+  - '.*/**'
+  - '.*'
+  - '*.config'
+  - '*.gradle'
+  - '*.md'
+  - 'src/main/**'
+  - 'src/test/**'
+  - 'Dockerfile'
+  - 'Makefile'
+  - 'LICENSE'
+
+source:
+  - 'src/main/**'
+
+test:
+  - 'src/test/**'
+
+devops:
+  - '.*/**'
+  - 'Dockerfile'
+  - 'Makefile'
+
+config:
+  - '.*'
+  - '*.gradle'
+  - '*.config'
+
+community:
+  - '*.md'
+  - 'LICENSE'
