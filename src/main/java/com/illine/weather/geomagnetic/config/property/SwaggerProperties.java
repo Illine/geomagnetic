@@ -33,4 +33,7 @@ public class SwaggerProperties {
 
     @NotEmpty
     private String ownerEmail;
+
+    @NotEmpty
+    private String ingressPath;
 }
