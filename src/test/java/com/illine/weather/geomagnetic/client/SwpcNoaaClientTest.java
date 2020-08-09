@@ -1,6 +1,6 @@
 package com.illine.weather.geomagnetic.client;
 
-import com.illine.weather.geomagnetic.config.property.RestRetryProperties;
+import com.illine.weather.geomagnetic.config.property.RestProperties;
 import com.illine.weather.geomagnetic.exception.SwpcNoaaException;
 import com.illine.weather.geomagnetic.test.tag.SpringMockTest;
 import org.junit.jupiter.api.AfterEach;
@@ -31,7 +31,7 @@ class SwpcNoaaClientTest {
     private RestTemplate swpcNoaaRestTemplateMock;
 
     @Autowired
-    private RestRetryProperties properties;
+    private RestProperties properties;
 
     @Autowired
     private SwpcNoaaClient swpcNoaaClient;
@@ -65,6 +65,6 @@ class SwpcNoaaClientTest {
     void failGet3DayGeomagneticForecast() {
         when(swpcNoaaRestTemplateMock.getForEntity(anyString(), any())).thenThrow(new RestClientException("Some error status http"));
         assertThrows(SwpcNoaaException.class, swpcNoaaClient::get3DayGeomagneticForecast);
-        verify(swpcNoaaRestTemplateMock, times(properties.getMaxAttempts())).getForEntity(anyString(), any());
+        verify(swpcNoaaRestTemplateMock, times(properties.getRetry().getMaxAttempts())).getForEntity(anyString(), any());
     }
 }

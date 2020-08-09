@@ -17,25 +17,25 @@ class GeomagneticExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     ResponseEntity<BaseResponse> notFoundException(NotFoundException e) {
-        LOGGER.warn("A 'NotFoundException' was caught", e);
-        return new ResponseEntity<>(new BaseResponse(false, e.getMessage()), NOT_FOUND);
+        LOGGER.error("A 'NotFoundException' was caught", e);
+        return new ResponseEntity<>(new BaseResponse(e.getMessage()), NOT_FOUND);
     }
 
     @ExceptionHandler(ParseException.class)
     ResponseEntity<BaseResponse> parseException(ParseException e) {
-        LOGGER.warn("A 'ParseException' was caught", e);
-        return new ResponseEntity<>(new BaseResponse(false, e.getMessage()), INTERNAL_SERVER_ERROR);
+        LOGGER.error("A 'ParseException' was caught", e);
+        return new ResponseEntity<>(new BaseResponse(e.getMessage()), INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(SwpcNoaaException.class)
     ResponseEntity<BaseResponse> swpcNoaaException(SwpcNoaaException e) {
-        LOGGER.warn("A 'SwpcNoaaException' was caught", e);
-        return new ResponseEntity<>(new BaseResponse(false, e.getMessage()), SERVICE_UNAVAILABLE);
+        LOGGER.error("A 'SwpcNoaaException' was caught", e);
+        return new ResponseEntity<>(new BaseResponse(e.getMessage()), SERVICE_UNAVAILABLE);
     }
 
     @ExceptionHandler(Exception.class)
     ResponseEntity<BaseResponse> exception(Exception e) {
         LOGGER.error("An unknown exception was caught", e);
-        return new ResponseEntity<>(new BaseResponse(false, e.getMessage()), INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new BaseResponse(e.getMessage()), INTERNAL_SERVER_ERROR);
     }
 }

@@ -32,12 +32,11 @@ abstract class AbstractControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    protected BiConsumer<ResponseEntity<? extends BaseResponse>, HttpStatus> assertCall(boolean success) {
+    protected BiConsumer<ResponseEntity<? extends BaseResponse>, HttpStatus> assertCall() {
         return (response, status) -> {
             assertNotNull(response);
             assertEquals(status, response.getStatusCode());
             assertNotNull(response.getBody());
-            assertEquals(success, response.getBody().isSuccess());
         };
     }
 

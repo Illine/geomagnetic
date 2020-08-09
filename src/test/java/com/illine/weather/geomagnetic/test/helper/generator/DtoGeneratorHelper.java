@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -88,6 +89,10 @@ public final class DtoGeneratorHelper {
         dto.setForecastTime(forecastTime);
         dto.setIndex(indexType);
         return dto;
+    }
+
+    public static List<ForecastDto> generateDiurnalForecastDtoList() {
+        return List.copyOf(generateDiurnalForecastDtoSet());
     }
 
     public static Set<ForecastDto> generateDiurnalForecastDtoSet() {

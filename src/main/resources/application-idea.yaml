@@ -54,21 +54,31 @@ logbook:
   logger:
     name: GEOMAGNETIC-REST
 
-rest:
-  max-thread: 100
-  max-route: 10
-  read-timeout: 15000
-  connection-timeout: 10000
-  retry:
-    delay-in-ms: 500
-    max-attempts: 5
+application:
+  rest:
+    max-thread: 100
+    max-route: 10
+    read-timeout: 15000
+    connection-timeout: 10000
+    retry:
+      delay-in-ms: 500
+      max-attempts: 5
 
-swpc-noaa:
-  schema: https
-  host: services.swpc.noaa.gov
-  path: /text/3-day-geomag-forecast.txt
+  swpc-noaa:
+    schema: https
+    host: services.swpc.noaa.gov
+    path: /text/3-day-geomag-forecast.txt
 
-etl:
-  scheduled:
-    enabled: true
-    cron: "0 0 0/1 * * ?" # Every hour
+  etl:
+    scheduled:
+      enabled: true
+      cron: "0 0 0/1 * * ?" # Every hour
+
+  swagger:
+    title: Geomagnetic Restful API
+    description: Module maneges Geomagnetic Forecast
+    version: v1
+    licence-url: https://github.com/Illine/geomagnetic/blob/develop/LICENSE
+    owner-name: Evgeniya Kovtun
+    owner-url: https://github.com/Illine
+    owner-email: eekovtun@gmail.com
