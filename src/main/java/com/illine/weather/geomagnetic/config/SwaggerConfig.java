@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
@@ -16,8 +17,10 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.paths.RelativePathProvider;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import javax.servlet.ServletContext;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,9 +40,10 @@ public class SwaggerConfig {
     }
 
     @Bean
-    Docket api(ApiInfo apiInfo,
+    Docket api(ApiInfo apiInfo, RelativePathProvider relativePathProvider,
                List<ResponseMessage> getGlobalResponses, List<ResponseMessage> patchGlobalResponses) {
         return new Docket(DocumentationType.SWAGGER_2)
+                .pathProvider(relativePathProvider)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
@@ -93,5 +97,25 @@ public class SwaggerConfig {
                         .responseModel(new ModelRef(ERROR_RESPONSE_NAME))
                         .build()
         );
+    }
+
+    @Bean
+    RelativePathProvider relativePathProvider(ServletContext servletContext) {
+        return new GeomagneticRelativePathProvider(servletContext, properties.getIngressPath());
+    }
+
+    static class GeomagneticRelativePathProvider extends RelativePathProvider {
+
+        private final String rootPath;
+
+        public GeomagneticRelativePathProvider(ServletContext servletContext, String rootPath) {
+            super(servletContext);
+            this.rootPath = rootPath;
+        }
+
+        @Override
+        protected String applicationPath() {
+            return UriComponentsBuilder.newInstance().path(rootPath).path(super.applicationPath()).toUriString();
+        }
     }
 }
