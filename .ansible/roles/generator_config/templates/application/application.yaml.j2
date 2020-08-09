@@ -45,21 +45,31 @@ logbook:
   logger:
     name: GEOMAGNETIC-REST
 
-rest:
-  max-thread: {{ rest.max_thread | default(100) }}
-  max-route: {{ rest.max_route | default(10) }}
-  read-timeout: {{ rest.read_timeout | default(15000) }}
-  connection-timeout: {{ rest.connection_timeout | default(10000) }}
-  retry:
-    delay-in-ms: {{ rest.retry.delay_in_ms | default(500) }}
-    max-attempts: {{ rest.retry.max_attempts | default(5) }}
+application:
+  rest:
+    max-thread: {{ rest.max_thread | default(100) }}
+    max-route: {{ rest.max_route | default(10) }}
+    read-timeout: {{ rest.read_timeout | default(15000) }}
+    connection-timeout: {{ rest.connection_timeout | default(10000) }}
+    retry:
+      delay-in-ms: {{ rest.retry.delay_in_ms | default(500) }}
+      max-attempts: {{ rest.retry.max_attempts | default(5) }}
 
-swpc-noaa:
-  schema: {{ swpc_noaa.schema }}
-  host: {{ swpc_noaa.host }}
-  path: {{ swpc_noaa.path }}
+  swpc-noaa:
+    schema: {{ swpc_noaa.schema }}
+    host: {{ swpc_noaa.host }}
+    path: {{ swpc_noaa.path }}
 
-etl:
-  scheduled:
-    enabled: {{ etl.scheduled.enabled | lower }}
-    cron: "{{ etl.scheduled.cron }}"
+  etl:
+    scheduled:
+      enabled: {{ etl.scheduled.enabled | lower }}
+      cron: "{{ etl.scheduled.cron }}"
+
+  swagger:
+    title: Geomagnetic Restful API
+    description: Module maneges Geomagnetic Forecast
+    version: v1
+    licence-url: https://github.com/Illine/geomagnetic/blob/develop/LICENSE
+    owner-name: Evgeniya Kovtun
+    owner-url: https://github.com/Illine
+    owner-email: eekovtun@gmail.com

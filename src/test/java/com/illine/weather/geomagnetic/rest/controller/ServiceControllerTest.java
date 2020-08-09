@@ -46,7 +46,7 @@ class ServiceControllerTest extends AbstractControllerTest {
     void successfulUpdateForecasts() {
         doNothing().when(forecastEtlServiceMock).updateForecasts();
         ResponseEntity<BaseResponse> actual = assertDoesNotThrow(() -> patch(null, URI_UPDATE_FORECASTS));
-        assertCall(true).accept(actual, HttpStatus.OK);
+        assertCall().accept(actual, HttpStatus.OK);
         verify(forecastEtlServiceMock).updateForecasts();
     }
 
@@ -57,7 +57,7 @@ class ServiceControllerTest extends AbstractControllerTest {
     void failUpdateForecastsServiceUnavailable() {
         doThrow(SwpcNoaaException.class).when(forecastEtlServiceMock).updateForecasts();
         ResponseEntity<BaseResponse> actual = assertDoesNotThrow(() -> patch(null, URI_UPDATE_FORECASTS));
-        assertCall(false).accept(actual, HttpStatus.SERVICE_UNAVAILABLE);
+        assertCall().accept(actual, HttpStatus.SERVICE_UNAVAILABLE);
         verify(forecastEtlServiceMock).updateForecasts();
     }
 
@@ -66,7 +66,7 @@ class ServiceControllerTest extends AbstractControllerTest {
     void failUpdateForecastsInternalServerError() {
         doThrow(RuntimeException.class).when(forecastEtlServiceMock).updateForecasts();
         ResponseEntity<BaseResponse> actual = assertDoesNotThrow(() -> patch(null, URI_UPDATE_FORECASTS));
-        assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
+        assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastEtlServiceMock).updateForecasts();
     }
 }

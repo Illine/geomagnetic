@@ -1,19 +1,23 @@
 package com.illine.weather.geomagnetic.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Getter
-@NoArgsConstructor
 public class MobileForecastResponse extends BaseResponse {
 
-    private List<MobileForecastDto> forecasts = Collections.emptyList();
+    @ApiModelProperty(required = true)
+    @JsonProperty(value = "forecasts")
+    private final List<MobileForecastDto> forecasts;
 
-    public MobileForecastResponse(Set<MobileForecastDto> forecasts) {
-        this.forecasts = List.copyOf(forecasts);
+    public MobileForecastResponse() {
+        this.forecasts = List.of();
+    }
+
+    public MobileForecastResponse(List<MobileForecastDto> forecasts) {
+        this.forecasts = forecasts;
     }
 }

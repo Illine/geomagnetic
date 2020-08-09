@@ -52,7 +52,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void successfulGetDiurnal() {
         when(forecastPresenterMock.getDiurnal()).thenReturn(DtoGeneratorHelper.generateMobileForecastResponse());
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_DIURNAL));
-        assertCall(true).accept(actual, HttpStatus.OK);
+        assertCall().accept(actual, HttpStatus.OK);
         verify(forecastPresenterMock).getDiurnal();
     }
 
@@ -61,7 +61,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void successfulGetCurrent() {
         when(forecastPresenterMock.getCurrent()).thenReturn(DtoGeneratorHelper.generateMobileForecastResponse());
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_CURRENT));
-        assertCall(true).accept(actual, HttpStatus.OK);
+        assertCall().accept(actual, HttpStatus.OK);
         verify(forecastPresenterMock).getCurrent();
     }
 
@@ -70,7 +70,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void successfulThreeDays() {
         when(forecastPresenterMock.getThreeDays()).thenReturn(DtoGeneratorHelper.generateMobileForecastResponse());
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_THREE_DAY));
-        assertCall(true).accept(actual, HttpStatus.OK);
+        assertCall().accept(actual, HttpStatus.OK);
         verify(forecastPresenterMock).getThreeDays();
     }
 
@@ -81,7 +81,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failGetDiurnalNotFound() {
         when(forecastPresenterMock.getDiurnal()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_DIURNAL));
-        assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
+        assertCall().accept(actual, HttpStatus.NOT_FOUND);
         verify(forecastPresenterMock).getDiurnal();
     }
 
@@ -90,7 +90,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failGetDiurnalParseInternalServerError() {
         when(forecastPresenterMock.getDiurnal()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_DIURNAL));
-        assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
+        assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getDiurnal();
     }
 
@@ -99,7 +99,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failGetDiurnalInternalServerError() {
         when(forecastPresenterMock.getDiurnal()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_DIURNAL));
-        assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
+        assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getDiurnal();
     }
 
@@ -108,7 +108,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failGetCurrentNotFound() {
         when(forecastPresenterMock.getCurrent()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_CURRENT));
-        assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
+        assertCall().accept(actual, HttpStatus.NOT_FOUND);
         verify(forecastPresenterMock).getCurrent();
     }
 
@@ -117,7 +117,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failGetCurrentParseInternalServerError() {
         when(forecastPresenterMock.getCurrent()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_CURRENT));
-        assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
+        assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getCurrent();
     }
 
@@ -126,7 +126,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failGetCurrentInternalServerError() {
         when(forecastPresenterMock.getCurrent()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_CURRENT));
-        assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
+        assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getCurrent();
     }
 
@@ -135,7 +135,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failGetThreeDaysNotFound() {
         when(forecastPresenterMock.getThreeDays()).thenThrow(NotFoundException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_THREE_DAY));
-        assertCall(false).accept(actual, HttpStatus.NOT_FOUND);
+        assertCall().accept(actual, HttpStatus.NOT_FOUND);
         verify(forecastPresenterMock).getThreeDays();
     }
 
@@ -144,7 +144,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failThreeDaysParseInternalServerError() {
         when(forecastPresenterMock.getThreeDays()).thenThrow(ParseException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_THREE_DAY));
-        assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
+        assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         assertTrue(Objects.requireNonNull(actual.getBody()).getForecasts().isEmpty());
         verify(forecastPresenterMock).getThreeDays();
     }
@@ -154,7 +154,7 @@ class ForecastControllerTest extends AbstractControllerTest {
     void failThreeDaysInternalServerError() {
         when(forecastPresenterMock.getThreeDays()).thenThrow(RuntimeException.class);
         var actual = assertDoesNotThrow(() -> get(MobileForecastResponse.class, URI_GET_THREE_DAY));
-        assertCall(false).accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
+        assertCall().accept(actual, HttpStatus.INTERNAL_SERVER_ERROR);
         verify(forecastPresenterMock).getThreeDays();
     }
 }

@@ -64,7 +64,7 @@ class ForecastEtlServiceTest {
     void successfulUpdateForecasts() {
         when(swpcNoaaClientMock.get3DayGeomagneticForecast()).thenReturn(DtoGeneratorHelper.generateSwpcNoaaResponseEntity());
         when(forecastParserServiceMock.parse(anyString())).thenReturn(DtoGeneratorHelper.generateTxtForecastDto(LocalDate.now()));
-        when(txtForecastMapperMock.convertToSources(anyCollection())).thenReturn(DtoGeneratorHelper.generateDiurnalForecastDtoSet());
+        when(txtForecastMapperMock.convertToSources(anyCollection())).thenReturn(DtoGeneratorHelper.generateDiurnalForecastDtoList());
         when(forecastAccessServiceMock.findThreeDays(any())).thenReturn(DtoGeneratorHelper.generateThreeDaysForecastDtoSet(IndexType.EXTREME_STORM));
         assertDoesNotThrow(forecastEtlService::updateForecasts);
         verify(swpcNoaaClientMock).get3DayGeomagneticForecast();

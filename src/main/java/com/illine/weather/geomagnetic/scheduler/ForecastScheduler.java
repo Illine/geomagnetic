@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(prefix = "etl.scheduled", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "application.etl.scheduled", name = "enabled", havingValue = "true")
 @Slf4j(topic = "GEOMAGNETIC-SCHEDULER")
 public class ForecastScheduler {
 
@@ -20,7 +20,7 @@ public class ForecastScheduler {
         this.forecastEtlService = forecastEtlService;
     }
 
-    @Scheduled(cron = "${etl.scheduled.cron}")
+    @Scheduled(cron = "${application.etl.scheduled.cron}")
     public void scheduleForecast() {
         LOGGER.info("Starting forecast scheduler...");
         try {
