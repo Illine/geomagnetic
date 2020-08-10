@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @Validated
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "swpc-noaa")
+@ConfigurationProperties(prefix = "application.swpc-noaa")
 public class SwpcNoaaProperties {
 
     @Pattern(regexp = "^(http)(s?)$")

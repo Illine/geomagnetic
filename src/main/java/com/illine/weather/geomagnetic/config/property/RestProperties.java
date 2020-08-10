@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "rest")
+@ConfigurationProperties(prefix = "application.rest")
 public class RestProperties {
 
     @NotNull
@@ -32,4 +32,23 @@ public class RestProperties {
     @Min(1000)
     @Max(90000)
     private Integer connectionTimeout;
+
+    @NotNull
+    private Retry retry;
+
+    @Validated
+    @Getter
+    @Setter
+    public static class Retry {
+
+        @NotNull
+        @Min(50)
+        @Max(1000 * 60)
+        private Long delayInMs;
+
+        @NotNull
+        @Min(2)
+        @Max(10)
+        private Integer maxAttempts;
+    }
 }

@@ -1,17 +1,23 @@
 package com.illine.weather.geomagnetic.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseResponse {
 
-    protected boolean success = true;
-    protected String message = "success";
+    @ApiModelProperty(required = true)
+    @JsonProperty(value = "message")
+    protected final String message;
 
+    public BaseResponse() {
+        this.message = "Success";
+    }
+
+    public BaseResponse(String message) {
+        this.message = message;
+    }
 }

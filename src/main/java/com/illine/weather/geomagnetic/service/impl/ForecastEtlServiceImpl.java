@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -44,14 +45,14 @@ public class ForecastEtlServiceImpl implements EtlService {
         forecastAccessService.update(updatedForecasts);
     }
 
-    private Set<ForecastDto> getForecasts() {
+    private List<ForecastDto> getForecasts() {
         var stringForecast = swpcNoaaClient.get3DayGeomagneticForecast();
         LOGGER.info("Get response from SWP NOAA: \n{}\n", stringForecast.getBody());
         var txtForecasts = forecastParserService.parse(stringForecast.getBody());
         return txtForecastMapper.convertToSources(txtForecasts);
     }
 
-    private Set<ForecastDto> updateForecasts(Set<ForecastDto> forecasts) {
+    private Set<ForecastDto> updateForecasts(List<ForecastDto> forecasts) {
         var dateTime2ThreeDayForecast =
                 forecastAccessService.findThreeDays(LocalDate.now())
                         .stream()

@@ -1,32 +1,23 @@
 package com.illine.weather.geomagnetic.util.logger;
 
-import com.p6spy.engine.logging.Category;
-import com.p6spy.engine.spy.appender.FormattedLogger;
-import lombok.Generated;
+import com.p6spy.engine.spy.appender.Slf4JLogger;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ReflectionUtils;
 
 import java.util.Objects;
 
-@Generated
 @Slf4j(topic = "GEOMAGNETIC-SQL")
-public class P6SpyLogger extends FormattedLogger {
+public class P6SpyLogger extends Slf4JLogger {
 
-    @Override
-    public void logException(Exception e) {
-        LOGGER.error(e.getMessage(), e);
+    private static final String SLF4J_LOGGER_NAME = "log";
+
+    public P6SpyLogger() {
+        reflectionSetLogger();
     }
 
-    @Override
-    public void logText(String text) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info(text);
-        } else if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(text);
-        }
-    }
-
-    @Override
-    public boolean isCategoryEnabled(Category category) {
-        return Objects.equals(category, Category.INFO);
+    private void reflectionSetLogger() {
+        var logField = ReflectionUtils.findField(super.getClass(), SLF4J_LOGGER_NAME);
+        ReflectionUtils.makeAccessible(Objects.requireNonNull(logField));
+        ReflectionUtils.setField(logField, this, LOGGER);
     }
 }

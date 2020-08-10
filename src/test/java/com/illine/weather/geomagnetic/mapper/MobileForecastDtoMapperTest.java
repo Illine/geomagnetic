@@ -2,7 +2,7 @@ package com.illine.weather.geomagnetic.mapper;
 
 import com.illine.weather.geomagnetic.mapper.impl.MobileForecastDtoMapper;
 import com.illine.weather.geomagnetic.test.helper.generator.DtoGeneratorHelper;
-import com.illine.weather.geomagnetic.test.tag.SpringIntegrationTest;
+import com.illine.weather.geomagnetic.test.tag.SpringMockTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +13,8 @@ import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringIntegrationTest
-@DisplayName("ForecastDtoMapper Spring Integration Test")
+@SpringMockTest
+@DisplayName("ForecastDtoMapper Spring Mock Test")
 class MobileForecastDtoMapperTest {
 
     @Autowired

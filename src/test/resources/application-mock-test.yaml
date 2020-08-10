@@ -34,9 +34,6 @@ spring:
     web:
       client:
         enabled: false
-  cloud:
-    kubernetes:
-      enabled: false
 
 logbook:
   exclude:
@@ -44,21 +41,32 @@ logbook:
   logger:
     name: GEOMAGNETIC-REST
 
-rest:
-  maxThread: 100
-  maxRoute: 10
-  readTimeout: 15000
-  connectionTimeout: 10000
-  retry:
-    delay-in-ms: 500
-    max-attempts: 5
+application:
+  rest:
+    maxThread: 100
+    maxRoute: 10
+    readTimeout: 15000
+    connectionTimeout: 10000
+    retry:
+      delay-in-ms: 500
+      max-attempts: 5
 
-swpc-noaa:
-  schema: https
-  host: services.swpc.noaa.gov
-  path: /text/3-day-geomag-forecast.txt
+  swpc-noaa:
+    schema: https
+    host: services.swpc.noaa.gov
+    path: /text/3-day-geomag-forecast.txt
 
-etl:
-  scheduled:
-    enabled: true
-    cron: "*/10 * * * * ?" # Every 10 seconds
+  etl:
+    scheduled:
+      enabled: true
+      cron: "*/10 * * * * ?" # Every 10 seconds
+
+  swagger:
+    title: Geomagnetic Restful API
+    description: Module maneges Geomagnetic Forecast
+    version: v1
+    licence-url: https://github.com/Illine/geomagnetic/blob/develop/LICENSE
+    owner-name: Evgeniya Kovtun
+    owner-url: https://github.com/Illine
+    owner-email: eekovtun@gmail.com
+    ingress-path: /
