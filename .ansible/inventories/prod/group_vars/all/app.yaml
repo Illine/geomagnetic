@@ -28,4 +28,4 @@ etl:
     cron: "0 0 0/12 * * ?" # Every 12 hours
 
 swagger:
-  ingress_path: "/prod/${spring.application.name}"
+  ingress_path: /prod/{{ application.name }}
