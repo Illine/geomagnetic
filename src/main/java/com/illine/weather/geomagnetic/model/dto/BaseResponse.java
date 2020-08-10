@@ -14,7 +14,7 @@ public class BaseResponse {
     protected final String message;
 
     public BaseResponse() {
-        this.message = "success";
+        this.message = "Success";
     }
 
     public BaseResponse(String message) {
