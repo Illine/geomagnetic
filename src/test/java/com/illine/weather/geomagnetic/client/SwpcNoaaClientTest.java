@@ -65,6 +65,6 @@ class SwpcNoaaClientTest {
     void failGet3DayGeomagneticForecast() {
         when(swpcNoaaRestTemplateMock.getForEntity(anyString(), any())).thenThrow(new RestClientException("Some error status http"));
         assertThrows(SwpcNoaaException.class, swpcNoaaClient::get3DayGeomagneticForecast);
-        verify(swpcNoaaRestTemplateMock, times(properties.getRetry().getMaxAttempts())).getForEntity(anyString(), any());
+        verify(swpcNoaaRestTemplateMock, atLeast(properties.getRetry().getMaxAttempts())).getForEntity(anyString(), any());
     }
 }

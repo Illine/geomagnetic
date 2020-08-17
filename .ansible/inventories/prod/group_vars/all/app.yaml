@@ -26,3 +26,6 @@ etl:
   scheduled:
     enabled: true
     cron: "0 0 0/12 * * ?" # Every 12 hours
+
+swagger:
+  ingress_path: /prod/{{ application.name }}
