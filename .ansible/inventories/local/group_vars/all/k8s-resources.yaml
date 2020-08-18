@@ -7,6 +7,6 @@ resources:
     memory: 1Gi
   java_opts:
     - "-server -Xms512M -Xmx1G"
-    - "-XX:MaxRAMPercentage=65.0"
+    - "-XX:MaxRAMPercentage=85.0"
     - "-XX:+UseContainerSupport"
     - "-XX:+AlwaysActAsServerClassMachine"
