@@ -36,6 +36,7 @@ ext {
     set("logbackVersion", "1.2.3")
     set("snakeyamlVersion", "1.26")
     set("swaggerVersion", "2.9.2")
+    set("micrometerVersion", "1.5.4")
     set("junitVersion", "5.4.2")
     set("awaitilityVersion", "4.0.3")
 }
@@ -76,6 +77,7 @@ dependencies {
     api "org.zalando:logbook-spring-boot-starter:${logbookVersion}"
     api "io.springfox:springfox-swagger2:${swaggerVersion}"
     api "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+    api "io.micrometer:micrometer-registry-prometheus:${micrometerVersion}"
 
     runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
     runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
