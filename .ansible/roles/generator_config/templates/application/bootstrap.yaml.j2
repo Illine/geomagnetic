@@ -4,6 +4,12 @@ server:
 management:
   server:
     port: {{ application.service_port }}
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
 
 spring:
   application:
