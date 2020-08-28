@@ -1,12 +1,12 @@
 namespace: prod
 
 deployment:
-  replicas: 1
+  replicas: 2
   restart_policy: Always
 
   health:
-    progress_deadline_seconds: 160 # 10 + initial_delay_seconds + (period_seconds * failure_threshold)
-    initial_delay_seconds: 90
+    progress_deadline_seconds: 250 # 10 + initial_delay_seconds + (period_seconds * failure_threshold)
+    initial_delay_seconds: 120
     period_seconds: 10
     timeout_seconds: 5
-    failure_threshold: 6
+    failure_threshold: 12
