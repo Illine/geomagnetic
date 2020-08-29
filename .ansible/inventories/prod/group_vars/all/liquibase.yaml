@@ -1,6 +1,6 @@
 deploy:
   liquibase:
-    url: "jdbc:postgresql://{{ lookup('env', 'DATABASE_URL') }}:5432/{{ application.name }}"
+    url: "jdbc:postgresql://{{ lookup('env', 'DATABASE_URL') }}:5432/prod
     username: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       38653632386364613439383032613432313733376136613065343135646538376266373836326430
