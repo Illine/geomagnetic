@@ -1,7 +1,7 @@
 ---
 spring:
   database:
-    url: "jdbc:p6spy:postgresql://{{ lookup('env', 'DATABASE_URL') }}:5432/{{ application.name }}"
+    url: "jdbc:p6spy:postgresql://{{ lookup('env', 'DATABASE_URL') }}:5432/prod"
     username: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       37656461653532363234383066623762623338356464356539393138656436356430386563656434
