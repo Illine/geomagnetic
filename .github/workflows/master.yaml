@@ -58,7 +58,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup Database URL
-        run: echo ::set-env name=DATABASE_URL::$(echo ${{ secrets.PROD_DATABASE_URL }})
+        run: echo ::set-env name=DATABASE_URL::$(echo ${{ secrets.DATABASE_URL }})
 
       - name: Setup Image Tag
         run: echo ::set-env name=IMAGE_TAG::$(echo ${{needs.build.outputs.new_tag}})
