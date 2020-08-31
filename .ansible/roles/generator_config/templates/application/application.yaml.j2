@@ -24,7 +24,7 @@ spring:
       connection-timeout: {{ spring.datasource.hikari.connection_timeout | default(15000) }}
       maximum-pool-size: {{ spring.datasource.hikari.maximum_pool_size | default(10) }}
       idle-timeout: {{ spring.datasource.hikari.idle_timeout | default(200000) }}
-      minimum-idle: {{ spring.datasource.hikari.idle_timeout | default(200000) }}
+      minimum-idle: {{ spring.datasource.hikari.minimum_idle | default(2) }}
       schema: {{ application.name }}
   groovy:
     template:
