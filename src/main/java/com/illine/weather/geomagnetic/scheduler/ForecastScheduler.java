@@ -3,10 +3,13 @@ package com.illine.weather.geomagnetic.scheduler;
 import com.illine.weather.geomagnetic.exception.SwpcNoaaException;
 import com.illine.weather.geomagnetic.service.EtlService;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalTime;
 
 @Component
 @ConditionalOnProperty(prefix = "application.etl.scheduled", name = "enabled", havingValue = "true")
@@ -21,7 +24,9 @@ public class ForecastScheduler {
     }
 
     @Scheduled(cron = "${application.etl.scheduled.cron}")
-    public void scheduleForecast() {
+    @SchedulerLock(name = "updateForecasts", lockAtLeastFor = "PT5M", lockAtMostFor = "PT5M")
+    public void update() {
+        LOGGER.info("A forecast scheduler is launched at: {} and node: {}", LocalTime.now(), System.getenv("HOSTNAME"));
         LOGGER.info("Starting forecast scheduler...");
         try {
             forecastEtlService.updateForecasts();

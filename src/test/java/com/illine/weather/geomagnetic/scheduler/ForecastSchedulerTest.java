@@ -60,7 +60,7 @@ class ForecastSchedulerTest {
     void failScheduleForecast() {
         var restClientException = new RestClientException("Some error status http");
         doThrow(new SwpcNoaaException(restClientException.getMessage(), restClientException)).when(forecastEtlServiceMock).updateForecasts();
-        assertDoesNotThrow(forecastScheduler::scheduleForecast);
+        assertDoesNotThrow(forecastScheduler::update);
         verify(forecastEtlServiceMock).updateForecasts();
     }
 }

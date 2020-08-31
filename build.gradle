@@ -37,6 +37,7 @@ ext {
     set("snakeyamlVersion", "1.26")
     set("swaggerVersion", "2.9.2")
     set("micrometerVersion", "1.5.4")
+    set("shedlockVersion", "4.9.3")
     set("junitVersion", "5.4.2")
     set("awaitilityVersion", "4.0.3")
 }
@@ -78,6 +79,8 @@ dependencies {
     api "io.springfox:springfox-swagger2:${swaggerVersion}"
     api "io.springfox:springfox-swagger-ui:${swaggerVersion}"
     api "io.micrometer:micrometer-registry-prometheus:${micrometerVersion}"
+    api "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
+    api "net.javacrumbs.shedlock:shedlock-provider-jdbc-template:${shedlockVersion}"
 
     runtimeOnly "org.codehaus.groovy:groovy-all:${groovyVersion}"
     runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
