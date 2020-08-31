@@ -5,8 +5,8 @@ deployment:
   restart_policy: Always
 
   health:
-    progress_deadline_seconds: 450
-    initial_delay_seconds: 300
+    progress_deadline_seconds: 150
+    initial_delay_seconds: 100
     period_seconds: 10
     timeout_seconds: 5
-    failure_threshold: 12
+    failure_threshold: 5

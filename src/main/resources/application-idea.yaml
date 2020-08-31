@@ -41,6 +41,9 @@ spring:
       idle-timeout: 200000
       minimum-idle: 2
       schema: geomagnetic
+  groovy:
+    template:
+      check-template-location: false
   liquibase:
     enabled: false
   sleuth:

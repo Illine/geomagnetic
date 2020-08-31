@@ -39,6 +39,9 @@ spring:
     password: weather
     change-log: file:.liquibase/changelog.yaml
     contexts: unit-tests
+  groovy:
+    template:
+      check-template-location: false
   sleuth:
     web:
       client:
