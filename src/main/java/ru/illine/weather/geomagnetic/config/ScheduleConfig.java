@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 @Generated
 @Configuration
-@Profile(value = {"idea", "kubernetes"})
+@Profile(value = "!integration-test & !mock-test")
 @EnableSchedulerLock(defaultLockAtMostFor = "PT5M")
 public class ScheduleConfig {
 
