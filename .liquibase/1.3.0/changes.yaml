@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.3.0
+      author: eekovtun
+      comment: release/1.3.0
+      changes:
+        - tagDatabase:
+            tag: 1.3.0
+
+  - include:
+      file: ddl/shedlock.sql
+      relativeToChangelogFile: true
