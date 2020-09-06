@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.3.1
+      author: eekovtun
+      comment: release/1.3.1
+      changes:
+        - tagDatabase:
+            tag: 1.3.1
+
+  - include:
+      file: grant/shedlock.sql
+      relativeToChangelogFile: true
