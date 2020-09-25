@@ -1,26 +1,31 @@
 package ru.illine.weather.geomagnetic.config;
 
-import ru.illine.weather.geomagnetic.config.property.SwaggerProperties;
-import ru.illine.weather.geomagnetic.model.dto.BaseResponse;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ru.illine.weather.geomagnetic.config.property.ApiKeySecurityProperties;
+import ru.illine.weather.geomagnetic.config.property.SwaggerProperties;
+import ru.illine.weather.geomagnetic.model.dto.BaseResponse;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 import java.util.List;
 
+@EnableSwagger2
 @Configuration
 public class SwaggerConfig {
 
@@ -37,17 +42,20 @@ public class SwaggerConfig {
     }
 
     @Bean
-    Docket api(ApiInfo apiInfo, List<ResponseMessage> getGlobalResponses, List<ResponseMessage> patchGlobalResponses) {
+    Docket api(ApiInfo apiInfo,
+               List<ResponseMessage> getGlobalResponses,
+               List<ResponseMessage> patchGlobalResponses,
+               List<Parameter> operationParameters) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
+                .globalOperationParameters(operationParameters)
                 .globalResponseMessage(RequestMethod.GET, getGlobalResponses)
                 .globalResponseMessage(RequestMethod.PATCH, patchGlobalResponses)
                 .apiInfo(apiInfo);
-
     }
 
     @Bean
@@ -90,6 +98,19 @@ public class SwaggerConfig {
                         .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                         .message(INTERNAL_SERVER_MESSAGE)
                         .responseModel(new ModelRef(ERROR_RESPONSE_NAME))
+                        .build()
+        );
+    }
+
+    @Bean
+    List<Parameter> operationParameters(ApiKeySecurityProperties properties) {
+        return List.of(
+                new ParameterBuilder()
+                        .name(properties.getHeaderName())
+                        .description("A key allows to get access in the API")
+                        .modelRef(new ModelRef("string"))
+                        .parameterType("header")
+                        .required(true)
                         .build()
         );
     }
