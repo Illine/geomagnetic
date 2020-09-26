@@ -35,14 +35,20 @@ spring:
     web:
       client:
         enabled: false
+  security:
+    api-key:
+      enabled: {{ spring.security.api_key.enabled | lower }}
+      header-name: {{ spring.security.api_key.header_name | default('X-Api-Key-Authorization') }}
+      access-keys: {{ spring.security.api_key.access_keys }}
 
 logging:
   config: {{ application.directory.config }}/logback.groovy
 
 logbook:
   strategy: body-only-if-status-at-least
-  exclude:
-    - /actuator/*
+  include:
+    - /forecasts/*
+    - /services/*
   format:
     style: http
   logger:
@@ -76,4 +82,3 @@ application:
     owner-name: Evgeniya Kovtun
     owner-url: https://github.com/Illine
     owner-email: eekovtun@gmail.com
-    ingress-path: {{ swagger.ingress_path | default('/')}}

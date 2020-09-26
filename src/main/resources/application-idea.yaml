@@ -53,11 +53,18 @@ spring:
   cloud:
     kubernetes:
       enabled: false
+  security:
+    api-key:
+      enabled: true
+      header-name: X-Api-Key-Authorization
+      access-keys:
+        - 0f1f16dc-5731-4f47-93ed-3d69943a1d7d
 
 logbook:
   strategy: body-only-if-status-at-least
-  exclude:
-    - /actuator/*
+  include:
+    - /forecasts/*
+    - /services/*
   format:
     style: http
   logger:
