@@ -33,6 +33,7 @@ public class SwaggerConfig {
     private static final String ERROR_RESPONSE_NAME = BaseResponse.class.getSimpleName();
     private static final String NOT_FOUND_MESSAGE = "Data Not Found";
     private static final String INTERNAL_SERVER_MESSAGE = "Server Error";
+    private static final String FORBIDDEN_MESSAGE = "Not Authorized";
 
     private final SwaggerProperties properties;
 
@@ -86,6 +87,11 @@ public class SwaggerConfig {
                 new ResponseMessageBuilder()
                         .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                         .message(INTERNAL_SERVER_MESSAGE)
+                        .responseModel(new ModelRef(ERROR_RESPONSE_NAME))
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(HttpStatus.FORBIDDEN.value())
+                        .message(FORBIDDEN_MESSAGE)
                         .responseModel(new ModelRef(ERROR_RESPONSE_NAME))
                         .build()
         );
