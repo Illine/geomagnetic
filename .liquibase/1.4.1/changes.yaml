@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.4.1
+      author: eekovtun
+      comment: release/1.4.1
+      changes:
+        - tagDatabase:
+            tag: 1.4.1
+
+  - include:
+      file: alter/forecasts.sql
+      relativeToChangelogFile: true

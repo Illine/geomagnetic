@@ -42,20 +42,20 @@ public class ForecastAccessServiceImpl implements ForecastAccessService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<ForecastDto> findDiurnal(LocalDate today) {
-        Assert.notNull(today, DEFAULT_NON_NULL_MESSAGE);
-        LOGGER.info("A diurnal 'ForecastDto' is been looking for date: {}", today);
-        var forecasts = forecastRepository.findAllByForecastDateBetween(today, today);
+    public Set<ForecastDto> findDiurnal(LocalDate from) {
+        Assert.notNull(from, DEFAULT_NON_NULL_MESSAGE);
+        LOGGER.info("A diurnal 'ForecastDto' is been looking for date: {}", from);
+        var forecasts = forecastRepository.findAllByForecastDateBetween(from, from);
         return forecasts.stream().map(forecastMapper::convertToDestination).collect(Collectors.toSet());
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Set<ForecastDto> findCurrent(LocalDateTime today) {
-        Assert.notNull(today, DEFAULT_NON_NULL_MESSAGE);
-        LOGGER.info("A current 'ForecastDto' is been looking for date: {}", today);
-        var currentDate = today.toLocalDate();
-        var currentTime = today.toLocalTime();
+    public Set<ForecastDto> findCurrent(LocalDateTime from) {
+        Assert.notNull(from, DEFAULT_NON_NULL_MESSAGE);
+        LOGGER.info("A current 'ForecastDto' is been looking for date: {}", from);
+        var currentDate = from.toLocalDate();
+        var currentTime = from.toLocalTime();
         var currentInterval = TimeIntervalType.timeIntervalOf(currentTime.getHour());
         var forecasts = forecastRepository.findAllByForecastDateBetweenAndForecastTimeGreaterThanEqual(currentDate, currentDate, currentInterval);
         return forecasts.stream().map(forecastMapper::convertToDestination).collect(Collectors.toSet());
@@ -63,11 +63,11 @@ public class ForecastAccessServiceImpl implements ForecastAccessService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<ForecastDto> findThreeDays(LocalDate today) {
-        Assert.notNull(today, DEFAULT_NON_NULL_MESSAGE);
-        LOGGER.info("A three days 'ForecastEntity' is been getting for date: {}", today);
-        var todayPlusThreeDays = today.plusDays(3);
-        var forecasts = forecastRepository.findAllByForecastDateBetween(today, todayPlusThreeDays);
+    public Set<ForecastDto> findThreeDays(LocalDate from) {
+        Assert.notNull(from, DEFAULT_NON_NULL_MESSAGE);
+        LOGGER.info("A three days 'ForecastEntity' is been getting for date: {}", from);
+        var todayPlusTwoDays = from.plusDays(2);
+        var forecasts = forecastRepository.findAllByForecastDateBetween(from, todayPlusTwoDays);
         return forecasts.stream().map(forecastMapper::convertToDestination).collect(Collectors.toSet());
     }
 }
