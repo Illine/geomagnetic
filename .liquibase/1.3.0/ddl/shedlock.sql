@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 --changeset eekovtun:1.3.0/ddl/shedlock
 --rollback drop table geomagnetic.shedlock;
 create table geomagnetic.shedlock
