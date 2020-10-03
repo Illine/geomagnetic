@@ -23,19 +23,19 @@ public class ForecastController {
         this.forecastPresenter = forecastPresenter;
     }
 
-    @ApiOperation(value = "Returns a forecast after a current time for a day")
+    @ApiOperation(value = "Returns a forecast where time has UTC zone after a current time for a day by UTC")
     @GetMapping(value = "/diurnal", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MobileForecastResponse> getDiurnal() {
         return ResponseEntity.ok(forecastPresenter.getDiurnal());
     }
 
-    @ApiOperation(value = "Returns a forecast for all day")
+    @ApiOperation(value = "Returns a forecast where time has UTC zone for all day by UTC zone")
     @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MobileForecastResponse> getCurrent() {
         return ResponseEntity.ok(forecastPresenter.getCurrent());
     }
 
-    @ApiOperation(value = "Returns a three day forecast for today, tomorrow, a day after tomorrow")
+    @ApiOperation(value = "Returns a three day forecast where time has UTC zone for today, tomorrow, day after tomorrow by UTC zone")
     @GetMapping(value = "/three-day", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MobileForecastResponse> getThreeDays() {
         return ResponseEntity.ok(forecastPresenter.getThreeDays());
