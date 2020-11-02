@@ -104,6 +104,11 @@ public class SwaggerConfig {
                         .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                         .message(INTERNAL_SERVER_MESSAGE)
                         .responseModel(new ModelRef(ERROR_RESPONSE_NAME))
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(HttpStatus.FORBIDDEN.value())
+                        .message(FORBIDDEN_MESSAGE)
+                        .responseModel(new ModelRef(ERROR_RESPONSE_NAME))
                         .build()
         );
     }
