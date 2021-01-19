@@ -29,3 +29,5 @@ jobs:
           name: codecov-geomagnetic-unit
           flags: unit
           fail_ci_if_error: true
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
