@@ -15,11 +15,11 @@ Strong-Extreme storm  01/01/01
 
 NOAA Kp index forecast today - afterTomorrow
            Today  Tomorrow    AfterTomorrow
-00-03UT        2         3         4
-03-06UT        2         3         4
-06-09UT        2         3         4
-09-12UT        2         3         4
-12-15UT        2         3         4
-15-18UT        2         3         4
-18-21UT        2         3         4
-21-00UT        2         3         4
+00-03UT        2.33      3.33      4.33
+03-06UT        2.33      3.33      4.33
+06-09UT        2.33      3.33      4.33
+09-12UT        2.33      3.33      4.33
+12-15UT        2.33      3.33      4.33
+15-18UT        2.33      3.33      4.33
+18-21UT        2.33      3.33      4.33
+21-00UT        2.33      3.33      4.33

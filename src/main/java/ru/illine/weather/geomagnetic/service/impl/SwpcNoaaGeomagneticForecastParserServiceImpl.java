@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +35,7 @@ public class SwpcNoaaGeomagneticForecastParserServiceImpl implements ForecastPar
     private static final DateTimeFormatter CHECK_DATE_FORMATTER = DateTimeFormatter.ofPattern(CHECK_DATE_PATTERN, CHECK_DATE_LOCALE);
 
     private static final String CHECK_DATE_TEMPLATE_PATTERN = "(NOAA Kp index forecast (%s - %s|%s - %s))";
-    private static final String PARSE_PATTERN = "^([012][01235689]-[012][01235689]UT)\\s+(\\d)\\s+(\\d)\\s+(\\d)\\s*$";
+    private static final String PARSE_PATTERN = "^([012][01235689]-[012][01235689]UT)\\s+(\\d\\.\\d{2})\\s+(\\d\\.\\d{2})\\s+(\\d\\.\\d{2})\\s*$";
     private static final Pattern GEOMAGNETIC_FORECAST_PATTERN = Pattern.compile(PARSE_PATTERN);
 
     private static final int EXPECTED_SIZE_SIZE = 24;
@@ -41,6 +43,8 @@ public class SwpcNoaaGeomagneticForecastParserServiceImpl implements ForecastPar
     private static final int GROUP_DATE_TODAY = 2;
     private static final int GROUP_DATE_TOMORROW = 3;
     private static final int GROUP_DATE_AFTER_TOMORROW = 4;
+
+    private static final int DEFAULT_SCALE = 0;
 
     private final Clock clock;
 
@@ -105,9 +109,16 @@ public class SwpcNoaaGeomagneticForecastParserServiceImpl implements ForecastPar
         var tomorrowDate = LocalDate.now().plusDays(1);
         var afterTomorrowDate = LocalDate.now().plusDays(2);
 
-        var todayForecast = new TxtForecastDto(IndexType.indexOf(matcher.group(GROUP_DATE_TODAY)), interval, todayDate);
-        var tomorrowForecast = new TxtForecastDto(IndexType.indexOf(matcher.group(GROUP_DATE_TOMORROW)), interval, tomorrowDate);
-        var afterTomorrowForecast = new TxtForecastDto(IndexType.indexOf(matcher.group(GROUP_DATE_AFTER_TOMORROW)), interval, afterTomorrowDate);
+        var todayForecast =
+                new TxtForecastDto(IndexType.indexOf(roundForecast(matcher.group(GROUP_DATE_TODAY))), interval, todayDate);
+        var tomorrowForecast =
+                new TxtForecastDto(IndexType.indexOf(roundForecast(matcher.group(GROUP_DATE_TOMORROW))), interval, tomorrowDate);
+        var afterTomorrowForecast =
+                new TxtForecastDto(IndexType.indexOf(roundForecast(matcher.group(GROUP_DATE_AFTER_TOMORROW))), interval, afterTomorrowDate);
         return List.of(todayForecast, tomorrowForecast, afterTomorrowForecast);
+    }
+
+    private String roundForecast(String forecastValue) {
+        return new BigDecimal(forecastValue).setScale(DEFAULT_SCALE, RoundingMode.HALF_UP).toPlainString();
     }
 }
